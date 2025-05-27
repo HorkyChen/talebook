@@ -31,6 +31,7 @@ A better online books library management website built on Calibre + Vue
 ## Docker ![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)
 
 部署比较简单，建议采用docker，镜像地址：[dockerhub](https://hub.docker.com/r/talebook/talebook)
+* 已经调整基于```Ubuntu 22.04```和```Calibre 7.6```构建, 改善兼容性。Docker运行的UID/GID不要设置为```root```(ID:0)。
 
 推荐使用`docker-compose`，下载仓库中的配置文件[docker-compose.yml](docker-compose.yml)，然后执行命令启动即可。
 若希望修改挂载的目录或端口，请修改docker-compose.yml文件。
@@ -52,7 +53,7 @@ docker-compose -f docker-compose.yml  up -d
 
 
 
-## 常见问题 
+## 常见问题
 
 常见问题请参阅[使用指南](document/README.zh_CN.md)，无法解决的话，提个ISSUEE，[进Q群交流](https://qm.qq.com/q/5lSfpJGsBq)
 

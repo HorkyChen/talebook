@@ -6,7 +6,13 @@
 ```
 $ cd talebook/app/
 $ npm install
+$ npm run generate
+$ npm run build-spa
 $ npm run dev
+```
+NodeJS 17+需要设置以下环境变量
+```
+export NODE_OPTIONS=--openssl-legacy-provider 
 ```
 
 因为前端访问的后端地址是固化的（强制为浏览器URL下的/api/地址），所以要调试后台时，需要一些技巧进行设置。
@@ -59,6 +65,8 @@ services:
       - /data/code/talebook/webserver:/var/www/talebook/webserver # 这个是代码
     ports:
       - "8082:80"  # 这个是端口
+    environment:
+      - TZ=Asia/Shanghai
     depends_on:
       - douban-rs-api
 
@@ -157,7 +165,7 @@ apt-get install -y gettext
 
 cd /var/www/talebook/app/
 npm install
-npm build
+npm build-spa
 ```
 前端，搞定！打包出来的web文件都在 `/var/www/talebook/app/dist/` 目录中，后续会在nginx中配置使用。
 

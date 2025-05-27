@@ -1,16 +1,14 @@
-version: "2.4"
-
 services:
 
   # main service
   talebook:
     restart: always
-    image: talebook/talebook
+    image: horkychen/talebook
     volumes:
       - /tmp/demo:/data
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "3000:80"
+      - "3443:443"
     environment:
       - PUID=1000
       - PGID=1000

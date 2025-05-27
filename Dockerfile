@@ -25,42 +25,50 @@ RUN cp -r dist nuxt.config.js package* /app-static/
 
 # ----------------------------------------
 # 第二阶段，构建环境
-FROM talebook/calibre-docker AS server
-ARG BUILD_COUNTRY=""
+# FROM linuxserver/calibre AS server
+FROM ubuntu:24.04 AS server
+ARG BUILD_COUNTRY="CN"
 
 # Set mirrors in china
 RUN if [ "x${BUILD_COUNTRY}" = "xCN" ]; then \
     echo "using repo mirrors for ${BUILD_COUNTRY}"; \
-    sed 's@deb.debian.org/debian@mirrors.aliyun.com/debian@' -i /etc/apt/sources.list; \
-    pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/; \
+    sed 's@archive.ubuntu.com/ubuntu@mirrors.huaweicloud.com/repository/ubuntu@g' -i /etc/apt/sources.list; \
     fi
 
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone
+
 # install envsubst gosu procps
-RUN apt-get update -y && \
-    apt-get install -y gettext gosu procps vim && \
-    apt-get clean && \
+RUN apt update -y && \
+    apt install -y gettext gosu procps vim nginx calibre calibre-bin supervisor && \
+    apt clean && \
+    apt install -y python3-pip && \
+    pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
     rm -rf /var/lib/apt/lists/*
 
+# RUN wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
+
 # Create a talebook user and change the Nginx startup user
-RUN useradd -u 911 -U -d /var/www/talebook -s /bin/false talebook && \
+RUN useradd -u 990 -U -d /var/www/talebook -s /bin/false talebook && \
     usermod -G users talebook && \
-    groupmod -g 911 talebook && \
+    groupmod -g 990 talebook && \
     sed -i "s/user www-data;/user talebook;/g" /etc/nginx/nginx.conf
 
-# install python packages
+# install python packages (--break-system-packages)
 COPY requirements.txt /tmp/
-RUN pip install -r /tmp/requirements.txt && \
+RUN pip install -r /tmp/requirements.txt --break-system-packages && \
     rm -rf /root/.cache
 
 
 # ----------------------------------------
-# 测试阶段
+# 测试阶段 (--break-system-packages)
+RUN echo "Testing..."
 FROM server AS test
-RUN pip install flake8 pytest
+RUN pip install flake8 pytest --break-system-packages
 COPY webserver/ /var/www/talebook/webserver/
 COPY tests/ /var/www/talebook/tests/
 CMD ["pytest", "/var/www/talebook/tests"]
-
+RUN echo "Testing... [DONE]"
 
 # ----------------------------------------
 # 生产环境
@@ -68,13 +76,14 @@ FROM server AS production
 ARG GIT_VERSION=""
 
 LABEL Author="Rex <talebook@foxmail.com>"
-LABEL Thanks="oldiy <oldiy2018@gmail.com>"
+LABEL Thanks="oldiy <oldiy2018@gmail.com>, horky <horky.chen@gmail.com>"
 
 # set default language
 ENV TZ=Asia/Shanghai
 ENV LANG=C.UTF-8
 ENV PUID=1000
 ENV PGID=1000
+
 
 # prepare dirs
 RUN mkdir -p /data/log/nginx/ && \
@@ -121,16 +130,15 @@ VOLUME ["/data"]
 
 CMD ["/var/www/talebook/docker/start.sh"]
 
-
 # ----------------------------------------
 # 生产环境（server side render版)
 FROM production AS production-ssr
 
 # intall nodejs for nuxtjs server side render
-RUN apt-get update -y && \
+RUN apt update -y && \
     curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get install -y nodejs && \
-    apt-get clean && \
+    apt install -y nodejs && \
+    apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 # copy ssr config
