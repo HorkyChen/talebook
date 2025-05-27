@@ -1,12 +1,8 @@
 [![GitHub License](https://img.shields.io/github/license/talebook/talebook?style=flat-square)](https://github.com/talebook/talebook/blob/master/LICENSE)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/talebook/talebook?logo=github&style=flat-square&label=commits)]()
-[![Tests](https://github.com/talebook/talebook/actions/workflows/ci.yml/badge.svg)](https://github.com/talebook/talebook/actions/workflows/ci.yml)
-[![Docker Build](https://github.com/talebook/talebook/actions/workflows/build.yml/badge.svg)](https://github.com/talebook/talebook/actions/workflows/build.yml)
-[![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)](https://hub.docker.com/r/talebook/talebook)
+[![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)](https://hub.docker.com/r/horkychen/talebook)
 
 
 # Tale Book: My Calibre WebServer
-
 A better online books library management website built on Calibre + Vue
 
 ## 简单好用的个人图书管理系统
@@ -37,7 +33,7 @@ A better online books library management website built on Calibre + Vue
 若希望修改挂载的目录或端口，请修改docker-compose.yml文件。
 
 ```
-wget https://raw.githubusercontent.com/talebook/talebook/master/docker-compose.yml
+wget https://raw.githubusercontent.com/HorkyChen/talebook/master/docker-compose.yml
 docker-compose -f docker-compose.yml  up -d
 ```
 
