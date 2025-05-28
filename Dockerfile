@@ -32,7 +32,8 @@ ARG BUILD_COUNTRY="CN"
 # Set mirrors in china
 RUN if [ "x${BUILD_COUNTRY}" = "xCN" ]; then \
     echo "using repo mirrors for ${BUILD_COUNTRY}"; \
-    sed 's@archive.ubuntu.com/ubuntu@mirrors.huaweicloud.com/repository/ubuntu@g' -i /etc/apt/sources.list; \
+    sed 's@archive.ubuntu.com/ubuntu@mirrors.huaweicloud.com/repository/ubuntu@g' -i /etc/apt/sources.list.d/ubuntu.sources; \
+    sed 's@security.ubuntu.com/ubuntu@mirrors.huaweicloud.com/repository/ubuntu@g' -i /etc/apt/sources.list.d/ubuntu.sources; \
     fi
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
