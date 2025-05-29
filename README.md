@@ -40,12 +40,12 @@ docker-compose -f docker-compose.yml  up -d
 
 如果使用原生docker，那么执行命令：
 
-`docker run -d --name talebook -p <本机端口>:80 -v <本机data目录>:/data talebook/talebook`
+`docker run -d --name talebook -p <本机端口>:80 -v <本机data目录>:/data horkychen/talebook`
 
 
 例如
 
-`docker run -d --name talebook -p 8080:80 -v /tmp/demo:/data talebook/talebook`
+`docker run -d --name talebook -p 8080:80 -v /tmp/demo:/data horkychen/talebook`
 
 
 
