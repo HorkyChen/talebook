@@ -56,6 +56,8 @@ RUN useradd -u 990 -U -d /var/www/talebook -s /bin/false talebook && \
     sed -i "s/user www-data;/user talebook;/g" /etc/nginx/nginx.conf
 
 # install python packages (--break-system-packages)
+# Apply calibre patches
+COPY calibre/7.6/calibre/db/cache.py /usr/lib/calibre/calibre/db/
 COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt --break-system-packages && \
     rm -rf /root/.cache
