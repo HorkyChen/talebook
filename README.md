@@ -1,5 +1,5 @@
 [![GitHub License](https://img.shields.io/github/license/talebook/talebook?style=flat-square)](https://github.com/talebook/talebook/blob/master/LICENSE)
-[![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)](https://hub.docker.com/r/horkychen/talebook)
+[![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)](https://hub.docker.com/r/poxenstudio/talebook)
 
 
 # Tale Book: My Calibre WebServer
@@ -40,12 +40,12 @@ docker-compose -f docker-compose.yml  up -d
 
 如果使用原生docker，那么执行命令：
 
-`docker run -d --name talebook -p <本机端口>:80 -v <本机data目录>:/data horkychen/talebook`
+`docker run -d --name talebook -p <本机端口>:80 -v <本机data目录>:/data poxenstudio/talebook`
 
 
 例如
 
-`docker run -d --name talebook -p 8080:80 -v /tmp/demo:/data horkychen/talebook`
+`docker run -d --name talebook -p 8080:80 -v /tmp/demo:/data poxenstudio/talebook`
 
 
 

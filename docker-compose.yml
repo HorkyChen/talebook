@@ -3,7 +3,7 @@ services:
   # main service
   talebook:
     restart: always
-    image: horkychen/talebook
+    image: poxenstudio/talebook
     volumes:
       - /tmp/demo:/data
     ports:

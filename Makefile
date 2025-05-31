@@ -1,11 +1,11 @@
 .PHONY: all build push test
 
 VER := $(shell git branch --show-current)
-IMAGE := horkychen/talebook:$(VER)
-REPO1 := horkychen/talebook:latest
-REPO2 := horkychen/calibre-webserver:latest
-TAG1 := horkychen/talebook:server-side-render
-TAG2 := horkychen/talebook:server-side-render-$(VER)
+IMAGE := poxenstudio/talebook:$(VER)
+REPO1 := poxenstudio/talebook:latest
+REPO2 := poxenstudio/calibre-webserver:latest
+TAG1 := poxenstudio/talebook:server-side-render
+TAG2 := poxenstudio/talebook:server-side-render-$(VER)
 
 all: build up
 
