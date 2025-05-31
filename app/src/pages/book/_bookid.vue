@@ -166,6 +166,10 @@
                                     <v-icon>apps</v-icon>
                                     从互联网更新信息
                                 </v-list-item>
+                                <v-list-item @click="reset_refer">
+                                    <v-icon>apps</v-icon>
+                                    重置信息
+                                </v-list-item>
                                 <v-divider></v-divider>
                                 <v-list-item @click="delete_book">
                                     <v-icon>delete_forever</v-icon>
@@ -482,6 +486,21 @@ export default {
             }).finally(()=>{
                //关闭加载条提示
                this.refer_books_setting_btn_loading = false;
+            });
+        },
+        reset_refer() {
+            // 使用本地书籍信息覆盖
+            this.$backend("/book/" + this.book.id + "/refer", {
+                method: "POST",
+                body: new URLSearchParams({reset: "yes"}),
+            }).then((rsp) => {
+                if (rsp.err === "ok") {
+                    this.$alert("success", "重置信息成功");
+                    this.$router.push("/book/" + this.book.id);
+                    location.reload();
+                } else {
+                    this.$alert("error", rsp.msg);
+                }
             });
         },
         delete_book() {

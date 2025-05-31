@@ -154,6 +154,45 @@ class BookRefer(BaseHandler):
                 raise RuntimeError({"err": "httprequest.youshu.failed", "msg": _(u"优书网查询失败")})
         raise RuntimeError({"err": "params.provider_key.not_support", "msg": _(u"不支持该provider_key")})
 
+    def reset_book_meta(self, book_id):
+        book = self.get_book(book_id)
+        for fmt in ["epub", "mobi", "azw", "azw3", "txt", "pdf"]:
+            book_path = book.get("fmt_%s" % fmt, None)
+            if book_path:
+                break
+        if not book_path:
+            return {"err": "params.book.invalid", "msg": _(u"书籍不存在")}
+        logging.info("[RESET]reset book meta for %d, path=%s" % (book_id, book_path))
+
+        from calibre.ebooks.metadata.meta import get_metadata
+        book_name = os.path.basename(book_path)
+        logging.error("[RESET]book name = " + repr(book_name))
+        fmt = os.path.splitext(book_name)[1]
+        fmt = fmt[1:] if fmt else None
+        if not fmt:
+            return {"err": "params.filename", "msg": _(u"文件名不合法")}
+        fmt = fmt.lower()
+
+        # read ebook meta
+        with open(book_path, "rb") as stream:
+            org_mi = get_metadata(stream, stream_type=fmt, use_libprs_metadata=True)
+            org_mi.title = utils.super_strip(org_mi.title)
+            org_mi.authors = [utils.super_strip(org_mi.author_sort)]
+
+        if fmt in ["txt", "pdf"]:
+            org_mi.title = book_name.replace("." + fmt, "")
+            org_mi.authors = [_(u"佚名")]
+
+        if not self.is_admin() and not self.is_book_owner(book_id, self.user_id()):
+            return {"err": "user.no_permission", "msg": _(u"无权限")}
+
+        org_mi.set("comments", _(u"书籍信息已重置"))
+        if org_mi.get("comments", "") == "":
+            org_mi.set("comments", _(u"无详细介绍"))
+        self.db.set_metadata(book_id, org_mi, force_changes=True)
+        logging.info("[RESET]reset meta data for %d" % book_id)
+        return {"err": "ok", "book_id": book_id}
+
     @js
     @auth
     def get(self, id):
@@ -185,23 +224,27 @@ class BookRefer(BaseHandler):
     @js
     @auth
     def post(self, id):
+        should_reset = self.get_argument("reset", "no")
         provider_key = self.get_argument("provider_key", "error")
         provider_value = self.get_argument("provider_value", "")
         only_meta = self.get_argument("only_meta", "")
         only_cover = self.get_argument("only_cover", "")
         book_id = int(id)
+        mi = self.db.get_metadata(book_id, index_is_id=True)
+        if not mi:
+            return {"err": "params.book.invalid", "msg": _(u"书籍不存在")}
+        if not self.is_admin() and not self.is_book_owner(book_id, self.user_id()):
+            return {"err": "user.no_permission", "msg": _(u"无权限")}
+
+        if should_reset == "yes":
+            return self.reset_book_meta(book_id)
+
         if not provider_key:
             return {"err": "params.provider_key.invalid", "msg": _(u"provider_key参数错误")}
         if not provider_value:
             return {"err": "params.provider_key.invalid", "msg": _(u"provider_value参数错误")}
         if only_meta == "yes" and only_cover == "yes":
             return {"err": "params.conflict", "msg": _(u"参数冲突")}
-
-        mi = self.db.get_metadata(book_id, index_is_id=True)
-        if not mi:
-            return {"err": "params.book.invalid", "msg": _(u"书籍不存在")}
-        if not self.is_admin() and not self.is_book_owner(book_id, self.user_id()):
-            return {"err": "user.no_permission", "msg": _(u"无权限")}
 
         try:
             refer_mi = self.plugin_get_book_meta(provider_key, provider_value, mi)
