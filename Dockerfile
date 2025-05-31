@@ -126,8 +126,7 @@ RUN rm -f /etc/nginx/sites-enabled/default /var/www/html -rf && \
     ln -s /data/books/logo app/dist/logo && \
     mkdir -p /prebuilt/ && \
     mv /data/* /prebuilt/ && \
-    chmod +x /var/www/talebook/docker/start.sh && \
-    sed -i "s/talebook\/talebook/HorkyChen\/talebook/g" /var/www/talebook/webserver/settings.py
+    chmod +x /var/www/talebook/docker/start.sh
 
 EXPOSE 80 443
 
