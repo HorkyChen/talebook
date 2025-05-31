@@ -25,7 +25,7 @@ spec:
         io.kompose.service: talebook
     spec:
       containers:
-        - image: talebook/talebook
+        - image: poxenstudio/talebook
           name: talebook
           ports:
             - containerPort: 80
