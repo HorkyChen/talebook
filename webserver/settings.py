@@ -106,11 +106,11 @@ settings = {
     'ALLOW_GUEST_PUSH' : True,
     'ALLOW_GUEST_DOWNLOAD' : True,
     'ALLOW_REGISTER' : False,
-    'HEADER': '欢迎访问！如果你喜欢此项目，请前往 Github <a target="_blank" href="https://github.com/talebook/talebook"> 给 talebook 点击一个Star！</a>',
+    'HEADER': '欢迎访问！如果你喜欢此项目，请前往 Github <a target="_blank" href="https://github.com/HorkyChen/talebook"> 给 talebook 点击一个Star！</a>',
     'FOOTER': '本站基于Calibre构建，感谢开源界的力量。所有资源搜集于互联网，如有侵权请邮件联系。',
 
     'FRIENDS': [
-        { "text": u"鸠摩搜索", "href": "https://www.jiumodiary.com/" },
+        { "text": u"书格", "href": "https://www.shuge.org/" },
         { "text": u"追更神器", "href": "https://github.com/hectorqin/reader" },
         { "text": u"苦瓜书盘", "href": "https://www.kgbook.com" },
         { "text": u"爱悦读", "href": "https://www.iyd.wang/" },

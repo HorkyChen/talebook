@@ -4,7 +4,7 @@
             <v-divider class='mt-10 mb-3' ></v-divider>
             <p class='mb-0 text-center footer-text' v-html="footer_text"></p>
             <p>
-            <v-btn small text target="_blank" href="https://github.com/talebook/talebook">Github</v-btn>
+            <v-btn small text target="_blank" href="https://github.com/HorkyChen/talebook">Github</v-btn>
             | <v-btn small text target="_blank" href="https://hub.docker.com/r/talebook/talebook">Docker</v-btn>
             | <v-btn small text target="_blank" href="http://talebook.org">Project</v-btn>
             </p>

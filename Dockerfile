@@ -105,6 +105,7 @@ RUN mkdir -p /data/log/nginx/ && \
 COPY server.py /var/www/talebook/
 COPY docker/ /var/www/talebook/docker/
 COPY webserver/ /var/www/talebook/webserver/
+COPY webserver/settings.py /var/www/talebook/webserver/
 COPY conf/nginx/ssl.* /data/books/ssl/
 COPY conf/nginx/talebook.conf /etc/nginx/conf.d/
 COPY conf/supervisor/talebook.conf /etc/supervisor/conf.d/
@@ -125,7 +126,8 @@ RUN rm -f /etc/nginx/sites-enabled/default /var/www/html -rf && \
     ln -s /data/books/logo app/dist/logo && \
     mkdir -p /prebuilt/ && \
     mv /data/* /prebuilt/ && \
-    chmod +x /var/www/talebook/docker/start.sh
+    chmod +x /var/www/talebook/docker/start.sh && \
+    sed -i "s/talebook\/talebook/HorkyChen\/talebook/g" /var/www/talebook/webserver/settings.py
 
 EXPOSE 80 443
 

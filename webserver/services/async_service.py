@@ -47,7 +47,7 @@ class AsyncService(metaclass=SingletonType):
         q = Queue()
         t = threading.Thread(target=self.loop, args=(service_func, q))
         t.name = self.__class__.__name__ + "." + service_func.__name__
-        t.setDaemon(True)
+        t.daemon = True
         t.start()
         self.running[name] = (t, q)
         return q
