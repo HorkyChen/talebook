@@ -66,7 +66,7 @@ Refer to the following user posts:
 * [Post 1](https://post.smzdm.com/p/a992p6e0/)
 * [Post 2](https://post.smzdm.com/p/a3d7ox0k/)
 * [Post 3](https://odcn.top/2019/02/26/2734/)
-* [Feiniu NAS](https://club.fnnas.com/forum.php?mod=viewthread&tid=27403)
+* [FnOS](https://club.fnnas.com/forum.php?mod=viewthread&tid=27403)
 
 **Disclaimer**: This project does not maintain any public book library sites, such as joyeuse, wenyuange, etc., which are built by users. Please do not consult the author regarding related issues, as assistance cannot be provided.
 
