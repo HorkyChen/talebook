@@ -31,9 +31,9 @@ Tale Book is a simple yet powerful personal book management system based on Cali
 
 This project was formerly known as `calibre-webserver`.
 
-## Docker ![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)
+## Docker ![Docker Pulls](https://img.shields.io/docker/pulls/poxenstudio/talebook.svg)
 
-Deployment is straightforward, and Docker is recommended. The Docker image is available on [Docker Hub](https://hub.docker.com/r/talebook/talebook).
+Deployment is straightforward, and Docker is recommended. The Docker image is available on [Docker Hub](https://hub.docker.com/r/poxenstudio/talebook).
 * Built on `Ubuntu 24.04` and `Calibre 7.6` for improved compatibility. Avoid setting Docker's UID/GID to `root` (ID: 0).
 
 ### Using Docker Compose

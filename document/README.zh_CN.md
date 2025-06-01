@@ -1,5 +1,5 @@
 [![GitHub License](https://img.shields.io/github/license/talebook/talebook?style=flat-square)](https://github.com/talebook/talebook/blob/master/LICENSE)
-[![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)](https://hub.docker.com/r/poxenstudio/talebook)
+[![Docker Pulls](https://img.shields.io/docker/pulls/poxenstudio/talebook.svg)](https://hub.docker.com/r/poxenstudio/talebook)
 
 
 # Tale Book: Personal Calibre WebServer
@@ -35,9 +35,9 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
 本项目曾用名：calibre-webserver
 
 
-## Docker ![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)
+## Docker ![Docker Pulls](https://img.shields.io/docker/pulls/poxenstudio/talebook.svg)
 
-部署比较简单，建议采用docker，镜像地址：[dockerhub](https://hub.docker.com/r/talebook/talebook)
+部署比较简单，建议采用docker，镜像地址：[dockerhub](https://hub.docker.com/r/poxenstudio/talebook)
 * 已经调整基于```Ubuntu 24.04```和```Calibre 7.6```构建, 改善兼容性。Docker运行的UID/GID不要设置为```root```(ID:0)。
 
 推荐使用`docker-compose`，下载仓库中的配置文件[docker-compose.yml](docker-compose.yml)，然后执行命令启动即可。
