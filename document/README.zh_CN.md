@@ -1,84 +1,88 @@
-使用指南
-===========
-本文主要介绍talebook程序的使用说明，以及常见问题。如需手动安装或者提交PR，请参阅[开发者指南](./Development.zh_CN.md)。
+[![GitHub License](https://img.shields.io/github/license/talebook/talebook?style=flat-square)](https://github.com/talebook/talebook/blob/master/LICENSE)
+[![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)](https://hub.docker.com/r/poxenstudio/talebook)
 
 
-NAS用户，可以参阅网友们写的指南：
-* [新手向NAS教程 篇十七：春节假期来搭建书库吧！免费开源有手就行！群晖Calibre部署教程！ ](https://post.smzdm.com/p/a3d7ox0k/)
-* [飞牛NAS部署Talebook](https://club.fnnas.com/forum.php?mod=viewthread&tid=27403)
+# Tale Book: My Calibre WebServer
+A better online books library management website built on Calibre + Vue
 
-常见配置指南
-===========
-本文主要介绍talebook程序的使用说明，以及常见问题。如需手动安装或者提交PR，请参阅[开发者指南](./Development.zh_CN.md)。
+## 简单好用的个人图书管理系统
 
-### 配置Kindle推送功能
-以使用QQ邮箱推送为例，进入[QQ邮箱网址](http://service.mail.qq.com/cgi-bin/help?subtype=1&&no=1001256&&id=28), 申请SMTP账号，然后在管理员界面中配置即可。
+**友情提醒：中国境内网站，个人是不允许进行在线出版的，维护公开的书籍网站是违法违规的行为！建议仅作为个人使用！**
 
-请注意，用户名是必须包含邮箱后缀的（例如 `@qq.com`），例如 `demo@gmail.com`
-
-### 配置用户登录功能
-本程序支持用户注册及社交网站登录功能，按照管理员配置界面的说明，可以配置出符合自己需求的用户能力。
-
-这里重点说明下常见的社交网站的API账号申请地址：
- - [微博开发者网址](http://open.weibo.com/developers)
- - [QQ互联登录网址](https://connect.qq.com/)
- - [Github]() 待补充
-
-### Logo (适用于v3.5.9及后续版本)
-
-favicon和导航菜单中的二维码logo，放置在数据目录 ```/data/books/logo/```中，可直接使用新图片覆盖掉。
+## 版本
+* v3.9.0 (完成)
+    1. 更新Calibre 7.6，系统使用Ubuntu 24.04
+    2. 信息管理中增加信息重置，出现刮削时更新
+* v3.10.0
+    1. 增加图书导出功能 (比如将epub转到azw3， 方便kindle使用)
+* NEXT
+    1. 支持信息共享
 
 
-### Logo (适用于v3.5.8及更旧版本)
+## 项目介绍
+这是一个基于Calibre的简单的个人图书管理系统，支持**在线阅读**。主要特点是：
+* 美观的界面：由于Calibre自带的网页太丑太难用，于是基于Vue，独立编写了新的界面，支持PC访问和手机浏览；
+* 支持多用户：为了网友们更方便使用，开发了多用户功能，支持~~豆瓣~~（已废弃）、QQ、微博、Github等社交网站的登录；
+* 支持在线阅读：借助[epub.js](https://github.com/intity/epubreader-js) 库，支持了网页在线阅读电子书（章评功能开发中）；
+* 支持批量扫描导入书籍；
+* 支持邮件推送：可方便推送到Kindle；
+* 支持OPDS：可使用[KyBooks](http://kybook-reader.com/)等APP方便地读书；
+* 支持一键安装，网页版初始化配置，轻松启动网站；
+* 优化大书库时文件存放路径，可以按字母分类、或者文件名保持中文；
+* 支持快捷更新书籍信息：支持从百度百科、豆瓣搜索并导入书籍基础信息；
+* 支持私人模式：需要输入访问码，才能进入网站，便于小圈子分享网站；
 
-favicon和导航菜单中的二维码logo，已经内置在了代码目录```/var/www/talebook/app/dist/img/```中。
- - favicon.ico: 网站图标文件
- - link.png: 二维码图片
+本项目曾用名：calibre-webserver
 
-如果需要定制修改这两个文件，请直接将使用新的文件覆盖即可。
 
-若使用docker启动，则需要在docker启动时挂载这两个目录。例如：
+## Docker ![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)
+
+部署比较简单，建议采用docker，镜像地址：[dockerhub](https://hub.docker.com/r/talebook/talebook)
+* 已经调整基于```Ubuntu 24.04```和```Calibre 7.6```构建, 改善兼容性。Docker运行的UID/GID不要设置为```root```(ID:0)。
+
+推荐使用`docker-compose`，下载仓库中的配置文件[docker-compose.yml](docker-compose.yml)，然后执行命令启动即可。
+若希望修改挂载的目录或端口，请修改docker-compose.yml文件。
+
 ```
-docker run -d --name talebook -p 80:80 -v /data/calibre:/data -v /data/logo:/var/www/talebook/app/dist/img/ poxenstudio/talebook
+wget https://raw.githubusercontent.com/HorkyChen/talebook/master/docker-compose.yml
+docker-compose -f docker-compose.yml  up -d
 ```
 
-### 上传文件的大小
-如果发现上传大文件时出现了失败，那么可能会有两种原因：
 
-1. 如果是程序抛出异常（例如issue#61），那么是由于本项目中的tornado框架默认限制为100M。请进入管理员配置中修改调大对应的配置。
+如果使用原生docker，那么执行命令：
 
-1. 如果明确提示`413`错误码，那么一般是由于nginx限制了上传大小。本项目中自带的nginx已配置了`client_max_body_size 0`，即不限制上传大小；
-因此建议使用者排查下是否在本项目之外配置有其他的nginx代理转发，调整其中的配置。
+`docker run -d --name talebook -p <本机端口>:80 -v <本机data目录>:/data poxenstudio/talebook`
 
-### 如何配置豆瓣插件?
-需启用[cxfksword/douban-api-rs](https://github.com/cxfksword/douban-api-rs)服务，然后将对应的URL地址（例如 `http://10.0.0.1:8080` ）填写到高级配置项中。
 
-对于使用docker-composer启动的（例如使用本项目自带的 `docker-compose.yml` 配置），那么URL地址为： `http://douban-rs-api:80/` ，因为依据docker-composer的说明，服务名称可解析出对应的IP地址。
+例如
 
-常见问题排查
-===============
-### supervisord启动失败
+`docker run -d --name talebook -p 8080:80 -v /tmp/demo:/data poxenstudio/talebook`
 
-如果有调整过supervisord里面的配置（例如端口、目录），一定要执行```sudo supervisorctl reload all```重新读取配置，不然是不会生效的，可能会导致启动失败。
 
-如果提示```talebook:tornado-8000: ERROR(spawn error)```，那么说明环境没配置正确。
-请打开日志文件```/data/log/talebook.log```查看原因，重点查看最后一次出现Traceback报错，关注其中```Traceback (most recent call last)```提示的错误原因。
 
-### 网站能打开，但是提示```500: internal server error```
+## 常见问题
 
-这种情况，一般是服务运行时出现异常，常见原因有目录权限没有配置正常、数据库没创建好、或者触发了某个代码BUG。
+常见问题请参阅[使用指南](document/UserGuide.zh_CN.md)，无法解决的话，提个ISSUEE，[进Q群交流](https://qm.qq.com/q/5lSfpJGsBq)
 
-** 一般都是因为data目录权限设置不正确，导致启动异常 **，可以多排查下用户名、UID、目录权限等。
+手动安装请参考[开发者指南](document/Development.zh_CN.md)
 
-请打开日志文件```/data/log/talebook.log```查看原因，重点查看最后一次出现Traceback报错，关注其中```Traceback (most recent call last)```提示的错误原因，并提issue联系开发者排查。
+NAS安装指南：请参考网友们的帖子：[帖子1](https://post.smzdm.com/p/a992p6e0/)，[帖子2](https://post.smzdm.com/p/a3d7ox0k/), [帖子3](https://odcn.top/2019/02/26/2734/), * [飞牛NAS](https://club.fnnas.com/forum.php?mod=viewthread&tid=27403)
 
-### 「静读天下」APP里访问书库会失败，怎么办？
+**如果觉得本项目很棒，欢迎前往[爱发电](https://afdian.net/@talebook)，赞助作者，持续优化，为爱充电！**
 
-这是因为静读天下APP不支持Cookie，导致登录会失败。在最新版系统中(v2.0.0-87-gf6d8f06)已经调整程序逻辑，可以无需登录就正常浏览，仅在下载时检测权限。为了避免弹出登录提示，请配置：
- - 关闭「私人图书馆」模式。
- - 打开「允许任意下载」（访客无需注册或登录）
+**再次声明！本项目没有维护任何公开的书库站点，例如 joyeuse, wenyuange 等网站均属于网友搭建的，相关问题请不要咨询我，爱莫能助！**
 
-### 阅读器的页面卡住了，不加载书籍，怎么办？
 
- 这是因为浏览器的广告拦截插件屏蔽了一些JS，导致页面加载异常。请关闭相关插件后再重试，例如 uBlock Origin
+## 贡献者
+[![](https://contrib.rocks/image?repo=HorkyChen/talebook)](https://github.com/HorkyChen/talebook/graphs/contributors)
 
+j
+## 演示
+
+[Demo站点（密码 admin/demodemo ）](http://demo.talebook.org)
+
+[视频简介（感谢@Pan06da的制作）](https://player.bilibili.com/player.html?aid=482258810&bvid=BV1AT411S7c3&cid=1018595245&page=1)
+
+
+项目演示截图如下：
+![](document/screenshot.png)
