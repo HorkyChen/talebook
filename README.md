@@ -3,7 +3,7 @@
 
 
 # Tale Book: Personal Calibre WebServer
-A enhanced personal books library management website built on Calibre + Vue, beautiful and easy-to-use.
+A enhanced personal books management website built on Calibre + Vue, beautiful and easy-to-use.
 [中文说明](documents/README.zh_CN.md)
 
 **Noted: Online publishing is prohibited for personal websites in China. This project is recommended for personal use only!**
