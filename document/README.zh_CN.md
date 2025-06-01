@@ -5,6 +5,7 @@
 
 NAS用户，可以参阅网友们写的指南：
 [新手向NAS教程 篇十七：春节假期来搭建书库吧！免费开源有手就行！群晖Calibre部署教程！ ](https://post.smzdm.com/p/a3d7ox0k/)
+[飞牛NAS部署Talebook](https://club.fnnas.com/forum.php?mod=viewthread&tid=27403)
 
 常见配置指南
 ===========

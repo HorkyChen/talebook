@@ -9,6 +9,17 @@ A better online books library management website built on Calibre + Vue
 
 **友情提醒：中国境内网站，个人是不允许进行在线出版的，维护公开的书籍网站是违法违规的行为！建议仅作为个人使用！**
 
+## 版本
+* v3.9.0 (完成)
+    1. 更新Calibre 7.6，系统使用Ubuntu 24.04
+    2. 信息管理中增加信息重置，出现刮削时更新
+* v3.10.0
+    1. 增加图书导出功能 (比如将epub转到azw3， 方便kindle使用)
+* NEXT
+    1. 支持信息共享
+
+
+## 项目介绍
 这是一个基于Calibre的简单的个人图书管理系统，支持**在线阅读**。主要特点是：
 * 美观的界面：由于Calibre自带的网页太丑太难用，于是基于Vue，独立编写了新的界面，支持PC访问和手机浏览；
 * 支持多用户：为了网友们更方便使用，开发了多用户功能，支持~~豆瓣~~（已废弃）、QQ、微博、Github等社交网站的登录；
@@ -27,7 +38,7 @@ A better online books library management website built on Calibre + Vue
 ## Docker ![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)
 
 部署比较简单，建议采用docker，镜像地址：[dockerhub](https://hub.docker.com/r/talebook/talebook)
-* 已经调整基于```Ubuntu 22.04```和```Calibre 7.6```构建, 改善兼容性。Docker运行的UID/GID不要设置为```root```(ID:0)。
+* 已经调整基于```Ubuntu 24.04```和```Calibre 7.6```构建, 改善兼容性。Docker运行的UID/GID不要设置为```root```(ID:0)。
 
 推荐使用`docker-compose`，下载仓库中的配置文件[docker-compose.yml](docker-compose.yml)，然后执行命令启动即可。
 若希望修改挂载的目录或端口，请修改docker-compose.yml文件。
