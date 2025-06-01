@@ -2,8 +2,8 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/talebook/talebook.svg)](https://hub.docker.com/r/poxenstudio/talebook)
 
 
-# Tale Book: My Calibre WebServer
-A better online books library management website built on Calibre + Vue
+# Tale Book: Personal Calibre WebServer
+A enhanced personal books management webserver built on Calibre + Vue, beautiful and easy-to-use.
 
 ## 简单好用的个人图书管理系统
 
