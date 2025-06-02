@@ -10,6 +10,7 @@ $ npm run generate
 $ npm run build-spa
 $ npm run dev
 ```
+
 NodeJS 17+需要设置以下环境变量
 ```
 export NODE_OPTIONS=--openssl-legacy-provider 
@@ -55,11 +56,10 @@ server {
 
 建议学习下[docker-composer](https://docs.docker.com/compose/)这个工具（可以查阅些[中文学习材料](https://yeasy.gitbook.io/docker_practice/compose/introduction)）。然后，可以参考这个`docker-composer.yml`启动一个容器环境。其中，因为后台目录都在webserver里面，因此yml配置中指定了将该目录挂载进入了容器中。（可以依据自己实际情况进行修改）
 ```
-version: "2.4"
 services:
   # main service
   dev:
-    image: talebook/talebook
+    image: poxenstudio/talebook
     volumes:
       - /data/dev:/data # 这个是存储数据和日志的
       - /data/code/talebook/webserver:/var/www/talebook/webserver # 这个是代码
@@ -129,6 +129,7 @@ apt-get install -y --no-install-recommends python3-pip unzip supervisor sqlite3 
 # 安装calibre库（会同时安装一大堆的PyQt5库）
 apt-get install -y calibre
 ```
+
 
 ### 安装python库依赖
 建议参考：[本仓库的Dockerfile](../Dockerfile)
