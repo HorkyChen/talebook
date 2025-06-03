@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col cols=12>
-        <h2>{{ title }}</h2>
+        <h2>{{ $t('listBook.title') }}</h2>
         <v-divider class="mt-3 mb-0"></v-divider>
       </v-col>
 
@@ -48,13 +48,13 @@ export default {
   head() {
     switch (this.$route.path) {
       case "/hot":
-        return {title: "热门书籍"};
+        return {title: this.$t('listBook.hotBooks')};
 
       case "/search":
-        return {title: "搜索"};
+        return {title: this.$t('listBook.search')};
 
       case "/recent":
-        return {title: "近期更新"};
+        return {title: this.$t('listBook.recentUpdates')};
 
       default:
         break
@@ -63,11 +63,11 @@ export default {
     if (this.$route.params.meta !== undefined) {
       var name = decodeURIComponent(this.$route.params.name);
       var titles = {
-        tag: `"${name}”标签的书籍`,
-        series: `${name}丛书`,
-        rating: `${name}星书籍`,
-        author: `${name}的著作`,
-        publisher: `${name}出版的书籍`,
+        tag: this.$t('listBook.tagBooks', { name }),
+        series: this.$t('listBook.seriesBooks', { name }),
+        rating: this.$t('listBook.ratingBooks', { name }),
+        author: this.$t('listBook.authorBooks', { name }),
+        publisher: this.$t('listBook.publisherBooks', { name }),
       }
       var meta = this.$route.path.split("/")[1];
       if (titles[meta] !== undefined) {

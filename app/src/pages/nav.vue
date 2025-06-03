@@ -22,7 +22,7 @@ export default {
         navs: [],
     }),
     head: () => ({
-        title: "书籍索引"
+        title: this.$t('titles.bookIndex')
     }),
     async asyncData({ params, app, res }) {
         if ( res !== undefined ) {

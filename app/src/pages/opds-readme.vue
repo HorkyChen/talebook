@@ -1,31 +1,31 @@
 <template>
   <div class="opds-page">
-    <h1>OPDS 介绍</h1>
+    <h1>{{ $t('opds.introduction') }}</h1>
     <section>
-      <h2>OPDS 链接</h2>
-      <p>您的 OPDS 链接为：<code>{{ opdsUrl }}</code></p>
+      <h2>{{ $t('opds.link') }}</h2>
+      <p>{{ $t('opds.linkDescription') }}<code>{{ opdsUrl }}</code></p>
     </section>
     <section>
-      <h2>常见 OPDS 阅读软件</h2>
+      <h2>{{ $t('opds.commonReaders') }}</h2>
       <ul>
-        <li><strong>KyBook</strong>：支持 iOS 和 macOS 的电子书阅读器 <a href="https://apps.apple.com/app/kybook/id1049898139" target="_blank" rel="noopener noreferrer">[下载]</a></li>
-        <li><strong>静读天下</strong>：Android 平台上功能强大的电子书阅读器 <a href="https://play.google.com/store/apps/details?id=com.flyersoft.moonreader" target="_blank" rel="noopener noreferrer">[下载]</a></li>
+        <li><strong>KyBook</strong>：{{ $t('opds.kybookDescription') }} <a href="https://apps.apple.com/app/kybook/id1049898139" target="_blank" rel="noopener noreferrer">[{{ $t('opds.download') }}]</a></li>
+        <li><strong>{{ $t('opds.moonReader') }}</strong>：{{ $t('opds.moonReaderDescription') }} <a href="https://play.google.com/store/apps/details?id=com.flyersoft.moonreader" target="_blank" rel="noopener noreferrer">[{{ $t('opds.download') }}]</a></li>
       </ul>
     </section>
     <section>
-      <h2>配置指南</h2>
+      <h2>{{ $t('opds.configurationGuide') }}</h2>
       <ol>
-        <li>在阅读器中添加新的 OPDS 书库</li>
-        <li>输入您的 OPDS 链接</li>
-        <li>根据提示完成认证（如果需要）</li>
-        <li>开始浏览和阅读您的电子书</li>
+        <li>{{ $t('opds.addLibrary') }}</li>
+        <li>{{ $t('opds.enterLink') }}</li>
+        <li>{{ $t('opds.completeAuth') }}</li>
+        <li>{{ $t('opds.startReading') }}</li>
       </ol>
 
-      <h2>请注意</h2>
-      <p>因为静读天下APP不支持cookie登录，因此需要做如下配置：</p>
+      <h2>{{ $t('opds.note') }}</h2>
+      <p>{{ $t('opds.moonReaderNote') }}</p>
       <ol>
-          <li>关闭「私人图书馆」模式。</li>
-          <li>打开「允许任意下载」（访客无需注册或登录）</li>
+          <li>{{ $t('opds.disablePrivateLibrary') }}</li>
+          <li>{{ $t('opds.enableGuestAccess') }}</li>
       </ol>
     </section>
   </div>

@@ -32,5 +32,93 @@
         "authorsCount": "作者数量",
         "publishersCount": "出版社数量",
         "tagsCount": "标签数量"
+    },
+    "listBook": {
+        "title": "书籍列表",
+        "hotBooks": "热门书籍",
+        "search": "搜索",
+        "recentUpdates": "近期更新",
+        "tagBooks": "\"{{name}}”标签的书籍",
+        "seriesBooks": "{{name}}丛书",
+        "ratingBooks": "{{name}}星书籍",
+        "authorBooks": "{{name}}的著作",
+        "publisherBooks": "{{name}}出版的书籍"
+    },
+    "listMeta": {
+        "ratingSuffix": "星",
+        "showAll": "显示全部...",
+        "allTags": "全部标签",
+        "allSeries": "全部丛书",
+        "allRatings": "全部评分",
+        "allAuthors": "全部作者",
+        "allPublishers": "全部出版社"
+    },
+    "login": {
+        "welcome": "欢迎访问",
+        "register": "注册",
+        "username": "用户名",
+        "password": "密码",
+        "forgot_password": "忘记密码?",
+        "login": "登录",
+        "social_login": "使用社交网络账号登录",
+        "reset_password": "重置密码",
+        "email": "注册邮箱",
+        "back": "返回",
+        "reset": "重置密码"
+    },
+    "logout": {
+        "message": "您已退出登录。",
+        "homeButton": "返回首页",
+        "pageTitle": "已退出登录"
+    },
+    "titles": {
+        "bookIndex": "书籍索引"
+    },
+    "opds": {
+        "introduction": "OPDS 介绍",
+        "link": "OPDS 链接",
+        "linkDescription": "您的 OPDS 链接为：",
+        "commonReaders": "常见 OPDS 阅读软件",
+        "kybookDescription": "支持 iOS 和 macOS 的电子书阅读器",
+        "moonReader": "静读天下",
+        "moonReaderDescription": "Android 平台上功能强大的电子书阅读器",
+        "download": "下载",
+        "configurationGuide": "配置指南",
+        "addLibrary": "在阅读器中添加新的 OPDS 书库",
+        "enterLink": "输入您的 OPDS 链接",
+        "completeAuth": "根据提示完成认证（如果需要）",
+        "startReading": "开始浏览和阅读您的电子书",
+        "note": "请注意",
+        "moonReaderNote": "因为静读天下APP不支持cookie登录，因此需要做如下配置：",
+        "disablePrivateLibrary": "关闭「私人图书馆」模式。",
+        "enableGuestAccess": "打开「允许任意下载」（访客无需注册或登录）"
+    },
+    "signup": {
+        "title": "填写注册信息",
+        "username": "用户名",
+        "password": "密码",
+        "confirmPassword": "确认密码",
+        "nickname": "昵称",
+        "email": "Email",
+        "registerButton": "注册",
+        "pageTitle": "注册"
+    },
+    "welcome": {
+        "enterPassword": "请输入访问密码",
+        "description": "本站为私人图书馆，需输入密码才可进行访问",
+        "passwordLabel": "访问密码",
+        "loginButton": "登录",
+        "pageTitle": "私人图书馆"
+    },
+    "meta": {
+        "tag": "\"{name}\"标签的书籍",
+        "series": "{name}丛书",
+        "rating": "{name}星书籍",
+        "author": "{name}的著作",
+        "publisher": "{name}出版的书籍"
+    },
+    "activation": {
+        "successTitle": "激活成功",
+        "successMessage": "你已成功激活账号，请前往首页浏览吧！"
     }
 }

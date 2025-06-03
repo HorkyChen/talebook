@@ -3,22 +3,22 @@
       <v-col xs=12 sm=8 md=4>
         <v-card class="elevation-12">
             <v-toolbar dark color="primary">
-                <v-toolbar-title>填写注册信息</v-toolbar-title>
+                <v-toolbar-title>{{ $t('signup.title') }}</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
                 <v-form ref="form" @submit.prevent="signup">
-                    <v-text-field required prepend-icon="person" v-model="username"  label="用户名"   type="text"     autocomplete="new-username"  :rules="[rules.user]"         ></v-text-field>
-                    <v-text-field required prepend-icon="lock"   v-model="password"  label="密码"     type="password" autocomplete="new-password"  :rules="[rules.pass]" ></v-text-field>
-                    <v-text-field required prepend-icon="lock"   v-model="password2" label="确认密码" type="password" autocomplete="new-password2" :rules="[valid]"                  ></v-text-field>
-                    <v-text-field required prepend-icon="face"   v-model="nickname"  label="昵称"     type="text"     autocomplete="new-nickname"  :rules="[rules.nick]"         ></v-text-field>
-                    <v-text-field required prepend-icon="email"  v-model="email"     label="Email"    type="text"     autocomplete="new-email"     :rules="[rules.email]"            ></v-text-field>
+                    <v-text-field required prepend-icon="person" v-model="username"  :label="$t('signup.username')"   type="text"     autocomplete="new-username"  :rules="[rules.user]"         ></v-text-field>
+                    <v-text-field required prepend-icon="lock"   v-model="password"  :label="$t('signup.password')"   type="password" autocomplete="new-password"  :rules="[rules.pass]" ></v-text-field>
+                    <v-text-field required prepend-icon="lock"   v-model="password2" :label="$t('signup.confirmPassword')" type="password" autocomplete="new-password2" :rules="[valid]"                  ></v-text-field>
+                    <v-text-field required prepend-icon="face"   v-model="nickname"  :label="$t('signup.nickname')"   type="text"     autocomplete="new-nickname"  :rules="[rules.nick]"         ></v-text-field>
+                    <v-text-field required prepend-icon="email"  v-model="email"     :label="$t('signup.email')"      type="text"     autocomplete="new-email"     :rules="[rules.email]"            ></v-text-field>
                 </v-form>
                 <div align="center">
-                    <v-btn dark large rounded color="red" @click="signup">注册</v-btn>
+                    <v-btn dark large rounded color="red" @click="signup">{{ $t('signup.registerButton') }}</v-btn>
                 </div>
             </v-card-text>
 
-            <v-alert v-if="failmsg" type="error">{{failmsg}}</v-alert>
+            <v-alert v-if="failmsg" type="error">{{ failmsg }}</v-alert>
         </v-card>
       </v-col>
     </v-row>
@@ -49,7 +49,7 @@ export default {
 
     }),
     head: () => ({
-        title: "注册",
+        title: this.$t('signup.pageTitle'),
     }),
     methods: {
         valid: function(v) {

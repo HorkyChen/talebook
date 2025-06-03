@@ -32,5 +32,93 @@
         "authorsCount": "Authors Count",
         "publishersCount": "Publishers Count",
         "tagsCount": "Tags Count"
+    },
+    "listBook": {
+        "title": "Book List",
+        "hotBooks": "Hot Books",
+        "search": "Search",
+        "recentUpdates": "Recent Updates",
+        "tagBooks": "Books tagged \"{{name}}\"",
+        "seriesBooks": "{{name}} Series",
+        "ratingBooks": "{{name}} Star Books",
+        "authorBooks": "Books by {{name}}",
+        "publisherBooks": "Books published by {{name}}"
+    },
+    "listMeta": {
+        "ratingSuffix": " stars",
+        "showAll": "Show all...",
+        "allTags": "All Tags",
+        "allSeries": "All Series",
+        "allRatings": "All Ratings",
+        "allAuthors": "All Authors",
+        "allPublishers": "All Publishers"
+    },
+    "login": {
+        "welcome": "Welcome",
+        "register": "Sign Up",
+        "username": "Username",
+        "password": "Password",
+        "forgot_password": "Forgot Password?",
+        "login": "Login",
+        "social_login": "Login with Social Networks",
+        "reset_password": "Reset Password",
+        "email": "Registered Email",
+        "back": "Back",
+        "reset": "Reset Password"
+    },
+    "logout": {
+        "message": "You have logged out.",
+        "homeButton": "Return to Home",
+        "pageTitle": "Logged Out"
+    },
+    "titles": {
+        "bookIndex": "Book Index"
+    },
+    "opds": {
+        "introduction": "OPDS Introduction",
+        "link": "OPDS Link",
+        "linkDescription": "Your OPDS link is:",
+        "commonReaders": "Common OPDS Reading Software",
+        "kybookDescription": "An eBook reader supporting iOS and macOS",
+        "moonReader": "Moon+ Reader",
+        "moonReaderDescription": "A powerful eBook reader for Android",
+        "download": "Download",
+        "configurationGuide": "Configuration Guide",
+        "addLibrary": "Add a new OPDS library in the reader",
+        "enterLink": "Enter your OPDS link",
+        "completeAuth": "Complete authentication if required",
+        "startReading": "Start browsing and reading your eBooks",
+        "note": "Note",
+        "moonReaderNote": "Since Moon+ Reader does not support cookie login, please configure as follows:",
+        "disablePrivateLibrary": "Disable 'Private Library' mode.",
+        "enableGuestAccess": "Enable 'Allow arbitrary downloads' (guests do not need to register or log in)"
+    },
+    "signup": {
+        "title": "Fill in registration information",
+        "username": "Username",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "nickname": "Nickname",
+        "email": "Email",
+        "registerButton": "Register",
+        "pageTitle": "Sign Up"
+    },
+    "welcome": {
+        "enterPassword": "Enter Access Password",
+        "description": "This is a private library. You need to enter a password to access.",
+        "passwordLabel": "Access Password",
+        "loginButton": "Login",
+        "pageTitle": "Private Library"
+    },
+    "meta": {
+        "tag": "Tagged \"{name}\"",
+        "series": "{name} series",
+        "rating": "{name}-star books",
+        "author": "Works by {name}",
+        "publisher": "Published by {name}"
+    },
+    "activation": {
+        "successTitle": "Activation Successful",
+        "successMessage": "You have successfully activated your account. Please go to the homepage to browse!"
     }
 }
