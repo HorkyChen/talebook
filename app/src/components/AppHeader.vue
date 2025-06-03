@@ -78,7 +78,7 @@
                                 ></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-btn dark rounded @click="do_mobile_search" color="primary">{{ $t('search') }}</v-btn>
+                                <v-btn dark rounded @click="do_mobile_search" color="primary">{{ $t('appHeader.search') }}</v-btn>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -87,7 +87,7 @@
 
             <v-toolbar-title class="ml-n5 mr-12 align-center">
                 <v-app-bar-nav-icon @click.stop="sidebar = !sidebar"><v-icon>menu</v-icon></v-app-bar-nav-icon>
-                <span class="cursor-pointer" @click="$router.push('/')">{{ $t('sys.title') }}</span>
+                <span class="cursor-pointer" @click="$router.push('/')">{{ sys.title }}</span>
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
@@ -101,7 +101,7 @@
                     ref="search"
                     v-model="search"
                     name="name"
-                    :label="$t('search')"
+                    :label="$t('appHeader.search')"
                     class="d-none d-sm-flex ml-8"
                 >
                 </v-text-field>
@@ -132,7 +132,7 @@
                                 </v-list-item-content>
 
                                 <v-list-item-action>
-                                    <v-btn @click.prevent="hidemsg(idx, msg.id)">{{ $t('ok') }}</v-btn>
+                                    <v-btn @click.prevent="hidemsg(idx, msg.id)">{{ $t('appHeader.ok') }}</v-btn>
                                 </v-list-item-action>
                             </v-list-item>
                         </v-list>
@@ -157,34 +157,34 @@
                             <v-divider></v-divider>
                             <v-list-item to="/user/detail">
                                 <v-list-item-action><v-icon>contacts</v-icon></v-list-item-action>
-                                <v-list-item-title> {{ $t('user_center') }} </v-list-item-title>
+                                <v-list-item-title> {{ $t('appHeader.user_center') }} </v-list-item-title>
                             </v-list-item>
                             <v-list-item to="/user/history">
                                 <v-list-item-action><v-icon>history</v-icon></v-list-item-action>
-                                <v-list-item-title> {{ $t('reading_history') }} </v-list-item-title>
+                                <v-list-item-title> {{ $t('appHeader.reading_history') }} </v-list-item-title>
                             </v-list-item>
                             <v-list-item target="_blank" href="https://github.com/HorkyChen/talebook/issues">
                                 <v-list-item-action><v-icon>sms_failed</v-icon></v-list-item-action>
-                                <v-list-item-title> {{ $t('feedback') }} </v-list-item-title>
+                                <v-list-item-title> {{ $t('appHeader.feedback') }} </v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
                             <template v-if="user.is_admin">
                                 <v-list-item to="/admin/settings">
                                     <v-list-item-action><v-icon color="red">mdi-console</v-icon></v-list-item-action>
-                                    <v-list-item-title> {{ $t('admin_entry') }} </v-list-item-title>
+                                    <v-list-item-title> {{ $t('appHeader.admin_entry') }} </v-list-item-title>
                                 </v-list-item>
                             </template>
 
                             <v-list-item to="/logout">
                                 <v-list-item-action><v-icon>exit_to_app</v-icon></v-list-item-action>
-                                <v-list-item-title> {{ $t('logout') }} </v-list-item-title>
+                                <v-list-item-title> {{ $t('appHeader.logout') }} </v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>
                 </template>
 
                 <v-btn v-else class="px-xs-1" to="/login" color="indigo accent-4">
-                    <v-icon class="d-none d-sm-flex">account_circle</v-icon> {{ $t('please_login') }}
+                    <v-icon class="d-none d-sm-flex">account_circle</v-icon> {{ $t('appHeader.please_login') }}
                 </v-btn>
             </template>
         </v-app-bar>

@@ -362,17 +362,6 @@
     "footer": {
         "base_message": "This site is built on Calibre, thanks to the power of open source. All resources are collected from the internet. If there is any infringement, please contact us via email."
     },
-    "new_key": {
-        "search": "Search",
-        "sys.title": "System Title",
-        "ok": "OK",
-        "user_center": "User Center",
-        "reading_history": "Reading History",
-        "feedback": "Feedback",
-        "admin_entry": "Admin Entry",
-        "logout": "Logout",
-        "please_login": "Please Login"
-    },
     "appHeader": {
         "home": "Home",
         "admin": "Admin",
@@ -393,7 +382,16 @@
         "allBooks": "All Books",
         "systemVersion": "System Version",
         "userCount": "User Count",
-        "opdsIntroduction": "OPDS Introduction"
+        "opdsIntroduction": "OPDS Introduction",
+        "search": "Search",
+        "sys.title": "System Title",
+        "ok": "OK",
+        "user_center": "User Center",
+        "reading_history": "Reading History",
+        "feedback": "Feedback",
+        "admin_entry": "Admin Entry",
+        "logout": "Logout",
+        "please_login": "Please Login"
     },
     "bookCards": {
         "browseDetails": "Click to browse details"

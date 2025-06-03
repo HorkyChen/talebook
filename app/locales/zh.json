@@ -369,17 +369,6 @@
     "footer": {
         "base_message": "本站基于Calibre构建，感谢开源界的力量。所有资源搜集于互联网，如有侵权请邮件联系。"
     },
-    "new_key": {
-        "search": "搜索",
-        "sys.title": "系统标题",
-        "ok": "好的",
-        "user_center": "用户中心",
-        "reading_history": "阅读记录",
-        "feedback": "反馈",
-        "admin_entry": "管理员入口",
-        "logout": "退出",
-        "please_login": "请登录"
-    },
     "appHeader": {
         "home": "首页",
         "admin": "管理",
@@ -400,7 +389,16 @@
         "allBooks": "所有书籍",
         "systemVersion": "系统版本",
         "userCount": "用户数",
-        "opdsIntroduction": "OPDS介绍"
+        "opdsIntroduction": "OPDS介绍",
+        "search": "搜索",
+        "sys.title": "系统标题",
+        "ok": "好的",
+        "user_center": "用户中心",
+        "reading_history": "阅读记录",
+        "feedback": "反馈",
+        "admin_entry": "管理员入口",
+        "logout": "退出",
+        "please_login": "请登录"
     },
     "bookCards": {
         "browseDetails": "点击浏览详情"
