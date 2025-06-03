@@ -1,26 +1,26 @@
 <template>
     <div>
         <v-btn dense @click="dialog = !dialog" >
-            <v-icon>mdi-upload</v-icon> 更新SSL证书
+            <v-icon>mdi-upload</v-icon> {{ $t('sslManager.updateCertificate') }}
         </v-btn>
         <v-dialog v-model="dialog" persistent transition="dialog-bottom-transition" width="400">
             <v-card>
                 <v-toolbar flat dense dark color="primary">
-                    上传SSL证书
+                    {{ $t('sslManager.uploadCertificate') }}
                     <v-spacer></v-spacer>
-                    <v-btn color="" text @click="dialog = false">关闭</v-btn>
+                    <v-btn color="" text @click="dialog = false">{{ $t('sslManager.close') }}</v-btn>
                 </v-toolbar>
                 <v-card-title></v-card-title>
                 <v-card-text>
-                    <p>说明文字</p>
+                    <p>{{ $t('sslManager.instructions') }}</p>
                     <v-form ref="form" @submit="upload_ssl">
-                        <v-file-input v-model="ssl_crt" accept=".crt" label="请选择要上传的证书文件（.crt）"></v-file-input>
-                        <v-file-input v-model="ssl_key" accept=".key" label="请选择要上传的证书私钥（.key）"></v-file-input>
+                        <v-file-input v-model="ssl_crt" accept=".crt" :label="$t('sslManager.selectCertificateFile')"></v-file-input>
+                        <v-file-input v-model="ssl_key" accept=".key" :label="$t('sslManager.selectPrivateKeyFile')"></v-file-input>
                     </v-form>
                 </v-card-text>
                 <v-card-actions >
                     <v-spacer> </v-spacer>
-                    <v-btn :loading="loading" color="primary" @click="upload_ssl">上传SSL证书</v-btn>
+                    <v-btn :loading="loading" color="primary" @click="upload_ssl">{{ $t('sslManager.uploadCertificate') }}</v-btn>
                     <v-spacer> </v-spacer>
                 </v-card-actions>
             </v-card>
@@ -46,14 +46,14 @@ export default {
 
             var content = await this.ssl_crt.text();
             if ( ! re.crt.test(content) ) {
-                this.$alert("error", "证书文件(.crt)异常，文件内容不是PEM格式");
+                this.$alert("error", this.$t('sslManager.invalidCertificateFile'));
                 return false;
             }
 
             var content = await this.ssl_key.text();
             if ( ! re.key.test(content) ) {
                 this.loading = false;
-                this.$alert("error", "私钥文件(.key)异常，文件内容不是PEM格式");
+                this.$alert("error", this.$t('sslManager.invalidPrivateKeyFile'));
                 return false;
             }
             return true;
@@ -79,7 +79,7 @@ export default {
             .then( rsp => {
                 this.dialog = false;
                 if ( rsp.err == 'ok' ) {
-                    this.$alert("success", "上传成功！");
+                    this.$alert("success", this.$t('sslManager.uploadSuccess'));
                 } else {
                     this.$alert("error", rsp.msg);
                 }

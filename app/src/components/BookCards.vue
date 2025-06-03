@@ -1,25 +1,25 @@
 <template>
     <v-row>
-    <v-col cols=12 xs=12 sm=6 md=4 v-for="(book,idx) in render_books" :key="idx+'-books-'+book.id" class="book-list-card">
-        <v-card :to="book.href" >
-            <v-row>
-                <v-col cols=3 class='col-book-img'>
-                    <v-img :src="book.img" :aspect-ratio="11/15" ></v-img>
-                </v-col>
-                <v-col cols=9 class='col-book-info'>
-                    <v-card-text class="pb-0" align-left>
-                        <div class="book-title">{{book.title}}</div>
-                        <slot name="introduce" :book="book"></slot>
-                        <div class="book-comments">
-                            <p v-if="book.comments" v-html="book.comments"></p>
-                            <p  v-else>点击浏览详情</p>
-                        </div>
-                    </v-card-text>
-                </v-col>
-            </v-row>
-            <slot name="actions" :book="book"></slot>
-        </v-card>
-    </v-col>
+        <v-col cols=12 xs=12 sm=6 md=4 v-for="(book,idx) in render_books" :key="idx+'-books-'+book.id" class="book-list-card">
+            <v-card :to="book.href" >
+                <v-row>
+                    <v-col cols=3 class='col-book-img'>
+                        <v-img :src="book.img" :aspect-ratio="11/15" ></v-img>
+                    </v-col>
+                    <v-col cols=9 class='col-book-info'>
+                        <v-card-text class="pb-0" align-left>
+                            <div class="book-title">{{book.title}}</div>
+                            <slot name="introduce" :book="book"></slot>
+                            <div class="book-comments">
+                                <p v-if="book.comments" v-html="book.comments"></p>
+                                <p v-else>{{ $t('bookCards.browseDetails') }}</p>
+                            </div>
+                        </v-card-text>
+                    </v-col>
+                </v-row>
+                <slot name="actions" :book="book"></slot>
+            </v-card>
+        </v-col>
     </v-row>
 </template>
 
@@ -91,5 +91,4 @@ export default {
     margin-left: -6px;
     margin-top: -6px;
 }
-
 </style>

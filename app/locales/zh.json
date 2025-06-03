@@ -120,5 +120,253 @@
     "activation": {
         "successTitle": "激活成功",
         "successMessage": "你已成功激活账号，请前往首页浏览吧！"
+    },
+    "admin": {
+        "books": {
+            "title": "图书管理",
+            "description": "此表格仅展示图书的部分字段，点击即可快捷修改。完整图书信息请点击链接查看书籍详情页面",
+            "refresh": "刷新",
+            "autoUpdate": "自动更新图书信息...",
+            "search": "搜索",
+            "status": {
+                "ready": "可导入",
+                "exist": "已存在",
+                "imported": "导入成功",
+                "new": "待扫描"
+            },
+            "close": "关闭",
+            "reminder": "提醒",
+            "reminder.description": "即将从互联网拉取所有图书的书籍信息，请了解以下功能限制：",
+            "reminder.rule1": "1. 请在「系统设置」中配置好「互联网书籍信息源」，启用豆瓣插件；",
+            "reminder.rule2": "2. 本操作只更新「没有封面」或「没有简介」的图书；",
+            "reminder.rule3": "3. 受限于豆瓣等服务的限制，每秒钟仅更新1本书;",
+            "reminder.progress": "当前进展：",
+            "reminder.progressDetails": "总共 {total} 本书籍，已更新 {done} 本，更新失败 {fail} 本，无需处理 {skip} 本。",
+            "reminder.estimate": "预计需要运行 {minutes} 分钟，在此期间请不要停止程序",
+            "cancel": "取消",
+            "execute": "开始执行！"
+        },
+        "users": {
+            "title": "用户管理",
+            "id": "ID",
+            "username": "用户名",
+            "nickname": "昵称",
+            "email": "Email",
+            "provider": "注册平台",
+            "create_time": "注册时间",
+            "access_time": "登录时间",
+            "login_ip": "登录IP",
+            "detail": "详情",
+            "actions": "操作",
+            "visit": "访问{{ count }}本",
+            "read": "阅读{{ count }}本",
+            "push": "推送{{ count }}本",
+            "download": "下载{{ count }}本",
+            "upload": "上传{{ count }}本",
+            "modify_permissions": "修改用户权限",
+            "allowed": "已允许{{ permission }}",
+            "prohibited": "已禁止{{ permission }}",
+            "disable": "关闭",
+            "enable": "开启",
+            "account_management": "账号管理",
+            "activate_account": "免邮箱认证，直接激活账户",
+            "remove_admin": "取消管理员",
+            "set_admin": "设置为管理员",
+            "delete_user": "立即删除该用户",
+            "login": "登录",
+            "upload": "上传",
+            "download": "下载",
+            "edit": "编辑",
+            "delete": "删除",
+            "push": "推送",
+            "read": "在线阅读"
+        }
+    },
+    "imports": {
+        "title": "导入图书",
+        "instructions": "请将需要导入的书籍放入{{ scan_dir }}目录中。 支持的格式为 azw/azw3/epub/mobi/pdf/txt 。",
+        "note": "请注意：此功能为后台异步执行，不必重复点击，启动后可关闭浏览器，或刷新关注表格状态进展。已导入成功的记录请不要删除，以免书籍被再次导入。",
+        "calibre": "另外，还可以使用<a target=\"_blank\" href=\"https://calibre-ebook.com/\">PC版Calibre软件</a>管理书籍，但是请注意：使用完PC版后，需重启Web版方可生效。",
+        "refresh": "刷新",
+        "scan_books": "扫描书籍",
+        "import_selected": "导入选中书籍",
+        "delete": "删除",
+        "import_all": "导入全部书籍",
+        "select_files": "请勾选需要处理的文件（默认情况下导入全部书籍即可。已存在的书籍，即使勾选了也不会重复导入）",
+        "selected_count": "共选择了{{ count }}个",
+        "todo": "待处理 ({{ count }})",
+        "done": "已导入 ({{ count }})",
+        "status": {
+            "ready": "可导入",
+            "exist": "已存在",
+            "imported": "导入成功",
+            "new": "待扫描"
+        },
+        "book_title": "书名：",
+        "book_author": "作者："
+    },
+    "book": {
+        "edit": {
+            "title": "编辑书籍信息",
+            "cancel": "取消",
+            "save": "保存",
+            "fields": {
+                "title": "书名",
+                "rating": "评分",
+                "authors": {
+                    "noData": "请输入新的名称",
+                    "add": "添加"
+                },
+                "series": "丛书名称",
+                "publisher": "出版社",
+                "pubdate": "出版日期",
+                "isbn": "ISBN编号",
+                "language": "语言",
+                "tags": {
+                    "noData": "请输入新的标签名称",
+                    "add": "添加标签"
+                },
+                "comments": "内容简介"
+            }
+        },
+        "pushToKindle": "推送到Kindle",
+        "enterKindleEmail": "填写Kindle收件人邮箱地址：",
+        "emailLabel": "Email*",
+        "kindleSenderNote": "* 请先将本站邮箱加入到Kindle发件人中:<br/>{{ sender }}",
+        "downloadBook": "下载书籍",
+        "noDownloadableFiles": "本书暂无可供下载的文件格式"
+    },
+    "reader": {
+        "tip": {
+            "title": "正在解析",
+            "content": "正在解析目录，请稍后..."
+        },
+        "loading": "加载中...",
+        "previous": "上一章",
+        "directory": "目录",
+        "next": "下一章",
+        "error": "错误",
+        "parsed": "已解析",
+        "queue": "队列中",
+        "queueMessage": "前方等待{queLen}个转换待完成，已步入后台队列",
+        "parsing": "首次阅读，正在解析目录，请稍后... {wait}",
+        "timeoutMessage": "超时未完成，可继续等待稍后刷新尝试",
+        "timeout": "解析超时",
+        "contentError": "获取正文失败！{msg}"
+    },
+    "common": {
+        "cancel": "取消",
+        "send": "发送",
+        "close": "关闭"
+    },
+    "settings": {
+        "basic_info": "基础信息",
+        "language_switch": "语言切换",
+        "simplified_chinese": "简体中文",
+        "english": "英文",
+        "site_title": "网站标题",
+        "site_header": "网站公告",
+        "site_footer": "网站脚注",
+        "private_library_mode": "开启私人图书馆模式",
+        "access_code": "访问码",
+        "invite_message": "提示语",
+        "user_settings": "用户设置",
+        "allow_guest_read": "允许访客在线阅读（无需注册和登录）",
+        "allow_guest_download": "允许任意下载（访客无需注册和登录）",
+        "allow_guest_push": "允许任意推送Kindle（访客无需注册和登录）",
+        "allow_guest_register": "允许访客以邮箱注册账号",
+        "signup_mail_title": "激活邮件标题",
+        "signup_mail_content": "激活邮件正文",
+        "reset_mail_title": "重置密码邮件标题",
+        "reset_mail_content": "重置密码邮件正文",
+        "socials_description": "所启用的社交网络将会在登录页面自动显示按钮。",
+        "select_socials": "选择要启用的社交网络账号",
+        "save": "保存",
+        "switch_language_to": "切换语言为",
+        "save_error": "保存失败！",
+        "save_success": "保存成功！可能需要5~10秒钟生效！",
+        "sns_config_message": "请前往{text}的 <a href='{link}' target='_blank'>配置页面</a> 获取密钥，并设置回调地址（callback URL）为 <code>{site_url}/auth/complete/{value}.do</code>"
+    },
+    "user": {
+        "avatar": "头像",
+        "modifyAvatar": "点击修改",
+        "username": "用户名",
+        "email": "邮箱",
+        "resendActivationEmail": "重新发送激活邮件",
+        "password": "密码",
+        "modifyPassword": "点击修改",
+        "currentPassword": "当前密码",
+        "newPassword": "新密码",
+        "confirmPassword": "确认密码",
+        "nickname": "昵称",
+        "kindleAddress": "Kindle地址",
+        "kindle": "Kindle",
+        "save": "保存",
+        "passwordMismatch": "密码不一致。",
+        "activationEmailSent": "激活邮件已发出！"
+    },
+    "history": {
+        "noRecords": "暂无阅读历史。请尽情畅游书籍的海洋吧~",
+        "onlineReading": "在线阅读",
+        "pushedBooks": "推送过的书",
+        "visitRecords": "浏览记录",
+        "noBooks": "无记录"
+    },
+    "footer": {
+        "base_message": "本站基于Calibre构建，感谢开源界的力量。所有资源搜集于互联网，如有侵权请邮件联系。"
+    },
+    "new_key": {
+        "search": "搜索",
+        "sys.title": "系统标题",
+        "ok": "好的",
+        "user_center": "用户中心",
+        "reading_history": "阅读记录",
+        "feedback": "反馈",
+        "admin_entry": "管理员入口",
+        "logout": "退出",
+        "please_login": "请登录"
+    },
+    "appHeader": {
+        "home": "首页",
+        "admin": "管理",
+        "systemSettings": "系统设置",
+        "userManagement": "用户管理",
+        "bookManagement": "图书管理",
+        "importBooks": "导入图书",
+        "categoryBrowse": "分类浏览",
+        "system": "系统",
+        "friendLinks": "友情链接",
+        "categoryNavigation": "分类导览",
+        "publishers": "出版社",
+        "authors": "作者",
+        "tags": "标签",
+        "series": "丛书",
+        "rating": "评分",
+        "hotRanking": "热度榜单",
+        "allBooks": "所有书籍",
+        "systemVersion": "系统版本",
+        "userCount": "用户数",
+        "opdsIntroduction": "OPDS介绍"
+    },
+    "bookCards": {
+        "browseDetails": "点击浏览详情"
+    },
+    "sslManager": {
+        "updateCertificate": "更新SSL证书",
+        "uploadCertificate": "上传SSL证书",
+        "close": "关闭",
+        "instructions": "说明文字",
+        "selectCertificateFile": "请选择要上传的证书文件（.crt）",
+        "selectPrivateKeyFile": "请选择要上传的证书私钥（.key）",
+        "invalidCertificateFile": "证书文件(.crt)异常，文件内容不是PEM格式",
+        "invalidPrivateKeyFile": "私钥文件(.key)异常，文件内容不是PEM格式",
+        "uploadSuccess": "上传成功！"
+    },
+    "upload": {
+        "title": "上传书籍",
+        "close": "关闭",
+        "warning": "受限于服务器能力，请勿上传100M的大文件书籍。",
+        "selectFile": "请选择要上传的电子书",
+        "upload": "上传"
     }
 }

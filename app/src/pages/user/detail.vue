@@ -1,40 +1,40 @@
 <template>
     <v-form ref="form" @submit.prevent="save">
         <v-row align=start>
-            <v-col cols=3><v-subheader class="pa-0 float-right" >头像</v-subheader></v-col>
+            <v-col cols=3><v-subheader class="pa-0 float-right">{{ $t('user.avatar') }}</v-subheader></v-col>
             <v-col cols=9>
                 <v-img class="float-left" height=80 contain :src="user.avatar"></v-img>
                 <v-subheader class="" >
-                    <a href="https://cravatar.cn/avatar" target="_blank">点击修改</a>
+                    <a href="https://cravatar.cn/avatar" target="_blank">{{ $t('user.modifyAvatar') }}</a>
                 </v-subheader>
             </v-col>
 
-            <v-col cols=3><v-subheader class="pa-0 float-right" >用户名</v-subheader></v-col>
+            <v-col cols=3><v-subheader class="pa-0 float-right">{{ $t('user.username') }}</v-subheader></v-col>
             <v-col cols=9><p class="pt-3 mb-0">{{user.username}}</p></v-col>
 
-            <v-col cols=3><v-subheader class="pa-0 float-right" >邮箱</v-subheader></v-col>
-            <v-col cols=9><p class="pt-3 mb-0">{{user.email}}<a href='#' v-if="!user.is_active" @click='send_active_email'>重新发送激活邮件</a></p></v-col>
+            <v-col cols=3><v-subheader class="pa-0 float-right">{{ $t('user.email') }}</v-subheader></v-col>
+            <v-col cols=9><p class="pt-3 mb-0">{{user.email}}<a href='#' v-if="!user.is_active" @click='send_active_email'>{{ $t('user.resendActivationEmail') }}</a></p></v-col>
 
-            <v-col cols=3><v-subheader class="pa-0 float-right" >密码</v-subheader></v-col>
+            <v-col cols=3><v-subheader class="pa-0 float-right">{{ $t('user.password') }}</v-subheader></v-col>
             <v-col cols=9>
                 <v-subheader class="pa-0" >
-                    <a href="#" @click.stop="show_pass = ! show_pass">点击修改</a>
+                    <a href="#" @click.stop="show_pass = ! show_pass">{{ $t('user.modifyPassword') }}</a>
                 </v-subheader>
                 <div v-if="show_pass">
-                    <v-text-field solo v-model="user.password0" label="当前密码" type="password" autocomplete="new-password0" :rules="[rules.pass]" ></v-text-field>
-                    <v-text-field solo v-model="user.password1" label="新密码"   type="password" autocomplete="new-password1" :rules="[rules.pass]" ></v-text-field>
-                    <v-text-field solo v-model="user.password2" label="确认密码" type="password" autocomplete="new-password2" :rules="[valid]"      ></v-text-field>
+                    <v-text-field solo v-model="user.password0" :label="$t('user.currentPassword')" type="password" autocomplete="new-password0" :rules="[rules.pass]" ></v-text-field>
+                    <v-text-field solo v-model="user.password1" :label="$t('user.newPassword')"   type="password" autocomplete="new-password1" :rules="[rules.pass]" ></v-text-field>
+                    <v-text-field solo v-model="user.password2" :label="$t('user.confirmPassword')" type="password" autocomplete="new-password2" :rules="[valid]"      ></v-text-field>
                 </div>
             </v-col>
 
-            <v-col cols=3><v-subheader class="pa-0 float-right" >昵称</v-subheader></v-col>
-            <v-col cols=9> <v-text-field solo v-model="user.nickname" label="昵称" type="text" autocomplete="new-nickname" :rules="[rules.nick]"></v-text-field> </v-col>
+            <v-col cols=3><v-subheader class="pa-0 float-right">{{ $t('user.nickname') }}</v-subheader></v-col>
+            <v-col cols=9> <v-text-field solo v-model="user.nickname" :label="$t('user.nickname')" type="text" autocomplete="new-nickname" :rules="[rules.nick]"></v-text-field> </v-col>
 
-            <v-col cols=3><v-subheader class="pa-0 float-right" >Kindle地址</v-subheader></v-col>
-            <v-col cols=9> <v-text-field solo v-model="user.kindle_email" label="Kindle" type="text" autocomplete="new-email" :rules="[rules.email]"></v-text-field> </v-col>
+            <v-col cols=3><v-subheader class="pa-0 float-right">{{ $t('user.kindleAddress') }}</v-subheader></v-col>
+            <v-col cols=9> <v-text-field solo v-model="user.kindle_email" :label="$t('user.kindle')" type="text" autocomplete="new-email" :rules="[rules.email]"></v-text-field> </v-col>
             <v-col cols=12>
                 <div class="text-center">
-                    <v-btn dark large rounded color="orange" @click="save">保存</v-btn>
+                    <v-btn dark large rounded color="orange" @click="save">{{ $t('user.save') }}</v-btn>
                 </div>
             </v-col>
         </v-row>
@@ -72,7 +72,7 @@ export default {
     },
     methods: {
         valid: function(v) {
-            return v == this.user.password1 || "Password are not same."
+            return v == this.user.password1 || this.$t('user.passwordMismatch')
         },
         save: function() {
             if ( ! this.$refs.form.validate() ) {
@@ -102,7 +102,7 @@ export default {
             this.$backend('/user/active/send')
             .then( rsp => {
                 if ( rsp.err == 'ok' ) {
-                    this.$alert("success", "激活邮件已发出！");
+                    this.$alert("success", this.$t('user.activationEmailSent'));
                 } else {
                     this.$alert("danger", rsp.msg);
                 }

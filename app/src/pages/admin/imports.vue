@@ -1,29 +1,29 @@
 <template>
     <v-card>
-        <v-card-title> 导入图书 <v-chip small class="primary">Beta</v-chip> </v-card-title>
+        <v-card-title> {{ $t('imports.title') }} <v-chip small class="primary">Beta</v-chip> </v-card-title>
         <v-card-text>
-        请将需要导入的书籍放入{{ scan_dir }}目录中。 支持的格式为 azw/azw3/epub/mobi/pdf/txt 。<br/>
-        请注意：此功能为后台异步执行，不必重复点击，启动后可关闭浏览器，或刷新关注表格状态进展。已导入成功的记录请不要删除，以免书籍被再次导入。<br/>
-        另外，还可以使用<a target="_blank" href="https://calibre-ebook.com/">PC版Calibre软件</a>管理书籍，但是请注意：使用完PC版后，需重启Web版方可生效。
+        {{ $t('imports.instructions') }}<br/>
+        {{ $t('imports.note') }}<br/>
+        {{ $t('imports.calibre') }}
         </v-card-text>
         <v-card-actions>
-            <v-btn :disabled="loading" outlined color="primary" @click="getDataFromApi"><v-icon>mdi-reload</v-icon>刷新</v-btn>
-            <v-btn :disabled="loading" color="primary" @click="scan_books"><v-icon>mdi-file-find</v-icon>扫描书籍</v-btn>
+            <v-btn :disabled="loading" outlined color="primary" @click="getDataFromApi"><v-icon>mdi-reload</v-icon>{{ $t('imports.refresh') }}</v-btn>
+            <v-btn :disabled="loading" color="primary" @click="scan_books"><v-icon>mdi-file-find</v-icon>{{ $t('imports.scan_books') }}</v-btn>
             <template v-if="selected.length > 0">
-                <v-btn :disabled="loading" color="secondary" @click="import_books"><v-icon>mdi-import</v-icon>导入选中书籍 </v-btn>
-                <v-btn :disabled="loading" outlined color="primary" @click="delete_record"><v-icon>mdi-delete</v-icon>删除 </v-btn>
+                <v-btn :disabled="loading" color="secondary" @click="import_books"><v-icon>mdi-import</v-icon>{{ $t('imports.import_selected') }}</v-btn>
+                <v-btn :disabled="loading" outlined color="primary" @click="delete_record"><v-icon>mdi-delete</v-icon>{{ $t('imports.delete') }}</v-btn>
             </template>
             <template v-else>
-                <v-btn :disabled="loading" color="warning" @click="import_books"><v-icon>mdi-import</v-icon>导入全部书籍 </v-btn>
+                <v-btn :disabled="loading" color="warning" @click="import_books"><v-icon>mdi-import</v-icon>{{ $t('imports.import_all') }}</v-btn>
             </template>
         </v-card-actions>
         <v-card-text>
-            <div v-if="selected.length == 0">请勾选需要处理的文件（默认情况下导入全部书籍即可。已存在的书籍，即使勾选了也不会重复导入）</div>
-            <div v-else>共选择了{{ selected.length }}个</div>
+            <div v-if="selected.length == 0">{{ $t('imports.select_files') }}</div>
+            <div v-else>{{ $t('imports.selected_count', { count: selected.length }) }}</div>
         </v-card-text>
         <v-tabs v-model="filter_type" @change="getDataFromApi">
-            <v-tab href="#todo">待处理 ({{ count_todo }})</v-tab>
-            <v-tab href="#done">已导入 ({{ count_done  }})</v-tab>
+            <v-tab href="#todo">{{ $t('imports.todo', { count: count_todo }) }}</v-tab>
+            <v-tab href="#done">{{ $t('imports.done', { count: count_done }) }}</v-tab>
         </v-tabs>
         <v-data-table
             dense
@@ -44,16 +44,16 @@
             :footer-props="{ 'items-per-page-options': [10, 50, 100, 1000, 5000, 10000] }"
         >
             <template v-slot:item.status="{ item }">
-                <v-chip small v-if="item.status == 'ready'" class="success">可导入</v-chip>
-                <v-chip small v-else-if="item.status == 'exist'" class="lighten-4">已存在</v-chip>
-                <v-chip small v-else-if="item.status == 'imported'" class="primary">导入成功</v-chip>
-                <v-chip small v-else-if="item.status == 'new'" class="grey">待扫描</v-chip>
+                <v-chip small v-if="item.status == 'ready'" class="success">{{ $t('imports.status.ready') }}</v-chip>
+                <v-chip small v-else-if="item.status == 'exist'" class="lighten-4">{{ $t('imports.status.exist') }}</v-chip>
+                <v-chip small v-else-if="item.status == 'imported'" class="primary">{{ $t('imports.status.imported') }}</v-chip>
+                <v-chip small v-else-if="item.status == 'new'" class="grey">{{ $t('imports.status.new') }}</v-chip>
                 <v-chip small v-else class="info">{{ item.status }}</v-chip>
             </template>
             <template v-slot:item.title="{ item }">
-                书名：<span v-if="item.book_id == 0"> {{ item.title }} </span>
+                {{ $t('imports.book_title') }}<span v-if="item.book_id == 0"> {{ item.title }} </span>
                 <a v-else target="_blank" :href="`/book/${item.book_id}`">{{ item.title }}</a> <br />
-                作者：{{ item.author }}
+                {{ $t('imports.book_author') }}{{ item.author }}
             </template>
         </v-data-table>
     </v-card>

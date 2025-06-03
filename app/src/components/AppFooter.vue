@@ -24,7 +24,7 @@ export default {
         },
     },
     data: () => ({
-        footer: "本站基于Calibre构建，感谢开源界的力量。所有资源搜集于互联网，如有侵权请邮件联系。",
+        footer: this.$t('footer.base_message'),
     })
 }
 </script>

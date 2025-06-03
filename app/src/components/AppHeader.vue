@@ -3,7 +3,7 @@
         <v-navigation-drawer v-model="sidebar" app fixed width="240" :clipped="$vuetify.breakpoint.lgAndUp">
             <v-list dense v-if="items.length > 0">
                 <template v-for="(item, idx) in items">
-                    <v-subheader v-if="item.heading" :key="idx">{{ item.heading }}</v-subheader>
+                    <v-subheader v-if="item.heading" :key="idx">{{ $t(item.heading) }}</v-subheader>
 
                     <!-- 二级菜单 -->
                     <v-list-group v-else-if="item.groups" no-action :value="item.expand">
@@ -12,14 +12,14 @@
                                 <v-icon class="pa-0 ma-0">{{ item.icon }}</v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
-                                <v-list-item-title v-text="item.text"></v-list-item-title>
+                                <v-list-item-title v-text="$t(item.text)"></v-list-item-title>
                             </v-list-item-content>
                         </template>
 
                         <v-list-item v-for="link in item.groups" :key="link.href" :to="link.href">
                             <v-list-item-content>
                                 <v-list-item-title
-                                    ><v-icon>{{ link.icon }}</v-icon> {{ link.text }}</v-list-item-title
+                                    ><v-icon>{{ link.icon }}</v-icon> {{ $t(link.text) }}</v-list-item-title
                                 >
                             </v-list-item-content>
                         </v-list-item>
@@ -31,10 +31,10 @@
                             <v-row>
                                 <v-col class="pa-0" cols="6" v-for="link in links" :key="link.href">
                                     <v-btn v-if="item.target != ''" text target="_blank" :href="link.href">
-                                        <v-icon v-if="link.icon" left>{{ link.icon }}</v-icon> {{ link.text }}
+                                        <v-icon v-if="link.icon" left>{{ link.icon }}</v-icon> {{ $t(link.text) }}
                                     </v-btn>
                                     <v-btn v-else text :to="link.href">
-                                        <v-icon v-if="link.icon" left>{{ link.icon }}</v-icon> {{ link.text }}
+                                        <v-icon v-if="link.icon" left>{{ link.icon }}</v-icon> {{ $t(link.text) }}
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -48,7 +48,7 @@
                         </v-list-item-action>
                         <v-list-item-content>
                             <v-list-item-title>
-                                {{ item.text }}
+                                {{ $t(item.text) }}
                             </v-list-item-title>
                         </v-list-item-content>
                         <v-list-item-action class="mt-1 mb-1 mr-2" v-if="item.count">
@@ -78,7 +78,7 @@
                                 ></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-btn dark rounded @click="do_mobile_search" color="primary">搜索</v-btn>
+                                <v-btn dark rounded @click="do_mobile_search" color="primary">{{ $t('search') }}</v-btn>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -87,7 +87,7 @@
 
             <v-toolbar-title class="ml-n5 mr-12 align-center">
                 <v-app-bar-nav-icon @click.stop="sidebar = !sidebar"><v-icon>menu</v-icon></v-app-bar-nav-icon>
-                <span class="cursor-pointer" @click="$router.push('/')">{{ sys.title }}</span>
+                <span class="cursor-pointer" @click="$router.push('/')">{{ $t('sys.title') }}</span>
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
@@ -101,7 +101,7 @@
                     ref="search"
                     v-model="search"
                     name="name"
-                    label="Search"
+                    :label="$t('search')"
                     class="d-none d-sm-flex ml-8"
                 >
                 </v-text-field>
@@ -132,7 +132,7 @@
                                 </v-list-item-content>
 
                                 <v-list-item-action>
-                                    <v-btn @click.prevent="hidemsg(idx, msg.id)">好的</v-btn>
+                                    <v-btn @click.prevent="hidemsg(idx, msg.id)">{{ $t('ok') }}</v-btn>
                                 </v-list-item-action>
                             </v-list-item>
                         </v-list>
@@ -157,34 +157,34 @@
                             <v-divider></v-divider>
                             <v-list-item to="/user/detail">
                                 <v-list-item-action><v-icon>contacts</v-icon></v-list-item-action>
-                                <v-list-item-title> 用户中心 </v-list-item-title>
+                                <v-list-item-title> {{ $t('user_center') }} </v-list-item-title>
                             </v-list-item>
                             <v-list-item to="/user/history">
                                 <v-list-item-action><v-icon>history</v-icon></v-list-item-action>
-                                <v-list-item-title> 阅读记录 </v-list-item-title>
+                                <v-list-item-title> {{ $t('reading_history') }} </v-list-item-title>
                             </v-list-item>
                             <v-list-item target="_blank" href="https://github.com/HorkyChen/talebook/issues">
                                 <v-list-item-action><v-icon>sms_failed</v-icon></v-list-item-action>
-                                <v-list-item-title> 反馈 </v-list-item-title>
+                                <v-list-item-title> {{ $t('feedback') }} </v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
                             <template v-if="user.is_admin">
                                 <v-list-item to="/admin/settings">
                                     <v-list-item-action><v-icon color="red">mdi-console</v-icon></v-list-item-action>
-                                    <v-list-item-title> 管理员入口 </v-list-item-title>
+                                    <v-list-item-title> {{ $t('admin_entry') }} </v-list-item-title>
                                 </v-list-item>
                             </template>
 
                             <v-list-item to="/logout">
                                 <v-list-item-action><v-icon>exit_to_app</v-icon></v-list-item-action>
-                                <v-list-item-title> 退出 </v-list-item-title>
+                                <v-list-item-title> {{ $t('logout') }} </v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>
                 </template>
 
                 <v-btn v-else class="px-xs-1" to="/login" color="indigo accent-4">
-                    <v-icon class="d-none d-sm-flex">account_circle</v-icon> 请登录
+                    <v-icon class="d-none d-sm-flex">account_circle</v-icon> {{ $t('please_login') }}
                 </v-btn>
             </template>
         </v-app-bar>
@@ -228,47 +228,47 @@ export default {
         items: function () {
             var home_links = [
                 // home
-                { icon: "home", href: "/", text: "首页" },
+                { icon: "home", href: "/", text: "appHeader.home" },
             ];
             var admin_links = [
                 {
                     icon: "mdi-cog",
-                    text: "管理",
+                    text: "appHeader.admin",
                     expand: this.$route.path.indexOf("/admin/") == 0,
                     groups: [
-                        { icon: "mdi-cog", href: "/admin/settings", text: "系统设置" },
-                        { icon: "mdi-human-greeting", href: "/admin/users", text: "用户管理" },
-                        { icon: "mdi-library-shelves", href: "/admin/books", text: "图书管理" },
-                        { icon: "mdi-import", href: "/admin/imports", text: "导入图书" },
+                        { icon: "mdi-cog", href: "/admin/settings", text: "appHeader.systemSettings" },
+                        { icon: "mdi-human-greeting", href: "/admin/users", text: "appHeader.userManagement" },
+                        { icon: "mdi-library-shelves", href: "/admin/books", text: "appHeader.bookManagement" },
+                        { icon: "mdi-import", href: "/admin/imports", text: "appHeader.importBooks" },
                     ],
                 },
             ];
             var nav_links = [
-                { heading: "分类浏览" },
-                { icon: "widgets", href: "/nav", text: "分类导览", count: this.sys.books },
-                { icon: "mdi-home-group", href: "/publisher", text: "出版社", count: this.sys.publishers },
-                { icon: "mdi-human-greeting", href: "/author", text: "作者", count: this.sys.authors },
-                { icon: "mdi-tag-heart", href: "/tag", text: "标签", count: this.sys.tags },
+                { heading: "appHeader.categoryBrowse" },
+                { icon: "widgets", href: "/nav", text: "appHeader.categoryNavigation", count: this.sys.books },
+                { icon: "mdi-home-group", href: "/publisher", text: "appHeader.publishers", count: this.sys.publishers },
+                { icon: "mdi-human-greeting", href: "/author", text: "appHeader.authors", count: this.sys.authors },
+                { icon: "mdi-tag-heart", href: "/tag", text: "appHeader.tags", count: this.sys.tags },
                 {
                     target: "",
                     links: [
-                        { icon: "mdi-library-shelves", href: "/series", text: "丛书", count: this.sys.series },
-                        { icon: "mdi-star-half", href: "/rating", text: "评分" },
-                        { icon: "mdi-trending-up", href: "/hot", text: "热度榜单" },
-                        { icon: "mdi-history", href: "/recent", text: "所有书籍" },
+                        { icon: "mdi-library-shelves", href: "/series", text: "appHeader.series", count: this.sys.series },
+                        { icon: "mdi-star-half", href: "/rating", text: "appHeader.rating" },
+                        { icon: "mdi-trending-up", href: "/hot", text: "appHeader.hotRanking" },
+                        { icon: "mdi-history", href: "/recent", text: "appHeader.allBooks" },
                     ],
                 },
             ];
             var friend_links = [
                 // links
-                { heading: "友情链接" },
+                { heading: "appHeader.friendLinks" },
                 { links: this.sys.friends, target: "_blank" },
             ];
             var sys_links = [
-                { heading: "系统" },
-                { icon: "mdi-history", text: "系统版本", href: "", count: this.sys.version },
-                { icon: "mdi-human", text: "用户数", href: "", count: this.sys.users },
-                { icon: "mdi-cellphone", text: "OPDS介绍", href: "/opds-readme", count: "OPDS", target: "_blank" },
+                { heading: "appHeader.system" },
+                { icon: "mdi-history", href: "", count: this.sys.version, text: "{{ $t('appHeader.systemVersion') }}" },
+                { icon: "mdi-human", href: "", count: this.sys.users, text: "{{ $t('appHeader.userCount') }}" },
+                { icon: "mdi-cellphone", href: "/opds-readme", count: "OPDS", target: "_blank", text: "{{ $t('appHeader.opdsIntroduction') }}" },
             ];
 
             return home_links

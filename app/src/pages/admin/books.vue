@@ -1,12 +1,12 @@
 <template>
     <v-card>
-        <v-card-title> 图书管理 <v-chip small class="primary">Beta</v-chip> </v-card-title>
-        <v-card-text> 此表格仅展示图书的部分字段，点击即可快捷修改。完整图书信息请点击链接查看书籍详情页面</v-card-text>
+        <v-card-title> {{ $t('admin.books.title') }} <v-chip small class="primary">Beta</v-chip> </v-card-title>
+        <v-card-text> {{ $t('admin.books.description') }} </v-card-text>
         <v-card-actions>
-            <v-btn :disabled="loading" outlined color="primary" @click="getDataFromApi"><v-icon>mdi-reload</v-icon>刷新</v-btn>
-            <v-btn :disabled="loading" outlined color="info" @click="show_dialog_auto_file"><v-icon>mdi-info</v-icon>自动更新图书信息... </v-btn>
+            <v-btn :disabled="loading" outlined color="primary" @click="getDataFromApi"><v-icon>mdi-reload</v-icon>{{ $t('admin.books.refresh') }}</v-btn>
+            <v-btn :disabled="loading" outlined color="info" @click="show_dialog_auto_file"><v-icon>mdi-info</v-icon>{{ $t('admin.books.autoUpdate') }}</v-btn>
             <v-spacer></v-spacer>
-            <v-text-field cols="2" dense v-model="search" append-icon="mdi-magnify" label="搜索" single-line hide-details></v-text-field>
+            <v-text-field cols="2" dense v-model="search" append-icon="mdi-magnify" :label="$t('admin.books.search')" single-line hide-details></v-text-field>
         </v-card-actions>
         <v-data-table
             dense
@@ -24,10 +24,10 @@
             :footer-props="{ 'items-per-page-options': [10, 50, 100] }"
         >
             <template v-slot:item.status="{ item }">
-                <v-chip small v-if="item.status == 'ready'" class="success">可导入</v-chip>
-                <v-chip small v-else-if="item.status == 'exist'" class="lighten-4">已存在</v-chip>
-                <v-chip small v-else-if="item.status == 'imported'" class="primary">导入成功</v-chip>
-                <v-chip small v-else-if="item.status == 'new'" class="grey">待扫描</v-chip>
+                <v-chip small v-if="item.status == 'ready'" class="success">{{ $t('admin.books.status.ready') }}</v-chip>
+                <v-chip small v-else-if="item.status == 'exist'" class="lighten-4">{{ $t('admin.books.status.exist') }}</v-chip>
+                <v-chip small v-else-if="item.status == 'imported'" class="primary">{{ $t('admin.books.status.imported') }}</v-chip>
+                <v-chip small v-else-if="item.status == 'new'" class="grey">{{ $t('admin.books.status.new') }}</v-chip>
                 <v-chip small v-else class="info">{{ item.status }}</v-chip>
             </template>
             <template v-slot:item.img="{ item }">
@@ -177,35 +177,35 @@
             {{ snackText }}
 
             <template v-slot:action="{ attrs }">
-                <v-btn v-bind="attrs" text @click="snack = false"> 关闭 </v-btn>
+                <v-btn v-bind="attrs" text @click="snack = false"> {{ $t('admin.books.close') }} </v-btn>
             </template>
         </v-snackbar>
 
         <!-- 提醒拉取图书的规则说明 -->
         <v-dialog v-model="meta_dialog" persistent transition="dialog-bottom-transition" width="500">
             <v-card>
-                <v-toolbar flat dense dark color="primary"> 提醒 </v-toolbar>
+                <v-toolbar flat dense dark color="primary"> {{ $t('admin.books.reminder') }} </v-toolbar>
                 <v-card-title></v-card-title>
                 <v-card-text>
-                    <p> 即将从互联网拉取所有图书的书籍信息，请了解以下功能限制：</p>
-                    <p> 1. 请在「系统设置」中配置好「互联网书籍信息源」，启用豆瓣插件；</p>
-                    <p> 2. 本操作只更新「没有封面」或「没有简介」的图书；</p>
-                    <p> 3. 受限于豆瓣等服务的限制，每秒钟仅更新1本书; </p>
+                    <p> {{ $t('admin.books.reminder.description') }} </p>
+                    <p> {{ $t('admin.books.reminder.rule1') }} </p>
+                    <p> {{ $t('admin.books.reminder.rule2') }} </p>
+                    <p> {{ $t('admin.books.reminder.rule3') }} </p>
                     <br></br>
                     <template v-if="progress.total > 0">
-                        <p>当前进展：<v-btn small text link @click="refresh_progress">刷新</v-btn></p>
-                        <p>总共 {{ progress.total }} 本书籍，已更新 {{  progress.done }} 本，更新失败 {{ progress.fail }} 本，无需处理 {{  progress.skip }} 本。</p>
+                        <p>{{ $t('admin.books.reminder.progress') }}<v-btn small text link @click="refresh_progress">{{ $t('admin.books.refresh') }}</v-btn></p>
+                        <p>{{ $t('admin.books.reminder.progressDetails', { total: progress.total, done: progress.done, fail: progress.fail, skip: progress.skip }) }}</p>
                     </template>
-                    <p v-else> 预计需要运行 {{auto_fill_mins}} 分钟，在此期间请不要停止程序</p>
+                    <p v-else> {{ $t('admin.books.reminder.estimate', { minutes: auto_fill_mins }) }} </p>
 
                     <template v-else>
 
                     </template>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn @click="meta_dialog = !meta_dialog">取消</v-btn>
+                    <v-btn @click="meta_dialog = !meta_dialog">{{ $t('admin.books.cancel') }}</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" @click="auto_fill">开始执行！</v-btn>
+                    <v-btn color="primary" @click="auto_fill">{{ $t('admin.books.execute') }}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>

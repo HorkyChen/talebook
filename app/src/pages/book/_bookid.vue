@@ -3,32 +3,32 @@
         <v-col cols="12">
             <v-dialog v-model="dialog_kindle" persistent width="300">
                 <v-card>
-                    <v-card-title class="">推送到Kindle</v-card-title>
+                    <v-card-title class="">{{ $t('book.pushToKindle') }}</v-card-title>
                     <v-card-text>
-                        <p>填写Kindle收件人邮箱地址：</p>
+                        <p>{{ $t('book.enterKindleEmail') }}</p>
                         <v-combobox
                             :items="email_items"
                             :rules="[check_email]"
                             outlined
                             dense
                             v-model="mail_to"
-                            label="Email*"
+                            label="{{ $t('book.emailLabel') }}"
                             auto-select-first
                             required
                         ></v-combobox>
-                        <small>* 请先将本站邮箱加入到Kindle发件人中:<br/>{{ kindle_sender }}</small>
+                        <small>{{ $t('book.kindleSenderNote', { sender: kindle_sender }) }}</small>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn color="" text @click="dialog_kindle = false">取消</v-btn>
+                        <v-btn color="" text @click="dialog_kindle = false">{{ $t('common.cancel') }}</v-btn>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" text @click="sendto_kindle">发送</v-btn>
+                        <v-btn color="primary" text @click="sendto_kindle">{{ $t('common.send') }}</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
 
             <v-dialog v-model="dialog_download" persistent width="300">
                 <v-card>
-                    <v-card-title color="primary" class="">下载书籍</v-card-title>
+                    <v-card-title color="primary" class="">{{ $t('book.downloadBook') }}</v-card-title>
                     <v-card-text>
                         <v-list v-if="book.files.length > 0">
                             <v-list-item :key="'file-'+file.format" v-for="file in book.files" target="_blank"
@@ -49,11 +49,11 @@
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
-                        <p v-else><br/>本书暂无可供下载的文件格式</p>
+                        <p v-else><br/>{{ $t('book.noDownloadableFiles') }}</p>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn text @click="dialog_download = false">关闭</v-btn>
+                        <v-btn text @click="dialog_download = false">{{ $t('common.close') }}</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
@@ -61,17 +61,17 @@
 
             <v-card v-if="dialog_refer">
                 <v-toolbar flat dense dark color="primary">
-                    从互联网同步书籍信息
+                    {{ $t('book.syncBookInfo') }}
                     <v-spacer></v-spacer>
-                    <v-btn outlined text @click="dialog_refer = false">取消</v-btn>
+                    <v-btn outlined text @click="dialog_refer = false">{{ $t('common.cancel') }}</v-btn>
                 </v-toolbar>
                 <v-card-text xclass="pt-3 px-3 px-sm-6">
                     <p class="py-6 text-center" v-if="refer_books_loading">
                         <v-progress-circular indeterminate color="primary"></v-progress-circular>
                     </p>
-                    <p class="py-6 text-center" v-else-if="refer_books.length === 0">无匹配的书籍信息</p>
+                    <p class="py-6 text-center" v-else-if="refer_books.length === 0">{{ $t('book.noMatchingInfo') }}</p>
                     <template v-else>
-                        <p>请选择最匹配的记录复制为本书的描述信息</p>
+                        <p>{{ $t('book.selectMatchingRecord') }}</p>
                         <book-cards :books="refer_books">
                             <template #actions="{ book }">
                                 <v-card-actions>
@@ -96,20 +96,20 @@
                                             <v-btn color="primary" small rounded v-on="on"
                                                    :loading="refer_books_setting_btn_loading">
                                                 <v-icon small>done</v-icon>
-                                                设置
+                                                {{ $t('common.set') }}
                                             </v-btn>
                                         </template>
                                         <v-list dense>
                                             <v-list-item @click="set_refer(book.provider_key, book.provider_value)">
-                                                <v-list-item-title>设置书籍信息及图片</v-list-item-title>
+                                                <v-list-item-title>{{ $t('book.setBookInfoAndImage') }}</v-list-item-title>
                                             </v-list-item>
                                             <v-list-item
                                                 @click="set_refer(book.provider_key, book.provider_value, { only_meta: 'yes' })">
-                                                <v-list-item-title>仅设置书籍信息</v-list-item-title>
+                                                <v-list-item-title>{{ $t('book.setBookInfoOnly') }}</v-list-item-title>
                                             </v-list-item>
                                             <v-list-item
                                                 @click="set_refer(book.provider_key, book.provider_value, { only_cover: 'yes' })">
-                                                <v-list-item-title>仅设置书籍图片</v-list-item-title>
+                                                <v-list-item-title>{{ $t('book.setBookImageOnly') }}</v-list-item-title>
                                             </v-list-item>
                                         </v-list>
                                     </v-menu>
@@ -138,13 +138,13 @@
                            @click="dialog_kindle = !dialog_kindle"
                     >
                         <v-icon left v-if="!tiny">email</v-icon>
-                        推送
+                        {{ $t('book.push') }}
                     </v-btn
                     >
                     <v-btn :small="tiny" dark color="primary" class="mx-2 d-flex d-sm-flex" :href="'/read/' + book.id"
                            target="_blank">
                         <v-icon left v-if="!tiny">import_contacts</v-icon>
-                        阅读
+                        {{ $t('book.read') }}
                     </v-btn
                     >
 
@@ -152,7 +152,7 @@
                         <v-menu offset-y>
                             <template v-slot:activator="{ on }">
                                 <v-btn v-on="on" dark color="primary" class="ml-2" :small="tiny"
-                                >管理
+                                >{{ $t('book.manage') }}
                                     <v-icon small>more_vert</v-icon>
                                 </v-btn
                                 >
@@ -160,20 +160,20 @@
                             <v-list>
                                 <v-list-item :to="'/book/' + book.id + '/edit'">
                                     <v-icon>settings_applications</v-icon>
-                                    编辑书籍信息
+                                    {{ $t('book.editBookInfo') }}
                                 </v-list-item>
                                 <v-list-item @click="get_refer">
                                     <v-icon>apps</v-icon>
-                                    从互联网更新信息
+                                    {{ $t('book.updateInfoFromInternet') }}
                                 </v-list-item>
                                 <v-list-item @click="reset_refer">
                                     <v-icon>apps</v-icon>
-                                    重置信息
+                                    {{ $t('book.resetInfo') }}
                                 </v-list-item>
                                 <v-divider></v-divider>
                                 <v-list-item @click="delete_book">
                                     <v-icon>delete_forever</v-icon>
-                                    删除此书
+                                    {{ $t('book.deleteBook') }}
                                 </v-list-item>
                             </v-list>
                         </v-menu>
@@ -188,16 +188,16 @@
                         <v-card-text>
                             <div>
                                 <p class='title mb-0'>{{ book.title }}</p>
-                                <span color="grey--text">{{ book.author }}著，{{ pub_year }}年版</span>
+                                <span color="grey--text">{{ book.author }}{{ $t('book.author') }}，{{ pub_year }}{{ $t('book.year') }}</span>
                                 <span
                                     v-if='book.files.length>0 && book.files[0].format==="PDF" && book.files[0].size >= 1048576'
-                                    color="grey--text" style="font-weight: bold">&nbsp;&nbsp;&nbsp;[文件格式: PDF - {{
+                                    color="grey--text" style="font-weight: bold">&nbsp;&nbsp;&nbsp;[{{ $t('book.fileFormat') }}: PDF - {{
                                         parseInt(book.files[0].size / 1048576)
                                     }}MB]
                                 </span>
                                 <span
                                     v-else-if='book.files.length>0 && book.files[0].format==="PDF" && book.files[0].size < 1048576'
-                                    color="grey--text" style="font-weight: bold">&nbsp;&nbsp;&nbsp;[文件格式: PDF - {{
+                                    color="grey--text" style="font-weight: bold">&nbsp;&nbsp;&nbsp;[{{ $t('book.fileFormat') }}: PDF - {{
                                         parseInt(book.files[0].size / 1024)
                                     }}KB]
                                 </span>
@@ -222,7 +222,7 @@
                                 <v-chip rounded small dark color="indigo"
                                         :to="'/publisher/' + encodeURIComponent(book.publisher)">
                                     <v-icon>group</v-icon>
-                                    出版：{{ book.publisher }}
+                                    {{ $t('book.publisher') }}：{{ book.publisher }}
                                 </v-chip>
                                 <v-chip
                                     rounded
@@ -233,7 +233,7 @@
                                     :to="'/series/' + encodeURIComponent(book.series)"
                                 >
                                     <v-icon>explore</v-icon>
-                                    丛书: {{ book.series }}
+                                    {{ $t('book.series') }}: {{ book.series }}
                                 </v-chip>
                                 <v-chip rounded small dark color="grey" v-if="book.isbn">
                                     <v-icon>explore</v-icon>
@@ -257,7 +257,7 @@
                         </v-card-text>
                         <v-card-text>
                             <p v-if="book.comments" v-html="book.comments"></p>
-                            <p v-else>点击浏览详情</p>
+                            <p v-else>{{ $t('book.clickToViewDetails') }}</p>
                         </v-card-text>
                     </v-col>
                 </v-row>
@@ -274,7 +274,7 @@
                             <v-icon dark>import_contacts</v-icon>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>在线阅读</v-list-item-title>
+                            <v-list-item-title>{{ $t('book.onlineReading') }}</v-list-item-title>
                         </v-list-item-content>
                         <v-list-item-action>
                             <v-icon>mdi-arrow-right</v-icon>
@@ -291,7 +291,7 @@
                   <v-icon dark>import_contacts</v-icon>
                 </v-list-item-avatar>
                 <v-list-item-content>
-                  <v-list-item-title>Txt在线阅读({{ txt_parse_inited ? '已解析' : '未解析' }})</v-list-item-title>
+                  <v-list-item-title>{{ $t('book.txtOnlineReading', { status: txt_parse_inited ? $t('book.parsed') : $t('book.notParsed') }) }}</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-icon>mdi-arrow-right</v-icon>
@@ -308,7 +308,7 @@
                             <v-icon dark>get_app</v-icon>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>下载</v-list-item-title>
+                            <v-list-item-title>{{ $t('book.download') }}</v-list-item-title>
                         </v-list-item-content>
                         <v-list-item-action>
                             <v-icon>mdi-arrow-right</v-icon>
@@ -325,7 +325,7 @@
                             <v-icon dark>email</v-icon>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>推送至Kindle</v-list-item-title>
+                            <v-list-item-title>{{ $t('book.pushToKindle') }}</v-list-item-title>
                         </v-list-item-content>
                         <v-list-item-action>
                             <v-icon>mdi-arrow-right</v-icon>

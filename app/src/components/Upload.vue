@@ -6,20 +6,20 @@
         <v-dialog v-model="dialog" persistent transition="dialog-bottom-transition" width="300">
             <v-card>
                 <v-toolbar flat dense dark color="primary">
-                    上传书籍
+                    {{ $t('upload.title') }}
                     <v-spacer></v-spacer>
-                    <v-btn color="" text @click="dialog = false">关闭</v-btn>
+                    <v-btn color="" text @click="dialog = false">{{ $t('upload.close') }}</v-btn>
                 </v-toolbar>
                 <v-card-title></v-card-title>
                 <v-card-text>
-                    <p>受限于服务器能力，请勿上传100M的大文件书籍。</p>
+                    <p>{{ $t('upload.warning') }}</p>
                     <v-form ref="form" @submit="do_upload">
-                        <v-file-input v-model="ebooks" label="请选择要上传的电子书"></v-file-input>
+                        <v-file-input v-model="ebooks" :label="$t('upload.selectFile')"></v-file-input>
                     </v-form>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn :loading="loading" color="primary" @click="do_upload">上传</v-btn>
+                    <v-btn :loading="loading" color="primary" @click="do_upload">{{ $t('upload.upload') }}</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>

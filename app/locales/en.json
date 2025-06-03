@@ -120,5 +120,253 @@
     "activation": {
         "successTitle": "Activation Successful",
         "successMessage": "You have successfully activated your account. Please go to the homepage to browse!"
+    },
+    "admin": {
+        "books": {
+            "title": "Book Management",
+            "description": "This table only displays partial fields of books. Click to quickly modify. For complete book information, please click the link to view the book details page.",
+            "refresh": "Refresh",
+            "autoUpdate": "Auto-update book information...",
+            "search": "Search",
+            "status": {
+                "ready": "Ready to Import",
+                "exist": "Already Exists",
+                "imported": "Successfully Imported",
+                "new": "Pending Scan"
+            },
+            "close": "Close",
+            "reminder": "Reminder",
+            "reminder.description": "You are about to fetch book information from the internet. Please note the following limitations:",
+            "reminder.rule1": "1. Please configure the 'Internet Book Information Source' in 'System Settings' and enable the Douban plugin;",
+            "reminder.rule2": "2. This operation only updates books without covers or descriptions;",
+            "reminder.rule3": "3. Due to limitations of services like Douban, only one book can be updated per second;",
+            "reminder.progress": "Current Progress:",
+            "reminder.progressDetails": "Total {total} books, {done} updated, {fail} failed, {skip} skipped.",
+            "reminder.estimate": "Estimated runtime is {minutes} minutes. Please do not stop the program during this period.",
+            "cancel": "Cancel",
+            "execute": "Execute!"
+        },
+        "users": {
+            "title": "User Management",
+            "id": "ID",
+            "username": "Username",
+            "nickname": "Nickname",
+            "email": "Email",
+            "provider": "Registration Platform",
+            "create_time": "Registration Time",
+            "access_time": "Login Time",
+            "login_ip": "Login IP",
+            "detail": "Details",
+            "actions": "Actions",
+            "visit": "Visited {{ count }} books",
+            "read": "Read {{ count }} books",
+            "push": "Pushed {{ count }} books",
+            "download": "Downloaded {{ count }} books",
+            "upload": "Uploaded {{ count }} books",
+            "modify_permissions": "Modify User Permissions",
+            "allowed": "Allowed {{ permission }}",
+            "prohibited": "Prohibited {{ permission }}",
+            "disable": "Disable",
+            "enable": "Enable",
+            "account_management": "Account Management",
+            "activate_account": "Activate Account Without Email Verification",
+            "remove_admin": "Remove Admin",
+            "set_admin": "Set as Admin",
+            "delete_user": "Delete User Immediately",
+            "login": "Login",
+            "upload": "Upload",
+            "download": "Download",
+            "edit": "Edit",
+            "delete": "Delete",
+            "push": "Push",
+            "read": "Read Online"
+        }
+    },
+    "imports": {
+        "title": "Import Books",
+        "instructions": "Please place the books to be imported in the {{ scan_dir }} directory. Supported formats are azw/azw3/epub/mobi/pdf/txt.",
+        "note": "Note: This feature is executed asynchronously in the background. Do not click repeatedly. Once started, you can close the browser or refresh to check the table status progress. Do not delete successfully imported records to avoid re-importing the books.",
+        "calibre": "Additionally, you can use the <a target=\"_blank\" href=\"https://calibre-ebook.com/\">PC version of Calibre software</a> to manage books. However, please note: After using the PC version, you need to restart the Web version for it to take effect.",
+        "refresh": "Refresh",
+        "scan_books": "Scan Books",
+        "import_selected": "Import Selected Books",
+        "delete": "Delete",
+        "import_all": "Import All Books",
+        "select_files": "Please select the files to be processed (by default, all books will be imported. Existing books will not be re-imported even if selected).",
+        "selected_count": "A total of {{ count }} selected",
+        "todo": "To Process ({{ count }})",
+        "done": "Imported ({{ count }})",
+        "status": {
+            "ready": "Ready to Import",
+            "exist": "Already Exists",
+            "imported": "Successfully Imported",
+            "new": "To Scan"
+        },
+        "book_title": "Title:",
+        "book_author": "Author:"
+    },
+    "settings": {
+        "basic_info": "Basic Information",
+        "language_switch": "Language Switch",
+        "simplified_chinese": "Simplified Chinese",
+        "english": "English",
+        "site_title": "Site Title",
+        "site_header": "Site Header",
+        "site_footer": "Site Footer",
+        "private_library_mode": "Enable Private Library Mode",
+        "access_code": "Access Code",
+        "invite_message": "Invite Message",
+        "user_settings": "User Settings",
+        "allow_guest_read": "Allow guests to read online (no registration or login required)",
+        "allow_guest_download": "Allow unrestricted downloads (no registration or login required)",
+        "allow_guest_push": "Allow unrestricted Kindle push (no registration or login required)",
+        "allow_guest_register": "Allow guests to register accounts via email",
+        "signup_mail_title": "Activation Email Title",
+        "signup_mail_content": "Activation Email Content",
+        "reset_mail_title": "Password Reset Email Title",
+        "reset_mail_content": "Password Reset Email Content",
+        "socials_description": "Enabled social networks will automatically display buttons on the login page.",
+        "select_socials": "Select social network accounts to enable",
+        "save": "Save",
+        "switch_language_to": "Switch language to",
+        "save_error": "Save failed!",
+        "save_success": "Save successful! It may take 5~10 seconds to take effect!",
+        "sns_config_message": "Please visit the configuration page of {text} <a href='{link}' target='_blank'>here</a> to obtain the key and set the callback URL to <code>{site_url}/auth/complete/{value}.do</code>"
+    },
+    "book": {
+        "edit": {
+            "title": "Edit Book Information",
+            "cancel": "Cancel",
+            "save": "Save",
+            "fields": {
+                "title": "Title",
+                "rating": "Rating",
+                "authors": {
+                    "noData": "Please enter a new name",
+                    "add": "Add"
+                },
+                "series": "Series Name",
+                "publisher": "Publisher",
+                "pubdate": "Publication Date",
+                "isbn": "ISBN",
+                "language": "Language",
+                "tags": {
+                    "noData": "Please enter a new tag name",
+                    "add": "Add Tag"
+                },
+                "comments": "Content Summary"
+            }
+        },
+        "pushToKindle": "Push to Kindle",
+        "enterKindleEmail": "Enter Kindle recipient email address:",
+        "emailLabel": "Email*",
+        "kindleSenderNote": "* Please add this site's email to Kindle sender list:<br/>{{ sender }}",
+        "downloadBook": "Download Book",
+        "noDownloadableFiles": "No downloadable file formats available for this book"
+    },
+    "reader": {
+        "tip": {
+            "title": "Parsing",
+            "content": "Parsing the directory, please wait..."
+        },
+        "loading": "Loading...",
+        "previous": "Previous Chapter",
+        "directory": "Directory",
+        "next": "Next Chapter",
+        "error": "Error",
+        "parsed": "Parsed",
+        "queue": "In Queue",
+        "queueMessage": "Waiting for {queLen} conversions ahead, added to the background queue",
+        "parsing": "First read, parsing the directory, please wait... {wait}",
+        "timeoutMessage": "Timeout not completed, you can continue to wait and refresh later",
+        "timeout": "Parsing Timeout",
+        "contentError": "Failed to fetch content! {msg}"
+    },
+    "common": {
+        "cancel": "Cancel",
+        "send": "Send",
+        "close": "Close"
+    },
+    "user": {
+        "avatar": "Avatar",
+        "modifyAvatar": "Click to modify",
+        "username": "Username",
+        "email": "Email",
+        "resendActivationEmail": "Resend activation email",
+        "password": "Password",
+        "modifyPassword": "Click to modify",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "nickname": "Nickname",
+        "kindleAddress": "Kindle Address",
+        "kindle": "Kindle",
+        "save": "Save",
+        "passwordMismatch": "Passwords do not match.",
+        "activationEmailSent": "Activation email has been sent!"
+    },
+    "history": {
+        "noRecords": "No reading history. Please enjoy exploring the ocean of books~",
+        "onlineReading": "Online Reading",
+        "pushedBooks": "Pushed Books",
+        "visitRecords": "Visit Records",
+        "noBooks": "No Records"
+    },
+    "footer": {
+        "base_message": "This site is built on Calibre, thanks to the power of open source. All resources are collected from the internet. If there is any infringement, please contact us via email."
+    },
+    "new_key": {
+        "search": "Search",
+        "sys.title": "System Title",
+        "ok": "OK",
+        "user_center": "User Center",
+        "reading_history": "Reading History",
+        "feedback": "Feedback",
+        "admin_entry": "Admin Entry",
+        "logout": "Logout",
+        "please_login": "Please Login"
+    },
+    "appHeader": {
+        "home": "Home",
+        "admin": "Admin",
+        "systemSettings": "System Settings",
+        "userManagement": "User Management",
+        "bookManagement": "Book Management",
+        "importBooks": "Import Books",
+        "categoryBrowse": "Category Browse",
+        "system": "System",
+        "friendLinks": "Friend Links",
+        "categoryNavigation": "Category Navigation",
+        "publishers": "Publishers",
+        "authors": "Authors",
+        "tags": "Tags",
+        "series": "Series",
+        "rating": "Rating",
+        "hotRanking": "Hot Ranking",
+        "allBooks": "All Books",
+        "systemVersion": "System Version",
+        "userCount": "User Count",
+        "opdsIntroduction": "OPDS Introduction"
+    },
+    "bookCards": {
+        "browseDetails": "Click to browse details"
+    },
+    "sslManager": {
+        "updateCertificate": "Update SSL Certificate",
+        "uploadCertificate": "Upload SSL Certificate",
+        "close": "Close",
+        "instructions": "Instructions",
+        "selectCertificateFile": "Please select the certificate file to upload (.crt)",
+        "selectPrivateKeyFile": "Please select the private key file to upload (.key)",
+        "invalidCertificateFile": "Certificate file (.crt) is invalid, content is not in PEM format",
+        "invalidPrivateKeyFile": "Private key file (.key) is invalid, content is not in PEM format",
+        "uploadSuccess": "Upload successful!"
+    },
+    "upload": {
+        "title": "Upload Book",
+        "close": "Close",
+        "warning": "Due to server limitations, please do not upload books larger than 100MB.",
+        "selectFile": "Please select an eBook to upload",
+        "upload": "Upload"
     }
 }
