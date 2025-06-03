@@ -28,9 +28,11 @@ export default {
     },
     data: () => ({
     }),
-    head: () => ({
-        title: this.$t('activation.successTitle'),
-    }),
+    head() {
+        return {
+            title: this.$t('activation.successTitle'),
+        };
+    },
 }
 </script>
 

@@ -55,7 +55,7 @@ export default {
             author: this.$t('listMeta.allAuthors'),
             publisher: this.$t('listMeta.allPublishers'),
         };
-        var meta = this.$route.path.split("/")[1];
+        var meta = path.split("/")[1];
         if (titles[meta] !== undefined) {
             return {
                 title: titles[meta],

@@ -32,8 +32,8 @@
                             <v-icon dark >{{nav.icon}}</v-icon>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>{{ $t(nav.textKey) }} </v-list-item-title>
-                            <v-list-item-subtitle>{{ $t(nav.subtitleKey) }}</v-list-item-subtitle>
+                            <v-list-item-title>{{nav.textKey}} </v-list-item-title>
+                            <v-list-item-subtitle>{{nav.subtitleKey}}</v-list-item-subtitle>
                         </v-list-item-content>
                         <v-list-item-action>
                             <v-icon >mdi-arrow-right</v-icon>
@@ -70,12 +70,12 @@ export default {
     created() {
         this.$store.commit('navbar', true);
         this.navs = [
-            { icon: 'widgets',            href:'/nav',       textKey: 'index.categoryNavigation', subtitleKey: 'index.booksCount', count: this.$store.state.sys.books      },
-            { icon: 'mdi-human-greeting', href:'/author',    textKey: 'index.authors', subtitleKey: 'index.authorsCount', count: this.$store.state.sys.authors    },
-            { icon: 'mdi-home-group',     href:'/publisher', textKey: 'index.publishers', subtitleKey: 'index.publishersCount', count: this.$store.state.sys.publishers },
-            { icon: 'mdi-tag-heart',      href:'/tag',       textKey: 'index.tags', subtitleKey: 'index.tagsCount', count: this.$store.state.sys.tags       },
-            { icon: 'mdi-history',        href:'/recent',    textKey: 'index.allBooks', },
-            { icon: 'mdi-trending-up',    href:'/hot',       textKey: 'index.hotRanking', },
+            { icon: 'widgets',            href:'/nav',       text: $t('index.categoryNavigation'),  count: this.$store.state.sys.books      },
+            { icon: 'mdi-human-greeting', href:'/author',    text: $t('index.authors'),     count: this.$store.state.sys.authors    },
+            { icon: 'mdi-home-group',     href:'/publisher', text: $t('index.publishers'),   count: this.$store.state.sys.publishers },
+            { icon: 'mdi-tag-heart',      href:'/tag',       text: $t('index.tags'),     count: this.$store.state.sys.tags       },
+            { icon: 'mdi-history',        href:'/recent',    text: $t('index.allBooks'), },
+            { icon: 'mdi-trending-up',    href:'/hot',       text: $t('index.hotRanking'), },
             ]
     },
     async asyncData({ app, res }) {

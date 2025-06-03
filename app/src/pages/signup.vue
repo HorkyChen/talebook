@@ -48,9 +48,11 @@ export default {
         },
 
     }),
-    head: () => ({
-        title: this.$t('signup.pageTitle'),
-    }),
+    head() {
+        return {
+            title: this.$t('signup.pageTitle'),
+        };
+    },
     methods: {
         valid: function(v) {
             if ( v.length < 8 ) {

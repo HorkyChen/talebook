@@ -38,7 +38,7 @@
         "hotBooks": "热门书籍",
         "search": "搜索",
         "recentUpdates": "近期更新",
-        "tagBooks": "\"{{name}}”标签的书籍",
+        "tagBooks": "\"{{name}}\"标签的书籍",
         "seriesBooks": "{{name}}丛书",
         "ratingBooks": "{{name}}星书籍",
         "authorBooks": "{{name}}的著作",

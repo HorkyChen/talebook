@@ -26,18 +26,20 @@ export default {
         this.$store.commit("navbar", false);
         this.logout();
     },
-    data: () => ({
-        msg: this.$t('logout.message'),
-    }),
-    head: () => ({
-        title: this.$t('logout.pageTitle')
-    }),
+    computed: {
+        msg() {
+            return this.$t('logout.message'); // Dynamically compute msg using $t
+        },
+    },
+    head() {
+        return {
+            title: this.$t('logout.pageTitle'),
+        };
+    },
     methods: {
         logout: function() {
             this.$backend('/user/sign_out')
-            .then( rsp => {
-                this.msg = this.$t('logout.message'); // Assuming the backend response is replaced with a static i18n string
-            });
+            .then( rsp => {});
         }
     },
 }

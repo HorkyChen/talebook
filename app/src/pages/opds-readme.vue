@@ -35,7 +35,7 @@
 export default {
   data() {
     return {
-      opdsUrl: window.location.origin + '/opds/'
+      opdsUrl: process.client ? window.location.origin + '/opds/' : ''
     }
   }
 }

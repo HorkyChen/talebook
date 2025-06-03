@@ -119,7 +119,11 @@ export default {
         total: 0,
         loading: true,
         options: { sortBy: ["access_time"], sortDesc: [true] },
-        headers: [
+        headers: [],
+        permissions: [],
+    }),
+    created() {
+        this.headers = [
             { text: this.$t('admin.users.id'), sortable: true, value: "id" },
             { text: this.$t('admin.users.username'), sortable: true, value: "username" },
             { text: this.$t('admin.users.nickname'), sortable: false, value: "name" },
@@ -130,8 +134,9 @@ export default {
             { text: this.$t('admin.users.login_ip'), sortable: false, value: "login_ip" },
             { text: this.$t('admin.users.detail'), sortable: false, value: "detail" },
             { text: this.$t('admin.users.actions'), sortable: false, value: "actions" },
-        ],
-        permissions: [
+        ];
+
+        this.permissions = [
             { code: "l", name: "can_login", text: this.$t('admin.users.login') },
             { code: "u", name: "can_upload", text: this.$t('admin.users.upload') },
             { code: "s", name: "can_save", text: this.$t('admin.users.download') },
@@ -139,8 +144,8 @@ export default {
             { code: "d", name: "can_delete", text: this.$t('admin.users.delete') },
             { code: "p", name: "can_push", text: this.$t('admin.users.push') },
             { code: "r", name: "can_read", text: this.$t('admin.users.read') },
-        ],
-    }),
+        ];
+    },
     watch: {
         options: {
             handler() {

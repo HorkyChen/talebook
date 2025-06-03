@@ -12,7 +12,7 @@
                             outlined
                             dense
                             v-model="mail_to"
-                            label="{{ $t('book.emailLabel') }}"
+                            label="Email*"
                             auto-select-first
                             required
                         ></v-combobox>

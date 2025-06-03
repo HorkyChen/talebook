@@ -12,5 +12,4 @@ export default ({ app }) => {
       en: require('../../locales/en.json'),
     },
   });
-  console.log('i18n plugin loaded');
 };
