@@ -232,7 +232,7 @@
         "sns_config_message": "Please visit the configuration page of {text} <a href='{link}' target='_blank'>here</a> to obtain the key and set the callback URL to <code>{site_url}/auth/complete/{value}.do</code>",
         "internet_book_sources":"Book Info from Internet",
         "auto_fill_meta":"Fetch book information from internet services",
-        "douban_baseurl":"Address of Douban plugin(例如 http://10.0.0.1:8080 )",
+        "douban_baseurl":"Address of Douban plugin(Ex: http://10.0.0.1:8080 )",
         "douban_max_count":"Max results of Douban plugin query",
         "douban_plugin_description": "If you need to enable the Douban plugin, please refer to the installation documentation. If it fails, try changing the mirror, such as talebook/douban-api-rs.",
         "advanced_settings": "Advanced Configuration",
@@ -253,7 +253,14 @@
         "social_network_login":"Login via Social Account",
         "friend_links":"Links",
         "book_tags": "Book Tags",
-        "book_tags_description":"Configure the preset categories on the 'Category Navigation' page. When adding a book, if the book title or author name appears in the following categories, the corresponding tag will be automatically added."
+        "book_tags_description":"Configure the preset categories on the 'Category Navigation' page. When adding a book, if the book title or author name appears in the following categories, the corresponding tag will be automatically added.",
+        "email_service": "EMail",
+        "email_service_description": "Required by email registration, sending to kindle.",
+        "smtp_server":"SMTP Server (Ex: smtp-mail.outlook.com:587)",
+        "smtp_username":"SMTP account (Ex: user@gmail.com)",
+        "smtp_password":"SMTP password",
+        "smtp_encryption":"SMTP Encryption",
+        "test_email":"Test"
     },
     "book": {
         "edit": {

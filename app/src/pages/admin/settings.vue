@@ -232,7 +232,7 @@ export default {
           { icon: "info", key: "push_title", label: "settings.push_title" },
           { icon: "info", key: "push_content", label: "settings.push_content" },
           { icon: "info", key: "convert_timeout", label: "settings.convert_timeout" },
-          { icon: "", key: "autoreload", label: "autoreload", type: 'settings.checkbox' },
+          { icon: "", key: "autoreload", label: "settings.autoreload", type: 'checkbox' },
         ],
         tips: [
           {
@@ -276,7 +276,7 @@ export default {
   methods: {
     save_settings: function () {
       if (this.settings['site_language'] !== '') {
-        console.log($t("switch_language_to"), this.settings['site_language']);
+        console.log(this.$t("settings.switch_language_to"), this.settings['site_language']);
         this.$i18n.locale = this.settings['site_language'];
       }
       this.$backend("/admin/settings", {
@@ -285,14 +285,14 @@ export default {
       })
         .then(rsp => {
           if (rsp.err != 'ok') {
-            this.$alert('error', $t('save_error'));
+            this.$alert('error', this.$t('settings.save_error'));
           } else {
-            this.$alert('success', $t('save_success'));
+            this.$alert('success', this.$t('settings.save_success'));
           }
         });
     },
     show_sns_config: function (s) {
-      var msg = `${$t('sns_config_message', { text: s.text, link: s.link, site_url: this.site_url, value: s.value })}`;
+      var msg = `${this.$t('settings.sns_config_message', { text: s.text, link: s.link, site_url: this.site_url, value: s.value })}`;
       this.$alert("success", msg);
     },
     test_email: function () {
