@@ -21,7 +21,7 @@
     "index": {
         "randomRecommendation": "Recommendation",
         "newRecommendation": "Recent updated",
-        "categoryBrowse": "Category Browse",
+        "categoryBrowse": "Category",
         "categoryNavigation": "Category Navigation",
         "authors": "Authors",
         "publishers": "Publishers",
@@ -398,7 +398,9 @@
         "feedback": "Feedback",
         "admin_entry": "Admin Entry",
         "logout": "Logout",
-        "please_login": "Please Login"
+        "please_login": "Please Login",
+        "defaultFooter": "This site is built on Calibre, thanks to the power of open source. All resources are collected from the internet. If there is any infringement, please contact us via email.",
+        "defaultHeader": "Welcome! If you like this project, please visit Github <a target=\"_blank\" href=\"https://github.com/HorkyChen/talebook\"> and give talebook a Star!</a>"
     },
     "bookCards": {
         "browseDetails": "Click to browse details"

@@ -290,6 +290,14 @@ export default {
             if (rsp.sys.language !== '') {
                 this.$i18n.locale = rsp.sys.language;
             }
+            if (rsp.sys.footer === '') {
+                rsp.sys.footer = this.$t('appHeader.defaultFooter');
+                this.$store.commit("set_footer", rsp.sys.footer);
+            }
+            if (rsp.sys.header !== '') {
+                rsp.sys.header = this.$t('appHeader.defaultHeader');
+                this.$store.commit("set_header", rsp.sys.header);
+            }
         });
         this.$backend("/user/messages").then((rsp) => {
             if (rsp.err == "ok") {

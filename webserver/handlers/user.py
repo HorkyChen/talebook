@@ -295,8 +295,8 @@ class UserInfo(BaseHandler):
             "language": CONF["site_language"] if "site_language" in CONF else "",
             "socials": CONF["SOCIALS"],
             "friends": CONF["FRIENDS"],
-            "footer": CONF["FOOTER"],
-            "header": CONF["HEADER"],
+            "footer": CONF["FOOTER"] if "FOOTER" in CONF else "",
+            "header": CONF["HEADER"] if "HEADER" in CONF else "",
             "allow": {
                 "register": CONF["ALLOW_REGISTER"],
                 "download": CONF["ALLOW_GUEST_DOWNLOAD"],
