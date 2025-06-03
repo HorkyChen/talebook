@@ -268,6 +268,7 @@ class AdminSettings(BaseHandler):
             "settings_path",
             "avatar_service",
             "google_analytics_id",
+            "site_language",
         ]
 
         args = loader.SettingsLoader()

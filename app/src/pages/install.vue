@@ -3,21 +3,21 @@
         <v-col xs=12 sm=8 md=4>
             <v-card class="elevation-12">
                 <v-toolbar dark color="primary">
-                    <v-toolbar-title>安装 TaleBook</v-toolbar-title>
+                    <v-toolbar-title>{{ $t('install.title') }}</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
                     <v-form ref="form" @submit.prevent="do_intall">
-                        <v-text-field required prepend-icon="home" v-model="title" label="网站标题"
+                        <v-text-field required prepend-icon="home" v-model="title" :label="$t('install.siteTitle')"
                             type="text"></v-text-field>
-                        <v-text-field required prepend-icon="person" v-model="username" label="管理员用户名" type="text"
+                        <v-text-field required prepend-icon="person" v-model="username" :label="$t('install.adminUsername')" type="text"
                             autocomplete="new-username" :rules="[rules.user]"></v-text-field>
-                        <v-text-field required prepend-icon="lock" v-model="password" label="管理员登录密码" type="text"
+                        <v-text-field required prepend-icon="lock" v-model="password" :label="$t('install.adminPassword')" type="text"
                             autocomplete="new-password" :rules="[rules.pass]"></v-text-field>
-                        <v-text-field required prepend-icon="email" v-model="email" label="管理员Email" type="text"
+                        <v-text-field required prepend-icon="email" v-model="email" :label="$t('install.adminEmail')" type="text"
                             autocomplete="new-email" :rules="[rules.email]"></v-text-field>
-                        <v-checkbox v-model="invite" label="开启私人图书馆模式"></v-checkbox>
+                        <v-checkbox v-model="invite" :label="$t('install.privateLibraryMode')"></v-checkbox>
                         <template v-if="invite">
-                            <v-text-field required prepend-icon="lock" v-model="code" label="访问码" type="text"
+                            <v-text-field required prepend-icon="lock" v-model="code" :label="$t('install.accessCode')" type="text"
                                 autocomplete="new-code"></v-text-field>
                         </template>
                     </v-form>
@@ -26,7 +26,7 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn @click="do_install" color="primary">完成设置</v-btn>
+                    <v-btn @click="do_install" color="primary">{{ $t('install.completeSetup') }}</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>
@@ -47,11 +47,11 @@ export default {
         tips: "",
         retry: 20,
         rules: {
-            user: v => (20 >= v.length && v.length >= 5) || '6 ~ 20 characters',
-            pass: v => (20 >= v.length && v.length >= 8) || '8 ~ 20 characters',
+            user: v => (20 >= v.length && v.length >= 5) || this.$t('install.usernameRule'),
+            pass: v => (20 >= v.length && v.length >= 8) || this.$t('install.passwordRule'),
             email: function (email) {
                 var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email) || "Invalid email format";
+                return re.test(email) || this.$t('install.invalidEmail');
             },
         },
 
@@ -66,7 +66,7 @@ export default {
         check_install: function () {
             fetch("/api/index").then(rsp => {
                 if (rsp.status == 200) {
-                    this.tips += "API服务正常<br/>安装成功，跳转到主页";
+                    this.tips += this.$t('install.apiServiceNormal') + "<br/>" + this.$t('install.installSuccess');
                 } else {
                     this.retry -= 1;
                     if (this.retry > 0) {
@@ -74,7 +74,7 @@ export default {
                             this.check_install();
                         }, 1000);
                     } else {
-                        this.tips += "超时，请刷新重试";
+                        this.tips += this.$t('install.timeoutRetry');
                     }
                     return;
                 }
@@ -100,7 +100,7 @@ export default {
             data.append('code', this.code);
             data.append('invite', this.invite);
             data.append('title', this.title);
-            this.tips = "正在写入配置文件...";
+            this.tips = this.$t('install.writingConfig');
             this.$backend('/admin/install', {
                 method: 'POST',
                 body: data,
@@ -109,7 +109,7 @@ export default {
                     if (rsp.err != 'ok') {
                         this.$alert("error", rsp.msg);
                     } else {
-                        this.tips += "配置写入成功！<br/>正在检测服务器...";
+                        this.tips += this.$t('install.configSuccess') + "<br/>" + this.$t('install.checkingServer');
                         setTimeout(() => {
                             this.check_install();
                         }, 5000);

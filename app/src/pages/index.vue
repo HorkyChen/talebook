@@ -2,7 +2,7 @@
     <div>
     <v-row>
         <v-col cols=12>
-            <p class="ma-0 title">随便推荐</p>
+            <p class="ma-0 title">{{ $t('index.randomRecommendation') }}</p>
         </v-col>
         <v-col cols=6 xs=6 sm=4 md=2 lg=1 v-for="(book,idx) in get_random_books" :key="'rec'+idx+book.id" class="book-card">
             <v-card :to="book.href" class="ma-1">
@@ -13,7 +13,7 @@
     <v-row>
         <v-col cols=12>
             <v-divider class="new-legend"></v-divider>
-            <p class="ma-0 title">新书推荐</p>
+            <p class="ma-0 title">{{ $t('index.newRecommendation') }}</p>
         </v-col>
         <v-col cols=12>
             <book-cards :books="get_recent_books"></book-cards>
@@ -22,7 +22,7 @@
     <v-row>
         <v-col cols=12>
             <v-divider class="new-legend"></v-divider>
-            <p class="ma-0 title">分类浏览</p>
+            <p class="ma-0 title">{{ $t('index.categoryBrowse') }}</p>
         </v-col>
         <v-col cols=12 sm=6 md=4 v-for="nav in navs" :key="nav.text">
             <v-card outlined>
@@ -32,8 +32,8 @@
                             <v-icon dark >{{nav.icon}}</v-icon>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>{{nav.text}} </v-list-item-title>
-                            <v-list-item-subtitle>{{nav.subtitle}}</v-list-item-subtitle>
+                            <v-list-item-title>{{ $t(nav.textKey) }} </v-list-item-title>
+                            <v-list-item-subtitle>{{ $t(nav.subtitleKey) }}</v-list-item-subtitle>
                         </v-list-item-content>
                         <v-list-item-action>
                             <v-icon >mdi-arrow-right</v-icon>
@@ -70,12 +70,12 @@ export default {
     created() {
         this.$store.commit('navbar', true);
         this.navs = [
-            { icon: 'widgets',            href:'/nav',       text: '分类导览',  count: this.$store.state.sys.books      },
-            { icon: 'mdi-human-greeting', href:'/author',    text: '作者',     count: this.$store.state.sys.authors    },
-            { icon: 'mdi-home-group',     href:'/publisher', text: '出版社',   count: this.$store.state.sys.publishers },
-            { icon: 'mdi-tag-heart',      href:'/tag',       text: '标签',     count: this.$store.state.sys.tags       },
-            { icon: 'mdi-history',        href:'/recent',    text: '所有书籍', },
-            { icon: 'mdi-trending-up',    href:'/hot',       text: '热度榜单', },
+            { icon: 'widgets',            href:'/nav',       textKey: 'index.categoryNavigation', subtitleKey: 'index.booksCount', count: this.$store.state.sys.books      },
+            { icon: 'mdi-human-greeting', href:'/author',    textKey: 'index.authors', subtitleKey: 'index.authorsCount', count: this.$store.state.sys.authors    },
+            { icon: 'mdi-home-group',     href:'/publisher', textKey: 'index.publishers', subtitleKey: 'index.publishersCount', count: this.$store.state.sys.publishers },
+            { icon: 'mdi-tag-heart',      href:'/tag',       textKey: 'index.tags', subtitleKey: 'index.tagsCount', count: this.$store.state.sys.tags       },
+            { icon: 'mdi-history',        href:'/recent',    textKey: 'index.allBooks', },
+            { icon: 'mdi-trending-up',    href:'/hot',       textKey: 'index.hotRanking', },
             ]
     },
     async asyncData({ app, res }) {

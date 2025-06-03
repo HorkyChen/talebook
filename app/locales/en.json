@@ -1,0 +1,36 @@
+{
+    "install": {
+        "title": "Install TaleBook",
+        "siteTitle": "Site Title",
+        "adminUsername": "Admin Username",
+        "adminPassword": "Admin Login Password",
+        "adminEmail": "Admin Email",
+        "privateLibraryMode": "Enable Private Library Mode",
+        "accessCode": "Access Code",
+        "completeSetup": "Complete Setup",
+        "usernameRule": "6 ~ 20 characters",
+        "passwordRule": "8 ~ 20 characters",
+        "invalidEmail": "Invalid email format",
+        "apiServiceNormal": "API service is normal",
+        "installSuccess": "Installation successful, redirecting to homepage",
+        "timeoutRetry": "Timeout, please refresh and retry",
+        "writingConfig": "Writing configuration file...",
+        "configSuccess": "Configuration written successfully!",
+        "checkingServer": "Checking server..."
+    },
+    "index": {
+        "randomRecommendation": "Random Recommendation",
+        "newRecommendation": "New Recommendation",
+        "categoryBrowse": "Category Browse",
+        "categoryNavigation": "Category Navigation",
+        "authors": "Authors",
+        "publishers": "Publishers",
+        "tags": "Tags",
+        "allBooks": "All Books",
+        "hotRanking": "Hot Ranking",
+        "booksCount": "Books Count",
+        "authorsCount": "Authors Count",
+        "publishersCount": "Publishers Count",
+        "tagsCount": "Tags Count"
+    }
+}

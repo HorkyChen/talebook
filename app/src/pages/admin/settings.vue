@@ -19,7 +19,7 @@
                 <template v-for="f in card.fields">
                   <v-checkbox small hide-details v-if="f.type === 'checkbox' " :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="f.label" ></v-checkbox>
                   <v-textarea outlined v-else-if="f.type === 'textarea' " :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="f.label" ></v-textarea>
-                  <v-select small hide-details v-else-if="f.type === 'select' " :prepend-icon="f.icon" v-model="settings[f.key]" :items="f.items" :key="f.key" :label="f.label" > </v-select>
+                  <v-select small v-else-if="f.type === 'select' " :prepend-icon="f.icon" v-model="settings[f.key]" :items="f.items" :key="f.key" :label="f.label" > </v-select>
                   <v-text-field v-else :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="f.label" type="text"></v-text-field>
                 </template>
 
@@ -128,9 +128,12 @@ export default {
             show: false,
             title: "基础信息",
             fields: [
+                { icon: "language", key: "site_language", label: "语言切换", type: 'select',
+                  items: [{text: "简体中文", value: "zh"}, {text: "英文", value: "en"}]
+                },
                 { icon: "home", key: "site_title", label: "网站标题", },
                 { icon: "mdi-copyright", key: "HEADER", label: "网站公告", type: 'textarea' },
-                { icon: "mdi-copyright", key: "FOOTER", label: "网站脚注", type: 'textarea' },
+                { icon: "mdi-copyright", key: "FOOTER", label: "网站脚注", type: 'textarea' }
             ],
             groups: [
             {
@@ -255,6 +258,10 @@ export default {
     }),
     methods: {
         save_settings: function() {
+            if ( this.settings['site_language'] !== '' ) {
+              console.log("切换语言为", this.settings['site_language']);
+              this.$i18n.locale = this.settings['site_language'];
+            }
             this.$backend("/admin/settings", {
                 method: 'POST',
                 body: JSON.stringify(this.settings),
@@ -292,7 +299,7 @@ export default {
         run: function(func) {
             this[func]();
         },
-    },
+      },
   }
 </script>
 
@@ -301,4 +308,3 @@ export default {
     cursor: pointer;
 }
 </style>
-
