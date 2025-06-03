@@ -266,9 +266,9 @@ export default {
             ];
             var sys_links = [
                 { heading: "appHeader.system" },
-                { icon: "mdi-history", href: "", count: this.sys.version, text: "{{ $t('appHeader.systemVersion') }}" },
-                { icon: "mdi-human", href: "", count: this.sys.users, text: "{{ $t('appHeader.userCount') }}" },
-                { icon: "mdi-cellphone", href: "/opds-readme", count: "OPDS", target: "_blank", text: "{{ $t('appHeader.opdsIntroduction') }}" },
+                { icon: "mdi-history", href: "", count: this.sys.version, text: this.$t('appHeader.systemVersion') },
+                { icon: "mdi-human", href: "", count: this.sys.users, text: this.$t('appHeader.userCount') },
+                { icon: "mdi-cellphone", href: "/opds-readme", count: "OPDS", target: "_blank", text: this.$t('appHeader.opdsIntroduction') },
             ];
 
             return home_links

@@ -1,308 +1,326 @@
 <template>
-    <div>
-        <v-card class="my-2 elevation-4" v-for="card in cards" :key="card.title" >
-            <v-card-title @click="card.show = !card.show">
-                <v-btn @click.once="card.show = !card.show" icon>
-                    <v-icon>{{ card.show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                </v-btn>
-                {{ $t(card.title) }}
-            </v-card-title>
-          <v-expand-transition>
-            <!-- v-card-text的padding导致动画收起时卡顿，置为 0，内部用一个div来控制-->
-            <v-card-text v-show="card.show" style="padding: 0">
-              <div style="padding: 0 16px 16px">
-                <p v-if="card.subtitle" class="">{{ $t(card.subtitle) }}</p>
-                <template v-if="card.tips">
-                  <p v-for="t in card.tips" :key="t.text">{{ $t(t.text) }} <a v-if="t.link" target="_blank" :href="t.link">{{ $t('link') }}</a></p>
-                </template>
+  <div>
+    <v-card class="my-2 elevation-4" v-for="card in cards" :key="card.title">
+      <v-card-title @click="card.show = !card.show">
+        <v-btn @click.once="card.show = !card.show" icon>
+          <v-icon>{{ card.show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+        </v-btn>
+        {{ $t(card.title) }}
+      </v-card-title>
+      <v-expand-transition>
+        <!-- v-card-text的padding导致动画收起时卡顿，置为 0，内部用一个div来控制-->
+        <v-card-text v-show="card.show" style="padding: 0">
+          <div style="padding: 0 16px 16px">
+            <p v-if="card.subtitle" class="">{{ $t(card.subtitle) }}</p>
+            <template v-if="card.tips">
+              <p v-for="t in card.tips" :key="t.text">{{ $t(t.text) }} <a v-if="t.link" target="_blank"
+                  :href="t.link">{{ $t('link') }}</a></p>
+            </template>
 
-                <template v-for="f in card.fields">
-                  <v-checkbox small hide-details v-if="f.type === 'checkbox' " :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="$t(f.label)" ></v-checkbox>
-                  <v-textarea outlined v-else-if="f.type === 'textarea' " :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="$t(f.label)" ></v-textarea>
-                  <v-select small v-else-if="f.type === 'select' " :prepend-icon="f.icon" v-model="settings[f.key]" :items="f.items" :key="f.key" :label="$t(f.label)" > </v-select>
-                  <v-text-field v-else :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="$t(f.label)" type="text"></v-text-field>
-                </template>
+            <template v-for="f in card.fields">
+              <v-checkbox small hide-details v-if="f.type === 'checkbox'" :prepend-icon="f.icon"
+                v-model="settings[f.key]" :key="f.key" :label="$t(f.label)"></v-checkbox>
+              <v-textarea outlined v-else-if="f.type === 'textarea'" :prepend-icon="f.icon" v-model="settings[f.key]"
+                :key="f.key" :label="$t(f.label)"></v-textarea>
+              <v-select small v-else-if="f.type === 'select'" :prepend-icon="f.icon" v-model="settings[f.key]"
+                :items="f.items" :key="f.key" :label="$t(f.label)"> </v-select>
+              <v-text-field v-else :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="$t(f.label)"
+                type="text"></v-text-field>
+            </template>
 
-                <template v-for="b in card.buttons">
-                  <v-btn :key="b.label" @click="run(b.action)" color="primary"><v-icon>{{b.icon}}</v-icon>{{ $t(b.label) }}</v-btn>
-                </template>
+            <template v-for="b in card.buttons">
+              <v-btn :key="b.label" @click="run(b.action)" color="primary"><v-icon>{{ b.icon }}</v-icon>{{ $t(b.label)
+                }}</v-btn>
+            </template>
 
-                <template v-for="g in card.groups" >
-                  <v-checkbox small hide-details v-model="settings[g.key]" :key="g.label" :label="$t(g.label)"></v-checkbox>
-                  <template v-if="settings[g.key]">
-                    <template v-for="f in g.fields">
-                      <v-textarea outlined v-if="f.type === 'textarea' " :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="$t(f.label)" ></v-textarea>
-                      <v-text-field v-else :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="$t(f.label)" type="text"></v-text-field>
-                    </template>
-                  </template>
+            <template v-for="g in card.groups">
+              <v-checkbox small hide-details v-model="settings[g.key]" :key="g.label" :label="$t(g.label)"></v-checkbox>
+              <template v-if="settings[g.key]">
+                <template v-for="f in g.fields">
+                  <v-textarea outlined v-if="f.type === 'textarea'" :prepend-icon="f.icon" v-model="settings[f.key]"
+                    :key="f.key" :label="$t(f.label)"></v-textarea>
+                  <v-text-field v-else :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key"
+                    :label="$t(f.label)" type="text"></v-text-field>
                 </template>
+              </template>
+            </template>
 
-                <template v-if="card.show_friends">
-                  <v-row v-for="(friend, idx) in settings.FRIENDS" :key="'friend-'+friend.href">
-                    <v-col class='py-0' cols=3>
-                      <v-text-field flat small hide-details single-line v-model="friend.text" :label="$t('name')" type="text"></v-text-field>
-                    </v-col>
-                    <v-col class='pa-0' cols=9>
-                      <v-text-field flat small hide-details single-line v-model="friend.href" :label="$t('link')" type="text"
-                                    append-outer-icon="delete" @click:append-outer="settings.FRIENDS.splice(idx, 1)" ></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col align="center">
-                      <v-btn color="primary" @click="settings.FRIENDS.push({text:'', href: ''})"><v-icon>add</v-icon>{{ $t('add') }}</v-btn>
-                    </v-col>
-                  </v-row>
+            <template v-if="card.show_friends">
+              <v-row v-for="(friend, idx) in settings.FRIENDS" :key="'friend-' + friend.href">
+                <v-col class='py-0' cols=3>
+                  <v-text-field flat small hide-details single-line v-model="friend.text" :label="$t('name')"
+                    type="text"></v-text-field>
+                </v-col>
+                <v-col class='pa-0' cols=9>
+                  <v-text-field flat small hide-details single-line v-model="friend.href" :label="$t('link')"
+                    type="text" append-outer-icon="delete"
+                    @click:append-outer="settings.FRIENDS.splice(idx, 1)"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col align="center">
+                  <v-btn color="primary" @click="settings.FRIENDS.push({ text: '', href: '' })"><v-icon>add</v-icon>{{
+                    $t('add') }}</v-btn>
+                </v-col>
+              </v-row>
+            </template>
+
+            <template v-if="card.show_socials">
+              <p>{{ $t('settings.socials_description') }}</p>
+              <v-combobox v-model="settings.SOCIALS" :items="sns_items" :label="$t('settings.select_socials')" hide-selected
+                multiple small-chips>
+                <template v-slot:selection="{ attrs, item, parent, selected }">
+                  <v-chip v-bind="attrs" color="green lighten-3" :input-value="selected" label small>
+                    <span class="pr-2"> {{ item.text }} </span>
+                    <v-icon small @click="parent.selectItem(item)">close</v-icon>
+                  </v-chip>
                 </template>
+              </v-combobox>
+              <v-row v-for="s in settings.SOCIALS" :key="'social-' + s.value">
+                <v-col class='py-0' cols=12 sm=2>
+                  <v-subheader class="px-0 pt-4" :class="$vuetify.breakpoint.smAndUp ? 'float-right' : ''">
+                    {{ s.text }} (<a @click="show_sns_config(s)">{{ $t('description') }}</a>)
+                  </v-subheader>
+                </v-col>
+                <v-col class='py-0' cols=12 sm=3>
+                  <v-text-field small hide-details single-line
+                    v-model="settings['SOCIAL_AUTH_' + s.value.toUpperCase() + '_KEY']" :label="$t('key')"
+                    type="text"></v-text-field>
+                </v-col>
+                <v-col class='py-0' cols=12 sm=7>
+                  <v-text-field small hide-details single-line
+                    v-model="settings['SOCIAL_AUTH_' + s.value.toUpperCase() + '_SECRET']" :label="$t('secret')"
+                    type="text"></v-text-field>
+                </v-col>
+              </v-row>
+            </template>
 
-                <template v-if="card.show_socials">
-                  <p>{{ $t('socials_description') }}</p>
-                  <v-combobox v-model="settings.SOCIALS" :items="sns_items" :label="$t('select_socials')" hide-selected multiple small-chips>
-                    <template v-slot:selection="{ attrs, item, parent, selected }">
-                      <v-chip v-bind="attrs" color="green lighten-3" :input-value="selected" label small >
-                        <span class="pr-2"> {{ item.text }} </span>
-                        <v-icon small @click="parent.selectItem(item)" >close</v-icon>
-                      </v-chip>
-                    </template>
-                  </v-combobox>
-                  <v-row v-for="s in settings.SOCIALS" :key="'social-'+s.value" >
-                    <v-col class='py-0' cols=12 sm=2>
-                      <v-subheader class="px-0 pt-4" :class="$vuetify.breakpoint.smAndUp?'float-right':''">
-                        {{s.text}}  (<a @click="show_sns_config(s)">{{ $t('description') }}</a>)
-                      </v-subheader>
-                    </v-col>
-                    <v-col class='py-0' cols=12 sm=3>
-                      <v-text-field small hide-details single-line v-model="settings['SOCIAL_AUTH_'+s.value.toUpperCase()+'_KEY']" :label="$t('key')" type="text"></v-text-field>
-                    </v-col>
-                    <v-col class='py-0' cols=12 sm=7>
-                      <v-text-field small hide-details single-line v-model="settings['SOCIAL_AUTH_'+s.value.toUpperCase()+'_SECRET']" :label="$t('secret')" type="text"></v-text-field>
-                    </v-col>
-                  </v-row>
-                </template>
+            <template v-if="card.show_ssl">
+              <ssl-manager />
+            </template>
+          </div>
+        </v-card-text>
+      </v-expand-transition>
+    </v-card>
 
-                <template v-if="card.show_ssl">
-                  <ssl-manager />
-                </template>
-              </div>
-            </v-card-text>
-          </v-expand-transition>
-        </v-card>
-
-        <br/>
-        <div class="text-center">
-            <v-btn color="primary" @click="save_settings">{{ $t('save') }}</v-btn>
-        </div>
+    <br />
+    <div class="text-center">
+      <v-btn color="primary" @click="save_settings">{{ $t('save') }}</v-btn>
     </div>
+  </div>
 </template>
 
 <script>
 import SSLManager from "~/components/SSLManager.vue";
 export default {
-    components: {
-        "ssl-manager": SSLManager,
-    },
-    created() {
-        this.$backend("/admin/settings").then(rsp => {
-            this.sns_items = rsp.sns;
-            this.settings = rsp.settings;
-            this.site_url = rsp.site_url;
+  components: {
+    "ssl-manager": SSLManager,
+  },
+  created() {
+    this.cards = [
+      {
+        show: false,
+        title: "settings.basic_info",
+        fields: [
+          {
+            icon: "language", key: "site_language", label: "settings.language_switch", type: 'select',
+            items: [{ text: '简体中文', value: "zh" }, { text: 'English', value: "en" }]
+          },
+          { icon: "home", key: "site_title", label: "settings.site_title", },
+          { icon: "mdi-copyright", key: "HEADER", label: "settings.site_header", type: 'textarea' },
+          { icon: "mdi-copyright", key: "FOOTER", label: "settings.site_footer", type: 'textarea' }
+        ],
+        groups: [
+          {
+            key: "INVITE_MODE",
+            label: "settings.private_library_mode",
+            fields: [
+              { icon: "lock", key: "INVITE_CODE", label: "settings.access_code" },
+              { icon: "person", key: "INVITE_MESSAGE", type: 'textarea', label: "settings.invite_message" },
+            ],
+          },
+        ],
+      },
+      {
+        show: false,
+        title: "settings.user_settings",
+        fields: [
+          { icon: "", key: "ALLOW_GUEST_READ", label: "settings.allow_guest_read", type: 'checkbox' },
+          { icon: "", key: "ALLOW_GUEST_DOWNLOAD", label: "settings.allow_guest_download", type: 'checkbox' },
+          { icon: "", key: "ALLOW_GUEST_PUSH", label: "settings.allow_guest_push", type: 'checkbox' },
+        ],
+        groups: [
+          {
+            key: "ALLOW_REGISTER",
+            label: "settings.allow_guest_register",
+            fields: [
+              { icon: "info", key: "SIGNUP_MAIL_TITLE", label: "settings.signup_mail_title" },
+              { icon: "info", key: "SIGNUP_MAIL_CONTENT", label: "settings.signup_mail_content", type: 'textarea' },
+              { icon: "info", key: "RESET_MAIL_TITLE", label: "settings.reset_mail_title" },
+              { icon: "info", key: "RESET_MAIL_CONTENT", label: "settings.reset_mail_content", type: 'textarea' },
+            ],
+          },
+        ],
+      },
 
-            var m = {}
-            rsp.sns.forEach(function(ele){
-                m[ele.value] = ele;
-            });
-            this.settings.SOCIALS.forEach(function(ele){
-                ele.help = false;
-                ele.link = m[ele.value].link;
-            })
+      {
+        show: false,
+        title: 'settings.social_network_login',
+        fields: [],
+        show_socials: true,
+      },
+      {
+        show: false,
+        title: "settings.email_service",
+        subtitle: 'settings.email_service_description',
+        fields: [
+          { icon: "email", key: "smtp_server", label: "settings.smtp_server" },
+          { icon: "person", key: "smtp_username", label: "settings.smtp_username" },
+          { icon: "lock", key: "smtp_password", label: "settings.smtp_password" },
+          {
+            icon: "info", key: "smtp_encryption", label: "settings.smtp_encryption", type: 'select',
+            items: [{ text: "SSL", value: "SSL" }, { text: "TLS", value: "TLS" }]
+          },
+        ],
+        buttons: [
+          { icon: "email", label: "settings.test_email", action: "test_email" },
+        ],
+      },
+      {
+        show: false,
+        title: "settings.book_tags",
+        subtitle: 'settings.book_tags_description',
+        fields: [
+          { icon: "person", key: "BOOK_NAV", type: 'textarea', label: "book_nav" },
+        ],
+      },
+      {
+        show: false,
+        title: 'settings.friend_links',
+        fields: [],
+        show_friends: true,
+      },
+
+      {
+        show: false,
+        title: "settings.internet_book_sources",
+        fields: [
+          { icon: "", key: "auto_fill_meta", label: "settings.auto_fill_meta", type: 'checkbox' },
+          { icon: "info", key: "douban_baseurl", label: "settings.douban_baseurl" },
+          { icon: "info", key: "douban_max_count", label: "settings.douban_max_count" },
+        ],
+        tips: [
+          {
+            text: "settings.douban_plugin_description",
+            link: "https://github.com/HorkyChen/talebook/blob/master/document/README.zh_CN.md#%E5%A6%82%E6%9E%9C%E9%85%8D%E7%BD%AE%E8%B1%86%E7%93%A3%E6%8F%92%E4%BB%B6",
+          }
+        ],
+      },
+      {
+        show: false,
+        title: "settings.advanced_settings",
+        fields: [
+          { icon: "home", key: "static_host", label: "settings.cdn_domain" },
+          {
+            icon: "info", key: "BOOK_NAMES_FORMAT", label: "settings.book_names_format", type: 'select',
+            items: [{ text: this.$t('pinyin_directory'), value: "en" }, { text: this.$t('utf8_directory'), value: "utf8" }]
+          },
+          { icon: "info", key: "avatar_service", label: "settings.avatar_service" },
+          { icon: "info", key: "MAX_UPLOAD_SIZE", label: "settings.max_upload_size" },
+          { icon: "lock", key: "cookie_secret", label: "settings.cookie_secret" },
+          { icon: "info", key: "scan_upload_path", label: "settings.scan_upload_path" },
+          { icon: "info", key: "push_title", label: "settings.push_title" },
+          { icon: "info", key: "push_content", label: "settings.push_content" },
+          { icon: "info", key: "convert_timeout", label: "settings.convert_timeout" },
+          { icon: "", key: "autoreload", label: "autoreload", type: 'settings.checkbox' },
+        ],
+        tips: [
+          {
+            text: "settings.logo_adjustment_description",
+            link: "https://github.com/HorkyChen/talebook/blob/master/document/README.zh_CN.md#logo",
+          }
+        ],
+      },
+
+      {
+        show: false,
+        title: "settings.ssl_certificate_management",
+        fields: [],
+        show_ssl: true,
+      },
+    ];
+
+    this.$backend("/admin/settings").then(rsp => {
+      this.sns_items = rsp.sns;
+      this.settings = rsp.settings;
+      this.site_url = rsp.site_url;
+
+      var m = {}
+      rsp.sns.forEach(function (ele) {
+        m[ele.value] = ele;
+      });
+      this.settings.SOCIALS.forEach(function (ele) {
+        ele.help = false;
+        ele.link = m[ele.value].link;
+      })
+    });
+  },
+  data: () => ({
+    combo_input: "",
+    sns: {},
+    sns_items: [],
+    settings: {},
+    site_url: "",
+    cards: [],
+  }),
+  methods: {
+    save_settings: function () {
+      if (this.settings['site_language'] !== '') {
+        console.log($t("switch_language_to"), this.settings['site_language']);
+        this.$i18n.locale = this.settings['site_language'];
+      }
+      this.$backend("/admin/settings", {
+        method: 'POST',
+        body: JSON.stringify(this.settings),
+      })
+        .then(rsp => {
+          if (rsp.err != 'ok') {
+            this.$alert('error', $t('save_error'));
+          } else {
+            this.$alert('success', $t('save_success'));
+          }
         });
     },
-    data: () => ({
-        combo_input: "",
-        sns: {},
-        sns_items: [],
-        settings: { },
-        site_url: "",
-
-        cards: [
-            {
-            show: false,
-            title: "basic_info",
-            fields: [
-                { icon: "language", key: "site_language", label: "language_switch", type: 'select',
-                  items: [{text: "simplified_chinese", value: "zh"}, {text: "english", value: "en"}]
-                },
-                { icon: "home", key: "site_title", label: "site_title", },
-                { icon: "mdi-copyright", key: "HEADER", label: "site_header", type: 'textarea' },
-                { icon: "mdi-copyright", key: "FOOTER", label: "site_footer", type: 'textarea' }
-            ],
-            groups: [
-            {
-                key: "INVITE_MODE",
-                label: "private_library_mode",
-                fields: [
-                    { icon: "lock", key: "INVITE_CODE", label: "access_code" },
-                    { icon: "person", key: "INVITE_MESSAGE", type: 'textarea', label: "invite_message" },
-                ],
-            },
-            ],
-        },
-        {
-            show: false,
-            title: "user_settings",
-            fields: [
-                { icon: "", key: "ALLOW_GUEST_READ", label: "allow_guest_read", type: 'checkbox' },
-                { icon: "", key: "ALLOW_GUEST_DOWNLOAD", label: "allow_guest_download", type: 'checkbox' },
-                { icon: "", key: "ALLOW_GUEST_PUSH", label: "allow_guest_push", type: 'checkbox' },
-            ],
-            groups: [
-            {
-                key: "ALLOW_REGISTER",
-                label: "allow_guest_register",
-                fields: [
-                    { icon: "info", key: "SIGNUP_MAIL_TITLE", label: "signup_mail_title" },
-                    { icon: "info", key: "SIGNUP_MAIL_CONTENT", label: "signup_mail_content", type: 'textarea' },
-                    { icon: "info", key: "RESET_MAIL_TITLE", label: "reset_mail_title" },
-                    { icon: "info", key: "RESET_MAIL_CONTENT", label: "reset_mail_content", type: 'textarea' },
-                ],
-            },
-            ],
-        },
-
-        {
-            show: false,
-            title: 'social_network_login',
-            fields: [ ],
-            show_socials: true,
-        },
-        {
-            show: false,
-            title: "email_service",
-            subtitle: 'email_service_description',
-            fields: [
-                { icon: "email", key: "smtp_server", label: "smtp_server" },
-                { icon: "person", key: "smtp_username", label: "smtp_username" },
-                { icon: "lock", key: "smtp_password", label: "smtp_password" },
-                { icon: "info", key: "smtp_encryption", label: "smtp_encryption", type: 'select',
-                    items: [{text: "SSL", value: "SSL"}, {text: "TLS", value: "TLS"} ]
-                },
-            ],
-            buttons: [
-                { icon: "email", label: "test_email", action: "test_email" },
-            ],
-        },
-        {
-            show: false,
-            title: "book_tags",
-            subtitle: 'book_tags_description',
-            fields: [
-                { icon: "person", key: "BOOK_NAV", type: 'textarea', label: "book_nav" },
-            ],
-        },
-        {
-            show: false,
-            title: 'friend_links',
-            fields: [ ],
-            show_friends: true,
-        },
-
-        {
-            show: false,
-            title: "internet_book_sources",
-            fields: [
-                { icon: "", key: "auto_fill_meta", label: "auto_fill_meta", type: 'checkbox' },
-                { icon: "info", key: "douban_baseurl", label: "douban_baseurl" },
-                { icon: "info", key: "douban_max_count", label: "douban_max_count" },
-            ],
-            tips: [
-                {
-                    text: "douban_plugin_description",
-                    link: "https://github.com/HorkyChen/talebook/blob/master/document/README.zh_CN.md#%E5%A6%82%E6%9E%9C%E9%85%8D%E7%BD%AE%E8%B1%86%E7%93%A3%E6%8F%92%E4%BB%B6",
-                }
-            ],
-        },
-
-        {
-            show: false,
-            title: "advanced_settings",
-            fields: [
-                { icon: "home", key: "static_host", label: "cdn_domain" },
-                { icon: "info", key: "BOOK_NAMES_FORMAT", label: "book_names_format", type: 'select',
-                    items: [{text: "pinyin_directory", value: "en"}, {text: "utf8_directory", value: "utf8"} ]
-                },
-                { icon: "info", key: "avatar_service", label: "avatar_service" },
-                { icon: "info", key: "MAX_UPLOAD_SIZE", label: "max_upload_size" },
-                { icon: "lock", key: "cookie_secret", label: "cookie_secret" },
-                { icon: "info", key: "scan_upload_path", label: "scan_upload_path" },
-                { icon: "info", key: "push_title", label: "push_title" },
-                { icon: "info", key: "push_content", label: "push_content" },
-                { icon: "info", key: "convert_timeout", label: "convert_timeout" },
-                { icon: "", key: "autoreload", label: "autoreload", type: 'checkbox' },
-            ],
-            tips: [
-                {
-                    text: "logo_adjustment_description",
-                    link: "https://github.com/HorkyChen/talebook/blob/master/document/README.zh_CN.md#logo",
-                }
-            ],
-        },
-
-        {
-            show: false,
-            title: "ssl_certificate_management",
-            fields: [],
-            show_ssl: true,
-        },
-
-        ],
-    }),
-    methods: {
-        save_settings: function() {
-            if ( this.settings['site_language'] !== '' ) {
-              console.log($t("switch_language_to"), this.settings['site_language']);
-              this.$i18n.locale = this.settings['site_language'];
-            }
-            this.$backend("/admin/settings", {
-                method: 'POST',
-                body: JSON.stringify(this.settings),
-            })
-            .then( rsp => {
-                if ( rsp.err != 'ok' ) {
-                    this.$alert('error', $t('save_error'));
-                } else {
-                    this.$alert('success', $t('save_success'));
-                }
-            });
-        },
-        show_sns_config: function(s) {
-            var msg = `${$t('sns_config_message', { text: s.text, link: s.link, site_url: this.site_url, value: s.value })}`;
-            this.$alert("success", msg);
-        },
-        test_email: function() {
-            var data = new URLSearchParams();
-            data.append('smtp_server', this.settings['smtp_server']);
-            data.append('smtp_username', this.settings['smtp_username']);
-            data.append('smtp_password', this.settings['smtp_password']);
-            data.append('smtp_encryption', this.settings['smtp_encryption']);
-            this.$backend("/admin/testmail", {
-                method: 'POST',
-                body: data,
-            }).then( rsp => {
-                if ( rsp.err != 'ok' ) {
-                    this.$alert('error', rsp.msg);
-                } else {
-                    this.$alert('success', rsp.msg);
-                }
-            });
-        },
-        run: function(func) {
-            this[func]();
-        },
-      },
-  }
+    show_sns_config: function (s) {
+      var msg = `${$t('sns_config_message', { text: s.text, link: s.link, site_url: this.site_url, value: s.value })}`;
+      this.$alert("success", msg);
+    },
+    test_email: function () {
+      var data = new URLSearchParams();
+      data.append('smtp_server', this.settings['smtp_server']);
+      data.append('smtp_username', this.settings['smtp_username']);
+      data.append('smtp_password', this.settings['smtp_password']);
+      data.append('smtp_encryption', this.settings['smtp_encryption']);
+      this.$backend("/admin/testmail", {
+        method: 'POST',
+        body: data,
+      }).then(rsp => {
+        if (rsp.err != 'ok') {
+          this.$alert('error', rsp.msg);
+        } else {
+          this.$alert('success', rsp.msg);
+        }
+      });
+    },
+    run: function (func) {
+      this[func]();
+    },
+  },
+}
 </script>
 
 <style>
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 </style>
