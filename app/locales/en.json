@@ -19,8 +19,8 @@
         "checkingServer": "Checking server..."
     },
     "index": {
-        "randomRecommendation": "Random Recommendation",
-        "newRecommendation": "New Recommendation",
+        "randomRecommendation": "Recommendation",
+        "newRecommendation": "Recent updated",
         "categoryBrowse": "Category Browse",
         "categoryNavigation": "Category Navigation",
         "authors": "Authors",
@@ -387,9 +387,9 @@
         "rating": "Rating",
         "hotRanking": "Hot Ranking",
         "allBooks": "All Books",
-        "systemVersion": "System Version",
+        "systemVersion": "Revision",
         "userCount": "User Count",
-        "opdsIntroduction": "OPDS Introduction",
+        "opdsIntroduction": "About OPDS",
         "search": "Search",
         "sys.title": "System Title",
         "ok": "OK",

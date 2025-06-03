@@ -292,6 +292,7 @@ class UserInfo(BaseHandler):
             "active": count_hot_users,
             "version": VERSION,
             "title": CONF["site_title"],
+            "language": CONF["site_language"] if "site_language" in CONF else "",
             "socials": CONF["SOCIALS"],
             "friends": CONF["FRIENDS"],
             "footer": CONF["FOOTER"],

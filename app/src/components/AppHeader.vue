@@ -287,6 +287,9 @@ export default {
             this.user = rsp.user;
             this.$store.commit("login", rsp);
             this.$store.commit("set_title", rsp.sys.title);
+            if (rsp.sys.language !== '') {
+                this.$i18n.locale = rsp.sys.language;
+            }
         });
         this.$backend("/user/messages").then((rsp) => {
             if (rsp.err == "ok") {

@@ -40,7 +40,7 @@ export const mutations = {
         state.alert.show = true;
     }, close_alert(state) {
         state.alert.show = false;
-    }, set_title(state, v) {
+    }, settings_title(state, v) {
         state.site_title_template = ' %s | ' + v;
     }
 }
