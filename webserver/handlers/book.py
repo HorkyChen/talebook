@@ -437,11 +437,15 @@ class SearchBook(ListHandler):
 
         title = _(u"搜索：%(name)s") % {"name": name}
         ids = self.cache.search(name)
-        converted_name = opencc.OpenCC('s2t').convert(name)
-        if converted_name != name:
+        for profile in {'s2t', "t2s"}:
+            converted_name = opencc.OpenCC(profile).convert(name)
+            if converted_name == name:
+                continue
             ids2 = self.cache.search(converted_name)
             if len(ids2) > 0:
                 ids = ids.union(ids, ids2)
+                break;
+
         return self.render_book_list([], ids=ids, title=title)
 
 
