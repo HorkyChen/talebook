@@ -15,8 +15,7 @@ for filename in os.listdir(current_dir):
             subprocess.run(['ebook-convert', epub_path, azw3_path,
                             '--output-profile=kindle_pw3',
                             '--extra-css=body{font-family:inherit;}',
-                            '--enable-heuristics'],
-                            check=True)
+                            '--enable-heuristics'], check=True)
             print(f"转换成功: {azw3_path}")
         except subprocess.CalledProcessError as e:
-            print(f"转换失败: {epub_path}")
+            print(f"转换失败: {epub_path}", e)
