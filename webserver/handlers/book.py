@@ -444,7 +444,7 @@ class SearchBook(ListHandler):
             ids2 = self.cache.search(converted_name)
             if len(ids2) > 0:
                 ids = ids.union(ids, ids2)
-                break;
+                break
 
         return self.render_book_list([], ids=ids, title=title)
 
