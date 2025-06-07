@@ -3,80 +3,88 @@
 
 
 # Tale Book: Personal Calibre WebServer
-A enhanced personal books management webserver built on Calibre + Vue, beautiful and easy-to-use. ([中文说明](document/README.zh_CN.md))
+A enhanced personal books management webserver built on Calibre + Vue, beautiful and easy-to-use. ([English](document/README.en.md))
 
-**Noted: Online publishing is prohibited for personal websites in China. This project is recommended for personal use only!**
+## 简单好用的个人图书管理系统
 
-## Road Map
-* v3.9.0 (Completed)
-    1. Updated to Calibre 7.6, system uses Ubuntu 24.04.
-    2. Added information reset functionality in management, updated when scraping occurs
+**友情提醒：中国境内网站，个人是不允许进行在线出版的，维护公开的书籍网站是违法违规的行为！建议仅作为个人使用！**
+
+## 版本
+* v3.9.0 (完成)
+    1. 更新Calibre 7.6，系统使用Ubuntu 24.04
+    2. 信息管理中增加信息重置，出现刮削时更新
 * v3.10.0
-    1. Introduce book export functionality (e.g., converting epub to azw3 for Kindle use)
+    1. 增加图书导出功能 (比如将epub转到azw3， 方便kindle使用)
+    2. 支持中文搜索时，使用简繁体同时搜索
+    3. 支持UI切换语言 （后台返回的文本没有处理）
 * NEXT
-    1. Support for information sharing
+    1. 支持信息共享
 
-## Introduction
-Tale Book is a simple yet powerful personal book management system based on Calibre, supporting **online reading**. Key features include:
-* **Beautiful and intuitive UI**: The default Calibre web interface is unattractive and difficult to use. Tale Book introduces a new interface built with Vue, optimized for both PC and mobile browsing.
-* **Multi-user support**: Enables multi-user functionality for easier management, supporting login via ~~Douban~~ (deprecated), QQ, Weibo, GitHub, and other social platforms.
-* **Online reading**: Allows users to read eBooks online using the [epub.js](https://github.com/intity/epubreader-js) library (chapter review functionality is under development).
-* **Batch scanning and importing**: Quickly scan and import books into the library.
-* **Email push**: Easily send books to Kindle devices.
-* **OPDS support**: Compatible with apps like [KyBooks](http://kybook-reader.com/) for convenient reading.
-* **One-click installation**: Provides web-based initialization for effortless website setup.
-* **Optimized file storage**: Supports categorization by letter or retaining Chinese filenames for large libraries.
-* **Quick book information updates**: Enables importing basic book information from Baidu Encyclopedia and Douban searches.
-* **Private mode**: Requires an access code to enter the website, ideal for sharing within small groups.
 
-This project was formerly known as `calibre-webserver`.
+## 项目介绍
+这是一个基于Calibre的简单的个人图书管理系统，支持**在线阅读**。主要特点是：
+* 美观的界面：由于Calibre自带的网页太丑太难用，于是基于Vue，独立编写了新的界面，支持PC访问和手机浏览；
+* 支持多用户：为了网友们更方便使用，开发了多用户功能，支持~~豆瓣~~（已废弃）、QQ、微博、Github等社交网站的登录；
+* 支持在线阅读：借助[epub.js](https://github.com/intity/epubreader-js) 库，支持了网页在线阅读电子书（章评功能开发中）；
+* 支持批量扫描导入书籍；
+* 支持邮件推送：可方便推送到Kindle；
+* 支持OPDS：可使用[KyBooks](http://kybook-reader.com/)等APP方便地读书；
+* 支持一键安装，网页版初始化配置，轻松启动网站；
+* 优化大书库时文件存放路径，可以按字母分类、或者文件名保持中文；
+* 支持快捷更新书籍信息：支持从百度百科、豆瓣搜索并导入书籍基础信息；
+* 支持私人模式：需要输入访问码，才能进入网站，便于小圈子分享网站；
+
+本项目曾用名：calibre-webserver
+
 
 ## Docker ![Docker Pulls](https://img.shields.io/docker/pulls/poxenstudio/talebook.svg)
 
-Deployment is straightforward, and Docker is recommended. The Docker image is available on [Docker Hub](https://hub.docker.com/r/poxenstudio/talebook).
-* Built on `Ubuntu 24.04` and `Calibre 7.6` for improved compatibility. Avoid setting Docker's UID/GID to `root` (ID: 0).
+部署比较简单，建议采用docker，镜像地址：[dockerhub](https://hub.docker.com/r/poxenstudio/talebook)
+* 已经调整基于```Ubuntu 24.04```和```Calibre 7.6```构建, 改善兼容性。Docker运行的UID/GID不要设置为```root```(ID:0)。
 
-### Using Docker Compose
-Download the configuration file [docker-compose.yml](docker-compose.yml) from the repository and execute the following command to start:
-```bash
+推荐使用`docker-compose`，下载仓库中的配置文件[docker-compose.yml](docker-compose.yml)，然后执行命令启动即可。
+若希望修改挂载的目录或端口，请修改docker-compose.yml文件。
+
+```
 wget https://raw.githubusercontent.com/HorkyChen/talebook/master/docker-compose.yml
-docker-compose -f docker-compose.yml up -d
+docker-compose -f docker-compose.yml  up -d
 ```
 
-### Using Native Docker
-Run the following command:
-```bash
-docker run -d --name talebook -p <local port>:80 -v <local data directory>:/data poxenstudio/talebook
-```
 
-For example:
-```bash
-docker run -d --name talebook -p 8080:80 -v /tmp/demo:/data poxenstudio/talebook
-```
+如果使用原生docker，那么执行命令：
 
-## FAQ
+`docker run -d --name talebook -p <本机端口>:80 -v <本机data目录>:/data poxenstudio/talebook`
 
-For common issues, refer to the [User Guide](document/UserGuide.zh_CN.md). If unresolved, submit an issue or [join the QQ group for discussion](https://qm.qq.com/q/5lSfpJGsBq).
 
-For manual installation, consult the [Developer Guide](document/Development.zh_CN.md).
+例如
 
-### NAS Installation Guide
-Refer to the following user posts:
-* [Post 1](https://post.smzdm.com/p/a992p6e0/)
-* [Post 2](https://post.smzdm.com/p/a3d7ox0k/)
-* [Post 3](https://odcn.top/2019/02/26/2734/)
-* [FnOS](https://club.fnnas.com/forum.php?mod=viewthread&tid=27403)
+`docker run -d --name talebook -p 8080:80 -v /tmp/demo:/data poxenstudio/talebook`
 
-**Disclaimer**: This project does not maintain any public book library sites, such as joyeuse, wenyuange, etc., which are built by users. Please do not consult the author regarding related issues, as assistance cannot be provided.
 
-## Contributors
+
+## 常见问题
+
+常见问题请参阅[使用指南](document/UserGuide.zh_CN.md)，无法解决的话，提个ISSUEE，[进Q群交流](https://qm.qq.com/q/5lSfpJGsBq)
+
+手动安装请参考[开发者指南](document/Development.zh_CN.md)
+
+NAS安装指南：请参考网友们的帖子：[帖子1](https://post.smzdm.com/p/a992p6e0/)，[帖子2](https://post.smzdm.com/p/a3d7ox0k/), [帖子3](https://odcn.top/2019/02/26/2734/), * [飞牛NAS](https://club.fnnas.com/forum.php?mod=viewthread&tid=27403)
+
+**如果觉得本项目很棒，欢迎前往[爱发电](https://afdian.net/@talebook)，赞助作者，持续优化，为爱充电！**
+
+**再次声明！本项目没有维护任何公开的书库站点，例如 joyeuse, wenyuange 等网站均属于网友搭建的，相关问题请不要咨询我，爱莫能助！**
+
+
+## 贡献者
 [![](https://contrib.rocks/image?repo=HorkyChen/talebook)](https://github.com/HorkyChen/talebook/graphs/contributors)
 
-## Demonstration
+j
+## 演示
 
-[Demo site (password: admin/demodemo)](http://demo.talebook.org)
+[Demo站点（密码 admin/demodemo ）](http://demo.talebook.org)
 
-[Video introduction (thanks to @Pan06da)](https://player.bilibili.com/player.html?aid=482258810&bvid=BV1AT411S7c3&cid=1018595245&page=1)
+[视频简介（感谢@Pan06da的制作）](https://player.bilibili.com/player.html?aid=482258810&bvid=BV1AT411S7c3&cid=1018595245&page=1)
 
-Screenshots of the project demonstration:
+
+项目演示截图如下：
 ![](document/screenshot.png)
