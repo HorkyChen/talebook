@@ -41,7 +41,7 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
 
 # install envsubst gosu procps
 RUN apt update -y && \
-    apt install -y gettext gosu procps vim nginx calibre calibre-bin supervisor && \
+    apt install -y gettext gosu procps vim nginx calibre calibre-bin supervisor fonts-lato && \
     apt clean && \
     apt install -y python3-pip && \
     pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
