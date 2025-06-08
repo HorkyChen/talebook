@@ -170,6 +170,10 @@
                                     <v-icon>apps</v-icon>
                                     {{ $t('book.resetInfo') }}
                                 </v-list-item>
+                                <v-list-item @click="convert_book">
+                                    <v-icon>apps</v-icon>
+                                    {{ $t('book.convert') }}
+                                </v-list-item>
                                 <v-divider></v-divider>
                                 <v-list-item @click="delete_book">
                                     <v-icon>delete_forever</v-icon>
@@ -495,9 +499,22 @@ export default {
                 body: new URLSearchParams({reset: "yes"}),
             }).then((rsp) => {
                 if (rsp.err === "ok") {
-                    this.$alert("success", "重置信息成功");
+                    this.$alert("success", this.$t('book.resetSuccessful'));
                     this.$router.push("/book/" + this.book.id);
                     location.reload();
+                } else {
+                    this.$alert("error", rsp.msg);
+                }
+            });
+        },
+        convert_book() {
+            this.$backend("/book/" + this.book.id + "/convert", {
+                method: "POST",
+                body: new URLSearchParams({reset: "yes"}),
+            }).then((rsp) => {
+                if (rsp.err === "ok") {
+                    this.$alert("success", this.$t('book.convertSuccessful'));
+                    this.$router.push("/book/" + this.book.id);
                 } else {
                     this.$alert("error", rsp.msg);
                 }

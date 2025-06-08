@@ -14,7 +14,7 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
     1. 更新Calibre 7.6，系统使用Ubuntu 24.04
     2. 信息管理中增加信息重置，出现刮削时更新
 * v3.10.0
-    1. 增加图书导出功能 (比如将epub转到azw3， 方便kindle使用)
+    1. 增加图书导出功能 (epub与azw3互转， 方便kindle使用)
     2. 支持中文搜索时，使用简繁体同时搜索
     3. 支持UI切换语言 （后台返回的文本没有处理）
 * NEXT

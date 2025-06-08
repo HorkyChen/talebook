@@ -68,6 +68,45 @@ class BookDetail(BaseHandler):
         }
 
 
+class BookConverter(BaseHandler):
+    @js
+    @auth
+    def post(self, id):
+        book_id = int(id)
+        book = self.get_book(book_id)
+        if not book:
+            return {"err": "params.book.invalid", "msg": _(u"书籍不存在")}
+
+        if not self.is_admin() and not self.is_book_owner(book_id, self.user_id()):
+            return {"err": "user.no_permission", "msg": _(u"无权限")}
+
+        book = self.get_book(book_id)
+        fmts = []
+        paths = []
+        for fmt in ["epub", "azw3", "mobi", "azw", "txt"]:
+            book_path = book.get("fmt_%s" % fmt, None)
+            if book_path:
+                fmts.append(fmt)
+                paths.append(book_path)
+
+        if len(fmts) == 0:
+            return {"err": "params.book.invalid", "msg": _(u"本书不支持转换，仅支持EPUB,TXT以及Kindle使用的格式")}
+        if ('epub' in fmts) and ('azw3' in fmts):
+            return {"err": "params.book.invalid", "msg": _(u"本书已有EPUB和Kindle版本, 不需要转换")}
+
+        if fmts[0] == "epub":
+            fmt = "azw3"
+        else:
+            fmt = "epub"
+        fpath = paths[0]
+
+        service = ConvertService()
+        if service.is_book_converting(book):
+            return {"err": "params.book.converting", "msg": _(u"本书正在转换中，请稍后再试")}
+        service.convert_and_save(self.user_id(), book, fpath, fmt)
+        return {"err": "ok", "content": "%s" % _(u"转换成功，请稍后刷新页面查看")}
+
+
 class BookRefer(BaseHandler):
     def has_proper_book(self, books, mi):
         if not books or not mi.isbn or mi.isbn == baike.BAIKE_ISBN:
@@ -187,7 +226,7 @@ class BookRefer(BaseHandler):
         if not self.is_admin() and not self.is_book_owner(book_id, self.user_id()):
             return {"err": "user.no_permission", "msg": _(u"无权限")}
 
-        org_mi.set("comments", _(u"书籍信息已重置"))
+        org_mi.set("comments", _(u""))
         if org_mi.get("comments", "") == "":
             org_mi.set("comments", _(u"无详细介绍"))
         self.db.set_metadata(book_id, org_mi, force_changes=True)
@@ -722,4 +761,5 @@ def routes():
         (r"/read/([0-9]+)", BookRead),
         (r"/api/read/txt", TxtRead),
         (r"/api/book/txt/init", BookTxtInit),
+        (r"/api/book/([0-9]+)/convert", BookConverter),
     ]

@@ -13,8 +13,8 @@ for filename in os.listdir(current_dir):
         try:
             subprocess.run([
                 'ebook-convert', epub_path, azw3_path,
-                '--output-profile=kindle_pw3',
-                '--embed-font-family=FreeSerif',
+                '--output-profile=kindle',
+                '--embed-font-family=Lato',
                 '--enable-heuristics'
             ], check=True)
             print(f"Conversion successful: {azw3_path}")
