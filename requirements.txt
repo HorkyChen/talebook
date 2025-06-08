@@ -16,3 +16,4 @@ pymysql
 pytest==7.4.4
 flake8
 opencc
+psutil
