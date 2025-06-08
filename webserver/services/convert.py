@@ -7,10 +7,13 @@ import logging
 from gettext import gettext as _
 import subprocess
 import time
+import psutil
 
 from webserver import loader
 from webserver.services import AsyncService
 from webserver.services.mail import MailService
+
+EBOOK_CONVERT_CMD = "ebook-convert"
 
 CONF = loader.get_settings()
 
@@ -19,17 +22,36 @@ class ConvertService(AsyncService):
     def get_path_of_fmt(self, book, fmt):
         """for mock test"""
         from calibre.utils.filenames import ascii_filename
-
         return os.path.join(CONF["convert_path"], "%s.%s" % (ascii_filename(book["title"]), fmt))
 
     def get_path_progress(self, book_id):
         return os.path.join(CONF["progress_path"], "progress-%s.log" % book_id)
 
+    def is_book_converting(self, book):
+        converted_book_path_prefix = os.path.join(
+            CONF["convert_path"],
+            "book-%s-" % book["id"],
+        )
+        found = False
+        for process in psutil.process_iter(['cmdline']):
+            try:
+                cmdline = process.info['cmdline']
+                if cmdline and any(converted_book_path_prefix in arg for arg in cmdline):
+                    logging.info("Found process with string '%s': PID %s", converted_book_path_prefix, process.pid)
+                    found = True
+                    break
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+        return found
+
     def do_ebook_convert(self, old_path, new_path, log_path):
         """convert book, and block, and wait"""
-        args = ["ebook-convert", old_path, new_path]
+        args = [EBOOK_CONVERT_CMD, old_path, new_path]
         if new_path.lower().endswith(".epub"):
             args += ["--flow-size", "0"]
+        if new_path.lower().endswith(".azw3"):
+            args += ["--embed-font-family", "Lato"]
+            args += ["--enable-heuristics", "--output-profile", "kindle"]
 
         timeout = 300
         try:
@@ -80,8 +102,8 @@ class ConvertService(AsyncService):
 
     @AsyncService.register_service
     def convert_and_save(self, user_id, book, fpath, new_fmt):
-
-        new_fmt = "epub"
+        if new_fmt == "":
+            new_fmt = "epub"
         new_path = os.path.join(
             CONF["convert_path"],
             "book-%s-%s.%s" % (book["id"], int(time.time()), new_fmt),

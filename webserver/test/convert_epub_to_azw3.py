@@ -4,7 +4,6 @@ import subprocess
 
 current_dir = os.getcwd()
 
-
 for filename in os.listdir(current_dir):
     if filename.lower().endswith('.epub'):
         epub_path = os.path.join(current_dir, filename)
@@ -12,10 +11,12 @@ for filename in os.listdir(current_dir):
         azw3_path = os.path.join(current_dir, azw3_filename)
 
         try:
-            subprocess.run(['ebook-convert', epub_path, azw3_path,
-                            '--output-profile=kindle_pw3',
-                            '--extra-css=body{font-family:inherit;}',
-                            '--enable-heuristics'], check=True)
-            print(f"转换成功: {azw3_path}")
+            subprocess.run([
+                'ebook-convert', epub_path, azw3_path,
+                '--output-profile=kindle',
+                '--embed-font-family=Lato',
+                '--enable-heuristics'
+            ], check=True)
+            print(f"Conversion successful: {azw3_path}")
         except subprocess.CalledProcessError as e:
-            print(f"转换失败: {epub_path}", e)
+            print(f"Conversion failed: {epub_path}", e)
