@@ -8,6 +8,7 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
 与阅读器不同，主要功能是对电子书的管理功能。阅读器可以灵活选择，移动端比较多选择，在PC端推荐Koodo Reader。
 
 ## 简单好用的个人图书管理系统
+本项目基于talebook的开发维护, 原项目地址:[talebook](https://github.com/talebook/talebook)。
 
 **友情提醒：中国境内网站，个人是不允许进行在线出版的，维护公开的书籍网站是违法违规的行为！建议仅作为个人使用！**
 
