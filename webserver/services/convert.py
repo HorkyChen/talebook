@@ -17,6 +17,7 @@ EBOOK_CONVERT_CMD = "ebook-convert"
 
 CONF = loader.get_settings()
 
+
 class ConvertService(AsyncService):
     def get_path_of_fmt(self, book, fmt):
         """for mock test"""
@@ -25,7 +26,7 @@ class ConvertService(AsyncService):
 
     def get_path_progress(self, book_id):
         return os.path.join(CONF["progress_path"], "progress-%s.log" % book_id)
-    
+
     def is_book_converting(self, book):
         converted_book_path_prefix = os.path.join(
             CONF["convert_path"],
