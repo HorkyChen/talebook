@@ -13,6 +13,7 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
     2. Added information reset functionality in management, updated when scraping occurs
 * v3.10.0
     1. Introduce book export functionality (e.g., converting epub to azw3 for Kindle use)
+    2. Search both in simplified chinese and traditional chinese
 * NEXT
     1. Support for information sharing
 
