@@ -11,7 +11,7 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
 * v3.9.0 (Completed)
     1. Updated to Calibre 7.6, system uses Ubuntu 24.04.
     2. Added information reset functionality in management, updated when scraping occurs
-* v3.10.0
+* v3.10.0 (Completed)
     1. Introduce book export functionality (e.g., converting epub to azw3 for Kindle use)
     2. Search both in simplified chinese and traditional chinese
 * NEXT
