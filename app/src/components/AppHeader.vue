@@ -57,7 +57,7 @@
                     </v-list-item>
                 </template>
                 <v-list-item>
-                    <v-img class="ma-auto" max-width="128" src="/logo/link.png"></v-img>
+                    <v-img class="ma-auto" max-width="128" src="/logo/link_gongzhonghao.jpg"></v-img>
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
