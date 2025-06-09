@@ -184,7 +184,7 @@
         <!-- 提醒拉取图书的规则说明 -->
         <v-dialog v-model="meta_dialog" persistent transition="dialog-bottom-transition" width="500">
             <v-card>
-                <v-toolbar flat dense dark color="primary"> {{ $t('admin.books.reminder') }} </v-toolbar>
+                <v-toolbar flat dense dark color="primary"> {{ $t('admin.books.reminderTitle') }} </v-toolbar>
                 <v-card-title></v-card-title>
                 <v-card-text>
                     <p> {{ $t('admin.books.reminder.description') }} </p>
