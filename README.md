@@ -5,10 +5,10 @@
 # Tale Book: Personal Calibre WebServer
 A enhanced personal books management webserver built on Calibre + Vue, beautiful and easy-to-use. ([English](document/README.en.md))
 
-与阅读器不同，主要功能是对电子书的管理功能。阅读器可以灵活选择，移动端比较多选择，在PC端推荐Koodo Reader。
+与阅读器不同，主要功能是对电子书的管理功能。阅读器可以灵活选择，移动端比较多，在PC端推荐Koodo Reader。
 
 ## 简单好用的个人图书管理系统
-本项目基于talebook的开发维护, 原项目地址:[talebook](https://github.com/talebook/talebook)。
+本项目基于talebook开发维护, 原项目地址:[talebook](https://github.com/talebook/talebook)。 后续目标是结合AI提供更多的扩展阅读内容，形成个人的知识库。
 
 **友情提醒：中国境内网站，个人是不允许进行在线出版的，维护公开的书籍网站是违法违规的行为！建议仅作为个人使用！**
 
@@ -23,6 +23,17 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
 * v3.9.0 (完成)
     1. 更新Calibre 7.6，系统使用Ubuntu 24.04
     2. 信息管理中增加信息重置，出现刮削错误时更新
+
+### 关注项目
+
+公众号```talebook```
+
+![talebook](document/gongzhonghao_talebook.jpg)
+
+微信扫码加好友, 备注```talebook```:
+
+![微信号PoxenStudio](document/weichat_poxenstudio.jpg)
+
 
 
 ## 项目介绍
