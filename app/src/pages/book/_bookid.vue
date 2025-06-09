@@ -16,7 +16,7 @@
                             auto-select-first
                             required
                         ></v-combobox>
-                        <small>{{ $t('book.kindleSenderNote', { sender: kindle_sender }) }}</small>
+                        <small>{{ $t('book.kindleSenderNote') }}<br/>{{ kindle_sender }}</small>
                     </v-card-text>
                     <v-card-actions>
                         <v-btn color="" text @click="dialog_kindle = false">{{ $t('common.cancel') }}</v-btn>
