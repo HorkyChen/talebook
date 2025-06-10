@@ -6,6 +6,7 @@ import os
 import logging
 import time
 from gettext import gettext as _
+from sqlalchemy.exc import IntegrityError
 
 from webserver import utils
 from webserver.models import Item, ScanFile
@@ -21,8 +22,13 @@ class ScanService(AsyncService):
             row.save()
             self.session.commit()
             bid = "[ book-id=%s ]" % row.book_id
-            logging.info("update: status=%-5s, path=%s %s", row.status, row.path, bid if row.book_id > 0 else "")
+            logging.info("update: status=%-5s, path=%s %s",
+                         row.status, row.path, bid if row.book_id > 0 else "")
             return True
+        except IntegrityError as err:
+            logging.warning("IntegrityError: Duplicate hash detected: %s", row.hash)
+            self.session.rollback()
+            return False
         except Exception as err:
             logging.exception("save error: %s", err)
             self.session.rollback()
@@ -42,7 +48,8 @@ class ScanService(AsyncService):
     def do_scan(self, path_dir):
         from calibre.ebooks.metadata.meta import get_metadata
 
-        logging.info("<%s> we are: db=%s, session=%s", self, self.db, self.session)
+        logging.info("<%s> we are: db=%s, session=%s",
+                     self, self.db, self.session)
         logging.info("start to scan %s", path_dir)
 
         # 生成任务（粗略扫描），前端可以调用API查询进展
@@ -66,8 +73,9 @@ class ScanService(AsyncService):
         rows = []
         inserted_hash = set()
         for fname, fpath, fmt in tasks:
-            # logging.info("Scan: %s", fpath)
-            samefiles = self.session.query(ScanFile).filter(ScanFile.path == fpath)
+            logging.info("Scan: %s", fpath)
+            samefiles = self.session.query(
+                ScanFile).filter(ScanFile.path == fpath)
             if samefiles.count() > 0:
                 # 如果已经有相同的文件记录，则跳过
                 row = samefiles.first()
@@ -90,7 +98,8 @@ class ScanService(AsyncService):
             rows.append(row)
         # self.session.bulk_save_objects(rows)
 
-        logging.info("========== start to check files hash & meta ============")
+        logging.info(
+            "========== start to check files hash & meta ============")
         # 检查文件哈希值，检查DB重复情况
         for row in rows:
             fpath = row.path
@@ -116,7 +125,8 @@ class ScanService(AsyncService):
             # 尝试解析metadata
             fmt = fpath.split(".")[-1].lower()
             with open(fpath, "rb") as stream:
-                mi = get_metadata(stream, stream_type=fmt, use_libprs_metadata=True)
+                mi = get_metadata(stream, stream_type=fmt,
+                                  use_libprs_metadata=True)
                 mi.title = utils.super_strip(mi.title)
                 mi.authors = [utils.super_strip(s) for s in mi.authors]
 
@@ -147,7 +157,8 @@ class ScanService(AsyncService):
         import_id = int(time.time())
 
         query = self.build_query(hashlist)
-        query.update({ScanFile.import_id: import_id}, synchronize_session=False)
+        query.update({ScanFile.import_id: import_id},
+                     synchronize_session=False)
         self.session.commit()
 
         imported = []
@@ -158,7 +169,8 @@ class ScanService(AsyncService):
             fname = os.path.basename(row.path)
             fmt = fpath.split(".")[-1].lower()
             with open(fpath, "rb") as stream:
-                mi = get_metadata(stream, stream_type=fmt, use_libprs_metadata=True)
+                mi = get_metadata(stream, stream_type=fmt,
+                                  use_libprs_metadata=True)
                 mi.title = utils.super_strip(mi.title)
                 mi.authors = [utils.super_strip(s) for s in mi.authors]
 
