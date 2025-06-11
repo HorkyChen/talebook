@@ -33,11 +33,11 @@ class ScanService(AsyncService):
                          row.status, row.path, bid if row.book_id > 0 else "")
             return True
         except IntegrityError as err:
-            logging.warning("IntegrityError: Duplicate hash detected: %s", row.hash)
+            logging.warning("IntegrityError: Duplicate hash detected: %s, %s", row.hash, err)
         except Exception as err:
             logging.exception("save error: %s", err)
-            self.session.rollback()
-            return False
+        self.session.rollback()
+        return False
 
     def build_query(self, hashlist):
         query = self.session.query(ScanFile).filter(
