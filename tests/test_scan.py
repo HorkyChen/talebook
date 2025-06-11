@@ -46,10 +46,12 @@ class TestScan(TestWithUserLogin):
         self.assertEqual(d["err"], "ok")
 
         row = self.session.query(ScanFile).filter(ScanFile.id == self.NEW_ROW_ID).one()
-        self.assertEqual(row.status, ScanFile.READY)
+        # new.epub & old.epub are imported before, so they should be dropped here
+        self.assertEqual(row.status, ScanFile.DROP)
 
         d = self.json("/api/admin/scan/list?num=10000")
-        self.assertEqual(d['total'], self.RECORDS_COUNT + 5)
+        # new.epub has be reset as NEW and same file path, it should be processed again with existed record
+        self.assertEqual(d['total'], self.RECORDS_COUNT + 4)
 
         titles = set([ '天行者', '我的一生', 'book', '凡人修仙之仙界篇', '语言哲学'])
         scan_titles = set([ book['title'] for book in d['items'] ])
@@ -71,8 +73,7 @@ class TestScan(TestWithUserLogin):
             time.sleep(0.1)
 
         row = self.session.query(ScanFile).filter(ScanFile.id == self.NEW_ROW_ID).one()
-        self.assertEqual(row.status, ScanFile.READY)
-        #self.assertEqual(row.status, ScanFile.DROP)
+        self.assertEqual(row.status, ScanFile.DROP)
 
     def test_scan_status(self):
         d = self.json("/api/admin/scan/status")
@@ -105,7 +106,7 @@ class TestScanContinue(TestWithUserLogin):
         self.assertEqual(d["err"], "ok")
 
         row = self.session.query(ScanFile).filter(ScanFile.id == self.NEW_ROW_ID).one()
-        self.assertEqual(row.status, ScanFile.READY)
+        self.assertEqual(row.status, ScanFile.DROP)
 
 
 class TestImport(TestWithUserLogin):
