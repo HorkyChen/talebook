@@ -5,6 +5,7 @@ import hashlib
 import os
 import logging
 import time
+
 from gettext import gettext as _
 from sqlalchemy.exc import IntegrityError
 
@@ -17,8 +18,14 @@ SCAN_EXT = ["azw", "azw3", "epub", "mobi", "pdf", "txt"]
 
 
 class ScanService(AsyncService):
-    def save_or_rollback(self, row):
+    def save_or_rollback(self, row, is_insert=False):
         try:
+            if is_insert:
+                count = self.session.query(ScanFile).filter(ScanFile.path == row.path).count()
+                if count > 0:
+                    logging.warning("Duplicate hash detected: %s [%d], skipping save.", row.hash, count)
+                    return False
+
             row.save()
             self.session.commit()
             bid = "[ book-id=%s ]" % row.book_id
@@ -27,8 +34,6 @@ class ScanService(AsyncService):
             return True
         except IntegrityError as err:
             logging.warning("IntegrityError: Duplicate hash detected: %s", row.hash)
-            self.session.rollback()
-            return False
         except Exception as err:
             logging.exception("save error: %s", err)
             self.session.rollback()
@@ -90,10 +95,14 @@ class ScanService(AsyncService):
             if hash in inserted_hash:
                 logging.error("maybe have same book, skip: %s", fpath)
                 continue
+            if self.session.query(ScanFile).filter(ScanFile.hash == hash).count() > 0:
+                row.status = ScanFile.DROP
+                logging.error("maybe have same book, skip: %s, due to same hash", fpath)
+                continue
 
             inserted_hash.add(hash)
             row = ScanFile(fpath, hash, scan_id)
-            if not self.save_or_rollback(row):
+            if not self.save_or_rollback(row, True):
                 continue
             rows.append(row)
         # self.session.bulk_save_objects(rows)
@@ -102,6 +111,9 @@ class ScanService(AsyncService):
             "========== start to check files hash & meta ============")
         # 检查文件哈希值，检查DB重复情况
         for row in rows:
+            if row.status == ScanFile.DROP:
+                continue
+
             fpath = row.path
 
             # 读取文件，计算哈希值
@@ -118,8 +130,12 @@ class ScanService(AsyncService):
             else:
                 # 或者，更新为真实的哈希值
                 row.hash = hash
+
             inserted_hash.add(hash)
             if not self.save_or_rollback(row):
+                continue
+
+            if row.status == ScanFile.DROP:
                 continue
 
             # 尝试解析metadata
