@@ -15,12 +15,12 @@ RUN npm install
 
 # spa build mode will clear ssr build data, run it first
 COPY app/ /build/
-RUN mkdir -p /app-ssr/ /app-static/
-RUN npm run build
-RUN ls -al
-RUN cp -r .nuxt node_modules package* /app-ssr/
-RUN npm run build-spa
-RUN cp -r dist nuxt.config.js package* /app-static/
+RUN mkdir -p /app-ssr/ /app-static/ && \
+    npm run build && \
+    ls -al && \
+    cp -r .nuxt node_modules package* /app-ssr/ && \
+    npm run build-spa && \
+    cp -r dist nuxt.config.js package* /app-static/
 
 
 # ----------------------------------------
@@ -36,30 +36,29 @@ RUN if [ "x${BUILD_COUNTRY}" = "xCN" ]; then \
     sed 's@security.ubuntu.com/ubuntu@mirrors.huaweicloud.com/repository/ubuntu@g' -i /etc/apt/sources.list.d/ubuntu.sources; \
     fi
 
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    echo "Asia/Shanghai" > /etc/timezone
-
 # install envsubst gosu procps
-RUN apt update -y && \
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    apt update -y && \
     apt install -y gettext gosu procps vim nginx calibre calibre-bin supervisor fonts-lato && \
     apt clean && \
     apt install -y python3-pip && \
     pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    useradd -u 990 -U -d /var/www/talebook -s /bin/false talebook && \
+    usermod -G users talebook && \
+    groupmod -g 990 talebook && \
+    sed -i "s/user www-data;/user talebook;/g" /etc/nginx/nginx.conf
 
 # RUN wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
 
 # Create a talebook user and change the Nginx startup user
-RUN useradd -u 990 -U -d /var/www/talebook -s /bin/false talebook && \
-    usermod -G users talebook && \
-    groupmod -g 990 talebook && \
-    sed -i "s/user www-data;/user talebook;/g" /etc/nginx/nginx.conf
 
 # install python packages (--break-system-packages)
 # Apply calibre patches
 COPY calibre/7.6/calibre/db/cache.py /usr/lib/calibre/calibre/db/
 COPY requirements.txt /tmp/
-RUN pip install -r /tmp/requirements.txt --break-system-packages && \
+RUN pip install --no-cache-dir -r /tmp/requirements.txt --break-system-packages && \
     rm -rf /root/.cache
 
 
@@ -78,8 +77,8 @@ RUN echo "Testing... [DONE]"
 FROM server AS production
 ARG GIT_VERSION=""
 
-LABEL Author="Rex <talebook@foxmail.com>"
-LABEL Thanks="oldiy <oldiy2018@gmail.com>, horky <horky.chen@gmail.com>"
+LABEL Author="horky <horky.chen@gmail.com>"
+LABEL Thanks="Rex <talebook@foxmail.com>, oldiy <oldiy2018@gmail.com>"
 
 # set default language
 ENV TZ=Asia/Shanghai
@@ -149,4 +148,3 @@ RUN apt update -y && \
 COPY conf/nginx/server-side-render.conf /etc/nginx/conf.d/talebook.conf
 COPY conf/supervisor/server-side-render.conf /etc/supervisor/conf.d/talebook.conf
 COPY --from=builder /app-ssr/ /var/www/talebook/app/
-
