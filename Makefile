@@ -3,7 +3,6 @@
 VER := $(shell git branch --show-current)
 IMAGE := poxenstudio/talebook:$(VER)
 REPO1 := poxenstudio/talebook:latest
-REPO2 := poxenstudio/calibre-webserver:latest
 TAG1 := poxenstudio/talebook:server-side-render
 TAG2 := poxenstudio/talebook:server-side-render-$(VER)
 
@@ -11,14 +10,13 @@ all: build up
 
 build: test
 	docker build --no-cache=false --build-arg BUILD_COUNTRY=CN --build-arg GIT_VERSION=$(VER) \
-		-f Dockerfile -t $(IMAGE) -t $(REPO1) --target production -t $(REPO2) .
+		-f Dockerfile -t $(IMAGE) -t $(REPO1) --target production .
 	docker build --no-cache=false --build-arg BUILD_COUNTRY=CN --build-arg GIT_VERSION=$(VER) \
 		-f Dockerfile -t $(TAG1) -t $(TAG2) --target production-ssr .
 
 push:
 	docker push $(IMAGE)
 	docker push $(REPO1)
-	docker push $(REPO2)
 
 test: lint
 	rm -f unittest.log
