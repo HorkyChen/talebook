@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "@mdi/font": "^6.5.95",
-    "@nuxt/postcss8": "^1.1.3",
     "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/google-fonts": "^1.3.0",
     "@nuxtjs/vuetify": "^1.12.3",

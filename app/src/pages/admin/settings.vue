@@ -259,18 +259,20 @@ export default {
       this.settings = rsp.settings;
       this.site_url = rsp.site_url;
 
-      if (this.settings && this.settings['site_language'] === '') {
-        this.settings['site_language'] = this.$i18n.locale;
-      }
+      if (this.settings) {
+        if (this.settings['site_language'] === '') {
+          this.settings['site_language'] = this.$i18n.locale;
+        }
 
-      var m = {}
-      rsp.sns.forEach(function (ele) {
-        m[ele.value] = ele;
-      });
-      this.settings.SOCIALS.forEach(function (ele) {
-        ele.help = false;
-        ele.link = m[ele.value].link;
-      })
+        var m = {}
+        rsp.sns.forEach(function (ele) {
+          m[ele.value] = ele;
+        });
+        this.settings.SOCIALS.forEach(function (ele) {
+          ele.help = false;
+          ele.link = m[ele.value].link;
+        });
+      }
     });
   },
   data: () => ({
