@@ -47,9 +47,9 @@ export default {
         tips: "",
         retry: 20,
         rules: {
-            user: v => (20 >= v.length && v.length >= 5) || this.$t('install.usernameRule'),
-            pass: v => (20 >= v.length && v.length >= 8) || this.$t('install.passwordRule'),
-            email: function (email) {
+            user: function(v) { return (20 >= v.length && v.length >= 5) || this.$t('install.usernameRule'); },
+            pass: function(v) { return (20 >= v.length && v.length >= 8) || this.$t('install.passwordRule'); },
+            email: function(email) {
                 var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email) || this.$t('install.invalidEmail');
             },
