@@ -26,7 +26,7 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn @click="do_install" color="primary">{{ $t('install.completeSetup') }}</v-btn>
+                    <v-btn ref="install_btn"  @click="do_install" color="blue">{{ $t('install.completeSetup') }}</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>
@@ -95,6 +95,8 @@ export default {
             if (!this.$refs.form.validate()) {
                 return false;
             }
+            // set install_btn to be disabled
+            this.$refs.install_btn.disabled = true;
 
             var data = new URLSearchParams();
             data.append('username', this.username);
@@ -110,6 +112,7 @@ export default {
             })
                 .then(rsp => {
                     if (rsp.err != 'ok') {
+                        this.$refs.install_btn.disabled = false;
                         this.$alert("error", rsp.msg);
                     } else {
                         this.tips += this.$t('install.configSuccess') + "<br/>" + this.$t('install.checkingServer');
