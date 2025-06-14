@@ -363,7 +363,8 @@
         "kindle": "Kindle",
         "save": "Save",
         "passwordMismatch": "Passwords do not match.",
-        "activationEmailSent": "Activation email has been sent!"
+        "activationEmailSent": "Activation email has been sent!",
+        "user_center": "User Center"
     },
     "history": {
         "noRecords": "No reading history. Please enjoy exploring the ocean of books~",

@@ -76,10 +76,24 @@ export default {
     asyncData({ store }) {
         store.commit("navbar", false);
     },
-    head: () => ({
-        title: "登录"
-    }),
+    head() {
+        return { title: this.$t('login.login') };
+    },
     created() {
+        // set the theme according to the local storage value
+        if (process.client) {
+            const saved_theme = localStorage.getItem('site_theme');
+            if (saved_theme === 'dark') {
+                this.$vuetify.theme.dark = true;
+            } else {
+                this.$vuetify.theme.dark = false;
+            }
+        }
+
+        // Clear the username and password fields
+        this.username = "";
+        this.password = "";
+
         this.$store.commit("navbar", false);
         this.$backend("/user/info").then((rsp) => {
             this.$store.commit("login", rsp);

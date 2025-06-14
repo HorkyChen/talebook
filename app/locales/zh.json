@@ -363,7 +363,8 @@
         "kindle": "Kindle",
         "save": "保存",
         "passwordMismatch": "密码不一致。",
-        "activationEmailSent": "激活邮件已发出！"
+        "activationEmailSent": "激活邮件已发出！",
+        "user_center": "用户中心"
     },
     "history": {
         "noRecords": "暂无阅读历史。请尽情畅游书籍的海洋吧~",

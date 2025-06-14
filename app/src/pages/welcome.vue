@@ -15,7 +15,7 @@
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="welcome_login" color="primary">{{ $t('welcome.loginButton') }}</v-btn>
+                <v-btn @click="welcome_login" color="blue">{{ $t('welcome.loginButton') }}</v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
 
@@ -32,7 +32,6 @@ export default {
         is_err: false,
         err: "ok",
         msg: "",
-        welcome: this.$t('welcome.description'),
         loading: false,
         invite_code: "",
     }),
@@ -43,11 +42,21 @@ export default {
         }
         return app.$backend("/welcome");
     },
-    head: () => ({
-        title: this.$t('welcome.pageTitle')
-    }),
+    head() {
+        return {
+            title: this.$t('welcome.pageTitle')
+        }
+    },
     created() {
         this.$store.commit('navbar', false);
+        if (process.client) {
+            const saved_theme = localStorage.getItem('site_theme');
+            if (saved_theme === 'dark') {
+                this.$vuetify.theme.dark = true;
+            } else {
+                this.$vuetify.theme.dark = false;
+            }
+        }
         if ( this.err == 'free' ) {
             this.$router.push(this.$route.query.next || "/");
         } else if ( this.err == 'not_installed' ) {
