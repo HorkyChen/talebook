@@ -294,12 +294,9 @@ export default {
                 this.$i18n.locale = rsp.sys.language;
             }
             if (process.client && rsp.sys.theme !== '') {
-                console.log("Setting theme to: " + rsp.sys.theme);
                 if (rsp.sys.theme === 'dark') {
-                    document.documentElement.classList.add(rsp.sys.theme);
                     this.$vuetify.theme.dark = true;
                 } else {
-                    document.documentElement.classList.remove(rsp.sys.theme);
                     this.$vuetify.theme.dark = false;
                 }
             }

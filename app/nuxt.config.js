@@ -32,16 +32,14 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'material-design-icons-iconfont/dist/material-design-icons.css',
-    '@mdi/font/css/materialdesignicons.css',
-    '~/assets/css/tailwind.css',
+    '@mdi/font/css/materialdesignicons.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "~/plugins/talebook.js",
     "~/plugins/load-plugins.js",
-    "~/plugins/i18n.js",
-    { src: '~/plugins/dark-mode.js', mode: 'client' },
+    "~/plugins/i18n.js"
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -93,11 +91,5 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    postcss: {
-      plugins: {
-        '@tailwindcss/postcss': {},
-        autoprefixer: {},
-      },
-    },
   }
 }
