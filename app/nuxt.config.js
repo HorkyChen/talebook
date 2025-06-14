@@ -33,6 +33,7 @@ export default {
   css: [
     'material-design-icons-iconfont/dist/material-design-icons.css',
     '@mdi/font/css/materialdesignicons.css',
+    '~/assets/css/tailwind.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -50,6 +51,7 @@ export default {
     '@nuxtjs/vuetify',
     '@nuxtjs/google-fonts',
     '@nuxtjs/google-analytics',
+    '@nuxt/postcss8',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -90,5 +92,11 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    postcss: {
+      plugins: {
+        '@tailwindcss/postcss': {},
+        autoprefixer: {},
+      },
+    },
   }
 }

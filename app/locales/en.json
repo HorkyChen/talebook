@@ -208,6 +208,9 @@
     "settings": {
         "basic_info": "Basic Information",
         "language_switch": "Language Switch",
+        "theme_switch": "Color Theme",
+        "light_color":"Light",
+        "dark_color":"Dark",
         "site_title": "Site Title",
         "site_header": "Site Header",
         "site_footer": "Site Footer",

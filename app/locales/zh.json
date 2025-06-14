@@ -290,6 +290,9 @@
     "settings": {
         "basic_info": "基础信息",
         "language_switch": "语言切换",
+        "theme_switch": "网站配色切换",
+        "light_color":"明亮",
+        "dark_color":"暗黑",
         "site_title": "网站标题",
         "site_header": "网站公告",
         "site_footer": "网站脚注",

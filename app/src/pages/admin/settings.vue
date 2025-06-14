@@ -126,6 +126,13 @@ export default {
             icon: "language", key: "site_language", label: "settings.language_switch", type: 'select',
             items: [{ text: '简体中文', value: "zh" }, { text: 'English', value: "en" }]
           },
+          {
+            icon: "palette", key: "site_theme", label: "settings.theme_switch", type: 'select',
+            items: [{ text: $t('settings.light_color'), value: "light" }, { text: $t('settings.dark_color'), value: "dark" }]
+          },
+          { icon: "mdi-copyright", key: "site_copyright", label: "settings.site_copyright" },
+          { icon: "mdi-copyright", key: "site_icp", label: "settings.site_icp" },
+          { icon: "mdi-copyright", key: "site_gongan", label: "settings.site_gongan" },
           { icon: "home", key: "site_title", label: "settings.site_title", },
           { icon: "mdi-copyright", key: "HEADER", label: "settings.site_header", type: 'textarea' },
           { icon: "mdi-copyright", key: "FOOTER", label: "settings.site_footer", type: 'textarea' }
@@ -278,6 +285,10 @@ export default {
       if (this.settings['site_language'] !== '') {
         console.log(this.$t("settings.switch_language_to"), this.settings['site_language']);
         this.$i18n.locale = this.settings['site_language'];
+      }
+      if (this.settings['site_theme'] !== '') {
+        console.log(this.$t("settings.switch_theme_to"), this.settings['site_theme']);
+        document.documentElement.setAttribute('data-theme', this.settings['site_theme']);
       }
       this.$backend("/admin/settings", {
         method: 'POST',
