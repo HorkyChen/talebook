@@ -232,7 +232,7 @@
         "pushToKindle": "推送到Kindle",
         "enterKindleEmail": "填写Kindle收件人邮箱地址：",
         "emailLabel": "Email*",
-        "kindleSenderNote": "* 请先将本站邮箱加入到Kindle发件人中:<br/>{{ sender }}",
+        "kindleSenderNote": "* 请先将本站邮箱加入到Kindle发件人中: {{ sender }}",
         "downloadBook": "下载书籍",
         "noDownloadableFiles": "本书暂无可供下载的文件格式",
         "push": "推送",

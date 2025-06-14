@@ -70,12 +70,12 @@ export default {
     created() {
         this.$store.commit('navbar', true);
         this.navs = [
-            { icon: 'widgets',            href:'/nav',       text: $t('index.categoryNavigation'),  count: this.$store.state.sys.books      },
-            { icon: 'mdi-human-greeting', href:'/author',    text: $t('index.authors'),     count: this.$store.state.sys.authors    },
-            { icon: 'mdi-home-group',     href:'/publisher', text: $t('index.publishers'),   count: this.$store.state.sys.publishers },
-            { icon: 'mdi-tag-heart',      href:'/tag',       text: $t('index.tags'),     count: this.$store.state.sys.tags       },
-            { icon: 'mdi-history',        href:'/recent',    text: $t('index.allBooks'), },
-            { icon: 'mdi-trending-up',    href:'/hot',       text: $t('index.hotRanking'), },
+            { icon: 'widgets',            href:'/nav',       text: this.$t('index.categoryNavigation'),  count: this.$store.state.sys.books      },
+            { icon: 'mdi-human-greeting', href:'/author',    text: this.$t('index.authors'),     count: this.$store.state.sys.authors    },
+            { icon: 'mdi-home-group',     href:'/publisher', text: this.$t('index.publishers'),   count: this.$store.state.sys.publishers },
+            { icon: 'mdi-tag-heart',      href:'/tag',       text: this.$t('index.tags'),     count: this.$store.state.sys.tags       },
+            { icon: 'mdi-history',        href:'/recent',    text: this.$t('index.allBooks'), },
+            { icon: 'mdi-trending-up',    href:'/hot',       text: this.$t('index.hotRanking'), },
             ]
     },
     async asyncData({ app, res }) {

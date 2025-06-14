@@ -121,7 +121,7 @@
             </v-card>
 
             <v-card v-if="!dialog_refer">
-                <v-toolbar flat dense color="white">
+                <v-toolbar flat dense>
                     <!-- download -->
                     <v-btn icon small fab @click="dialog_download = true">
                         <v-icon>get_app</v-icon>

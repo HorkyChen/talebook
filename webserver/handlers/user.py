@@ -293,6 +293,7 @@ class UserInfo(BaseHandler):
             "version": VERSION,
             "title": CONF["site_title"],
             "language": CONF["site_language"] if "site_language" in CONF else "",
+            "theme": CONF["site_theme"] if "site_theme" in CONF else "light",
             "socials": CONF["SOCIALS"],
             "friends": CONF["FRIENDS"],
             "footer": CONF["FOOTER"] if "FOOTER" in CONF else "",

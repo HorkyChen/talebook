@@ -62,7 +62,7 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-app-bar class="px-0" color="blue" dense dark app fixed clipped-left extension-height="64">
+        <v-app-bar class="px-0" :color="appBarColor" dense dark app fixed clipped-left extension-height="64">
             <template v-if="btn_search && $vuetify.breakpoint.xs" #extension>
                 <v-container fluid>
                     <v-form @submit.prevent="do_search">
@@ -225,6 +225,9 @@ export default {
         messages: [],
     }),
     computed: {
+        appBarColor() {
+            return this.$vuetify.theme.dark ? 'dark' : 'blue';
+        },
         items: function () {
             var home_links = [
                 // home
@@ -289,6 +292,16 @@ export default {
             this.$store.commit("set_title", rsp.sys.title);
             if (rsp.sys.language !== '') {
                 this.$i18n.locale = rsp.sys.language;
+            }
+            if (process.client && rsp.sys.theme !== '') {
+                console.log("Setting theme to: " + rsp.sys.theme);
+                if (rsp.sys.theme === 'dark') {
+                    document.documentElement.classList.add(rsp.sys.theme);
+                    this.$vuetify.theme.dark = true;
+                } else {
+                    document.documentElement.classList.remove(rsp.sys.theme);
+                    this.$vuetify.theme.dark = false;
+                }
             }
             if (rsp.sys.footer === '') {
                 rsp.sys.footer = this.$t('appHeader.defaultFooter');

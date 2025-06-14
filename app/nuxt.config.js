@@ -41,6 +41,7 @@ export default {
     "~/plugins/talebook.js",
     "~/plugins/load-plugins.js",
     "~/plugins/i18n.js",
+    { src: '~/plugins/dark-mode.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
