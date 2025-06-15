@@ -107,6 +107,37 @@ class BookConverter(BaseHandler):
         return {"err": "ok", "content": "%s" % _(u"转换成功，请稍后刷新页面查看")}
 
 
+class BookSetSole(BaseHandler):
+    @js
+    @auth
+    def post(self, bid):
+        book = self.get_book(bid)
+        bid = book["id"]
+        if isinstance(book["collector"], dict):
+            cid = book["collector"]["id"]
+        else:
+            cid = book["collector"].id
+        if not self.current_user.can_edit() or not (self.is_admin() or self.is_book_owner(bid, cid)):
+            return {"err": "permission", "msg": _(u"无权操作")}
+
+        if not self.current_user.can_delete() or not (self.is_admin() or self.is_book_owner(bid, cid)):
+            return {"err": "permission", "msg": _(u"无权操作")}
+
+        succeed = False
+        try:
+            self.session.query(Item).filter(Item.book_id == bid).update({"sole": not book["sole"]})
+            self.session.commit()
+            succeed = True
+        except Exception as e:
+            self.session.rollback()
+            logging.error("set book %d sole failed: %s" % (bid, e))
+
+        if succeed:
+            return {"err": "ok", "msg": _(u"更新成功")}
+        else:
+            return {"err": "db.update.failed", "msg": _(u"更新失败，请稍后再试")}
+
+
 class BookRefer(BaseHandler):
     def has_proper_book(self, books, mi):
         if not books or not mi.isbn or mi.isbn == baike.BAIKE_ISBN:
@@ -762,4 +793,5 @@ def routes():
         (r"/api/read/txt", TxtRead),
         (r"/api/book/txt/init", BookTxtInit),
         (r"/api/book/([0-9]+)/convert", BookConverter),
+        (r"/api/book/([0-9]+)/setsole", BookSetSole),
     ]

@@ -21,9 +21,9 @@ export default {
     data: () => ({
         navs: [],
     }),
-    head: () => ({
-        title: this.$t('titles.bookIndex')
-    }),
+    head() {
+        return { title: this.$t('titles.bookIndex') }
+    },
     async asyncData({ params, app, res }) {
         if ( res !== undefined ) {
             res.setHeader('Cache-Control', 'no-cache');

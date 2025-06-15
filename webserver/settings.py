@@ -26,7 +26,9 @@ settings = {
     "cookie_expire" : 7*86400,
     "login_url"     : "/login",
     "user_database" : 'sqlite:////data/books/calibre-webserver.db',
-    "site_title"    : u"奇异书屋",
+    "site_title"    : u"书屋",
+    "site_language" : "zh",
+    "site_theme"    : "light",
     "ssl_crt_file"  : "/data/books/ssl/ssl.crt",
     "ssl_key_file"  : "/data/books/ssl/ssl.key",
 
@@ -120,7 +122,7 @@ settings = {
     'SOCIALS': [
     ],
 
-    'SIGNUP_MAIL_TITLE': u'欢迎注册奇异书屋',
+    'SIGNUP_MAIL_TITLE': u'欢迎注册个人书屋',
     'SIGNUP_MAIL_CONTENT': u'''
 Hi, %(username)s！
 欢迎注册%(site_title)s，这里虽然是个小小的图书馆，但是希望你找到所爱。
@@ -128,7 +130,7 @@ Hi, %(username)s！
 点击链接激活你的账号: %(active_link)s
 ''',
 
-    'RESET_MAIL_TITLE': u'奇异书屋密码重置',
+    'RESET_MAIL_TITLE': u'密码重置',
     'RESET_MAIL_CONTENT': u'''
 Hi, %(username)s！
 

@@ -26,7 +26,7 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn @click="do_install" color="primary">{{ $t('install.completeSetup') }}</v-btn>
+                    <v-btn ref="install_btn"  @click="do_install" color="blue" style="color: white;">{{ $t('install.completeSetup') }}</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>
@@ -47,12 +47,9 @@ export default {
         tips: "",
         retry: 20,
         rules: {
-            user: v => (20 >= v.length && v.length >= 5) || this.$t('install.usernameRule'),
-            pass: v => (20 >= v.length && v.length >= 8) || this.$t('install.passwordRule'),
-            email: function (email) {
-                var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email) || this.$t('install.invalidEmail');
-            },
+            user: null,
+            pass: null,
+            email: null,
         },
 
     }),
@@ -60,6 +57,12 @@ export default {
         store.commit("navbar", false);
     },
     created() {
+        this.rules.user = (v) => (20 >= v.length && v.length >= 5) || this.$t('install.usernameRule');
+        this.rules.pass = (v) => (20 >= v.length && v.length >= 8) || this.$t('install.passwordRule');
+        this.rules.email = (email) => {
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email) || this.$t('install.invalidEmail');
+        };
         this.$store.commit("navbar", false);
     },
     methods: {
@@ -92,6 +95,8 @@ export default {
             if (!this.$refs.form.validate()) {
                 return false;
             }
+            // set install_btn to be disabled
+            this.$refs.install_btn.disabled = true;
 
             var data = new URLSearchParams();
             data.append('username', this.username);
@@ -107,6 +112,7 @@ export default {
             })
                 .then(rsp => {
                     if (rsp.err != 'ok') {
+                        this.$refs.install_btn.disabled = false;
                         this.$alert("error", rsp.msg);
                     } else {
                         this.tips += this.$t('install.configSuccess') + "<br/>" + this.$t('install.checkingServer');

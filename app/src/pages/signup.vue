@@ -38,12 +38,12 @@ export default {
         failmsg: "",
         validmsg: "",
         rules: {
-            user: v => ( 20 >= v.length && v.length >= 5) || '6 ~ 20 characters',
-            pass: v => ( 20 >= v.length && v.length >= 8) || '8 ~ 20 characters',
-            nick: v => v.length >= 2 || 'Min 2 characters',
+            user: v => ( 20 >= v.length && v.length >= 5) || '6 ~ 20 字符',
+            pass: v => ( 20 >= v.length && v.length >= 8) || '8 ~ 20 字符',
+            nick: v => v.length >= 2 || '最少2个字符',
             email: function (email) {
                 var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email) || "Invalid email format";
+                return re.test(email) || "错误的邮箱格式";
             },
         },
 
@@ -56,9 +56,9 @@ export default {
     methods: {
         valid: function(v) {
             if ( v.length < 8 ) {
-                return 'Min 8 characters';
+                return '最少8个字符';
             }
-            return v == this.password || "Password are not same."
+            return v == this.password || "密码不匹配";
         },
         signup: function() {
             if ( ! this.$refs.form.validate() ) {

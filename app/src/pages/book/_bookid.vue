@@ -121,7 +121,7 @@
             </v-card>
 
             <v-card v-if="!dialog_refer">
-                <v-toolbar flat dense color="white">
+                <v-toolbar flat dense>
                     <!-- download -->
                     <v-btn icon small fab @click="dialog_download = true">
                         <v-icon>get_app</v-icon>
@@ -175,6 +175,10 @@
                                     {{ $t('book.convert') }}
                                 </v-list-item>
                                 <v-divider></v-divider>
+                                <v-list-item @click="set_sole">
+                                    <v-icon>{{ book.sole ? 'public_off' : 'public' }}</v-icon>
+                                    {{ book.sole ? $t('book.setPublic') : $t('book.setSole') }}
+                                </v-list-item>
                                 <v-list-item @click="delete_book">
                                     <v-icon>delete_forever</v-icon>
                                     {{ $t('book.deleteBook') }}
@@ -192,7 +196,12 @@
                         <v-card-text>
                             <div>
                                 <p class='title mb-0'>{{ book.title }}</p>
-                                <span color="grey--text">{{ book.author }}{{ $t('book.author') }}，{{ pub_year }}{{ $t('book.year') }}</span>
+                                <span color="grey--text">
+                                    <v-icon :color="book.sole ? 'red' : 'green'" class="mr-2">
+                                        {{ book.sole ? 'public_off' : 'public' }}
+                                    </v-icon>
+                                    {{ book.author }}{{ $t('book.author') }}，{{ pub_year }}{{ $t('book.year') }}
+                                </span>
                                 <span
                                     v-if='book.files.length>0 && book.files[0].format==="PDF" && book.files[0].size >= 1048576'
                                     color="grey--text" style="font-weight: bold">&nbsp;&nbsp;&nbsp;[{{ $t('book.fileFormat') }}: PDF - {{
@@ -515,6 +524,19 @@ export default {
                 if (rsp.err === "ok") {
                     this.$alert("success", this.$t('book.convertSuccessful'));
                     this.$router.push("/book/" + this.book.id);
+                } else {
+                    this.$alert("error", rsp.msg);
+                }
+            });
+        },
+        set_sole() {
+            this.$backend("/book/" + this.book.id + "/setsole", {
+                method: "POST",
+            }).then((rsp) => {
+                if (rsp.err === "ok") {
+                    this.$alert("success", "设置成功");
+                    this.$router.push("/book/" + this.book.id);
+                    location.reload();
                 } else {
                     this.$alert("error", rsp.msg);
                 }

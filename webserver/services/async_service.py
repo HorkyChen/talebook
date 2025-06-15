@@ -5,6 +5,7 @@ import logging
 import threading
 from queue import Queue
 
+from sqlalchemy.sql import text
 from webserver.models import Message
 
 
@@ -31,7 +32,26 @@ class AsyncService(metaclass=SingletonType):
         self.db = calibre_db
         self.scoped_session = scoped_session
         self.session = scoped_session()
+        # alter table as needed
+        if self.session is not None:
+            # Alter the item table to add a new bool column sole if it doesn't exist
+            try:
+                result = self.session.execute(text("""
+                    PRAGMA table_info(items)
+                """)).fetchall()
+                columns = [row[1] for row in result]
+
+                # Check if the 'sole' column exists, and add it if it doesn't
+                if 'sole' not in columns:
+                    self.session.execute(text("""
+                        ALTER TABLE items ADD COLUMN sole BOOLEAN DEFAULT FALSE
+                    """))
+                    self.session.commit()
+            except Exception as err:
+                logging.warning("Failed to alter table 'items': %s", err)
+                self.session.rollback()
         # logging.info("<%s> setup: db=%s, session=%s", self, self.db, self.session)
+        logging.info("AsyncService setup completed")
 
     def get_queue(self, service_name) -> Queue:
         if service_name not in self.running:

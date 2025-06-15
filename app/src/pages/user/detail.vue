@@ -61,9 +61,9 @@ export default {
         }
         return app.$backend("/user/info?detail=1");
     },
-    head: () => ({
-        title: "用户中心",
-    }),
+    head() {
+        return { title: this.$t('user.user_center') };
+    },
     created() {
         this.init(this.$route);
     },

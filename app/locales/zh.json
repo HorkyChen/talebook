@@ -253,6 +253,8 @@
         "convert":"EPUB/KINDLE转换",
         "convertSuccessful":"开始转换，请稍后刷新页面查看",
         "deleteBook":"删除此书",
+        "setSole": "设为私藏",
+        "setPublic": "设为公开",
         "author":"著",
         "year":"年版",
         "fileFormat":"文件格式",
@@ -292,6 +294,9 @@
     "settings": {
         "basic_info": "基础信息",
         "language_switch": "语言切换",
+        "theme_switch": "网站配色切换",
+        "light_color":"明亮",
+        "dark_color":"暗黑",
         "site_title": "网站标题",
         "site_header": "网站公告",
         "site_footer": "网站脚注",
@@ -344,7 +349,11 @@
         "switch_language_to": "切换语言为",
         "save_error": "保存失败！",
         "save_success": "保存成功！可能需要5~10秒钟生效！",
-        "sns_config_message": "请前往{text}的 <a href='{link}' target='_blank'>配置页面</a> 获取密钥，并设置回调地址（callback URL）为 <code>{site_url}/auth/complete/{value}.do</code>"
+        "sns_config_message": "请前往{text}的 <a href='{link}' target='_blank'>配置页面</a> 获取密钥，并设置回调地址（callback URL）为 <code>{site_url}/auth/complete/{value}.do</code>",
+        "name": "名称",
+        "link": "链接",
+        "add": "添加",
+        "description": "说明"
     },
     "user": {
         "avatar": "头像",
@@ -362,7 +371,8 @@
         "kindle": "Kindle",
         "save": "保存",
         "passwordMismatch": "密码不一致。",
-        "activationEmailSent": "激活邮件已发出！"
+        "activationEmailSent": "激活邮件已发出！",
+        "user_center": "用户中心"
     },
     "history": {
         "noRecords": "暂无阅读历史。请尽情畅游书籍的海洋吧~",

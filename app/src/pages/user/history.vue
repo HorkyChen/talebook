@@ -45,9 +45,9 @@ export default {
         }
         return app.$backend("/user/info?detail=1");
     },
-    head: () => ({
-        title: "阅读记录",
-    }),
+    head() {
+        return { title: this.$t('appHeader.reading_history') };
+    },
     created() {
         this.init(this.$route);
     },
