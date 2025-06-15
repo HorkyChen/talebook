@@ -122,7 +122,7 @@ settings = {
     'SOCIALS': [
     ],
 
-    'SIGNUP_MAIL_TITLE': u'欢迎注册奇异书屋',
+    'SIGNUP_MAIL_TITLE': u'欢迎注册个人书屋',
     'SIGNUP_MAIL_CONTENT': u'''
 Hi, %(username)s！
 欢迎注册%(site_title)s，这里虽然是个小小的图书馆，但是希望你找到所爱。

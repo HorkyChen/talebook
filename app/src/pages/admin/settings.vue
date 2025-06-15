@@ -14,7 +14,7 @@
             <p v-if="card.subtitle" class="">{{ $t(card.subtitle) }}</p>
             <template v-if="card.tips">
               <p v-for="t in card.tips" :key="t.text">{{ $t(t.text) }} <a v-if="t.link" target="_blank"
-                  :href="t.link">{{ $t('link') }}</a></p>
+                  :href="t.link">{{ $t('settings.link') }}</a></p>
             </template>
 
             <template v-for="f in card.fields">
@@ -48,11 +48,11 @@
             <template v-if="card.show_friends">
               <v-row v-for="(friend, idx) in settings.FRIENDS" :key="'friend-' + friend.href">
                 <v-col class='py-0' cols=3>
-                  <v-text-field flat small hide-details single-line v-model="friend.text" :label="$t('name')"
+                  <v-text-field flat small hide-details single-line v-model="friend.text" :label="$t('settings.name')"
                     type="text"></v-text-field>
                 </v-col>
                 <v-col class='pa-0' cols=9>
-                  <v-text-field flat small hide-details single-line v-model="friend.href" :label="$t('link')"
+                  <v-text-field flat small hide-details single-line v-model="friend.href" :label="$t('settings.link')"
                     type="text" append-outer-icon="delete"
                     @click:append-outer="settings.FRIENDS.splice(idx, 1)"></v-text-field>
                 </v-col>
@@ -60,7 +60,7 @@
               <v-row>
                 <v-col align="center">
                   <v-btn color="primary" @click="settings.FRIENDS.push({ text: '', href: '' })"><v-icon>add</v-icon>{{
-                    $t('add') }}</v-btn>
+                    $t('settings.add') }}</v-btn>
                 </v-col>
               </v-row>
             </template>
@@ -79,17 +79,17 @@
               <v-row v-for="s in settings.SOCIALS" :key="'social-' + s.value">
                 <v-col class='py-0' cols=12 sm=2>
                   <v-subheader class="px-0 pt-4" :class="$vuetify.breakpoint.smAndUp ? 'float-right' : ''">
-                    {{ s.text }} (<a @click="show_sns_config(s)">{{ $t('description') }}</a>)
+                    {{ s.text }} (<a @click="show_sns_config(s)">{{ $t('settings.description') }}</a>)
                   </v-subheader>
                 </v-col>
                 <v-col class='py-0' cols=12 sm=3>
                   <v-text-field small hide-details single-line
-                    v-model="settings['SOCIAL_AUTH_' + s.value.toUpperCase() + '_KEY']" :label="$t('key')"
+                    v-model="settings['SOCIAL_AUTH_' + s.value.toUpperCase() + '_KEY']" :label="Key"
                     type="text"></v-text-field>
                 </v-col>
                 <v-col class='py-0' cols=12 sm=7>
                   <v-text-field small hide-details single-line
-                    v-model="settings['SOCIAL_AUTH_' + s.value.toUpperCase() + '_SECRET']" :label="$t('secret')"
+                    v-model="settings['SOCIAL_AUTH_' + s.value.toUpperCase() + '_SECRET']" :label="Secert"
                     type="text"></v-text-field>
                 </v-col>
               </v-row>
@@ -105,7 +105,7 @@
 
     <br />
     <div class="text-center">
-      <v-btn color="primary" @click="save_settings">{{ $t('save') }}</v-btn>
+      <v-btn color="primary" @click="save_settings">{{ $t('settings.save') }}</v-btn>
     </div>
   </div>
 </template>
@@ -227,7 +227,7 @@ export default {
           { icon: "home", key: "static_host", label: "settings.cdn_domain" },
           {
             icon: "info", key: "BOOK_NAMES_FORMAT", label: "settings.book_names_format", type: 'select',
-            items: [{ text: this.$t('pinyin_directory'), value: "en" }, { text: this.$t('utf8_directory'), value: "utf8" }]
+            items: [{ text: this.$t('settings.pinyin_directory'), value: "en" }, { text: this.$t('settings.utf8_directory'), value: "utf8" }]
           },
           { icon: "info", key: "avatar_service", label: "settings.avatar_service" },
           { icon: "info", key: "MAX_UPLOAD_SIZE", label: "settings.max_upload_size" },

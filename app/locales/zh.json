@@ -349,7 +349,11 @@
         "switch_language_to": "切换语言为",
         "save_error": "保存失败！",
         "save_success": "保存成功！可能需要5~10秒钟生效！",
-        "sns_config_message": "请前往{text}的 <a href='{link}' target='_blank'>配置页面</a> 获取密钥，并设置回调地址（callback URL）为 <code>{site_url}/auth/complete/{value}.do</code>"
+        "sns_config_message": "请前往{text}的 <a href='{link}' target='_blank'>配置页面</a> 获取密钥，并设置回调地址（callback URL）为 <code>{site_url}/auth/complete/{value}.do</code>",
+        "name": "名称",
+        "link": "链接",
+        "add": "添加",
+        "description": "说明"
     },
     "user": {
         "avatar": "头像",

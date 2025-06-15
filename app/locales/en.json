@@ -265,7 +265,11 @@
         "smtp_username":"SMTP account (Ex: user@gmail.com)",
         "smtp_password":"SMTP password",
         "smtp_encryption":"SMTP Encryption",
-        "test_email":"Test"
+        "test_email":"Test",
+        "name": "Name",
+        "link": "URL",
+        "add": "Add",
+        "description": "Description"
     },
     "book": {
         "edit": {
