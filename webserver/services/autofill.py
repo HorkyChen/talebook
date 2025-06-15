@@ -78,7 +78,7 @@ class AutoFillService(AsyncService):
         refer_mi.title = mi.title
 
         mi.smart_update(refer_mi, replace_metadata=True)
-        self.db.set_metadata(book_id, mi)
+        self.db.set_metadata(book_id, mi, ignore_errors=True)
         logging.info(_("自动更新书籍 id=[%d] 的信息，title=%s"), book_id, mi.title)
         return True
 
