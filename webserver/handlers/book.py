@@ -138,7 +138,6 @@ class BookSetSole(BaseHandler):
             return {"err": "db.update.failed", "msg": _(u"更新失败，请稍后再试")}
 
 
-
 class BookRefer(BaseHandler):
     def has_proper_book(self, books, mi):
         if not books or not mi.isbn or mi.isbn == baike.BAIKE_ISBN:

@@ -50,7 +50,7 @@ class AsyncService(metaclass=SingletonType):
             except Exception as err:
                 logging.warning("Failed to alter table 'items': %s", err)
                 self.session.rollback()
-        #logging.info("<%s> setup: db=%s, session=%s", self, self.db, self.session)
+        # logging.info("<%s> setup: db=%s, session=%s", self, self.db, self.session)
         logging.info("AsyncService setup completed")
 
     def get_queue(self, service_name) -> Queue:
