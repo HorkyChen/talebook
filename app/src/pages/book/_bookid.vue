@@ -197,7 +197,7 @@
                             <div>
                                 <p class='title mb-0'>{{ book.title }}</p>
                                 <span color="grey--text">
-                                    <v-icon :color="book.sole ? 'grey' : 'green'" class="mr-2">
+                                    <v-icon :color="book.sole ? 'red' : 'green'" class="mr-2">
                                         {{ book.sole ? 'public_off' : 'public' }}
                                     </v-icon>
                                     {{ book.author }}{{ $t('book.author') }}，{{ pub_year }}{{ $t('book.year') }}

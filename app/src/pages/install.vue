@@ -26,7 +26,7 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn ref="install_btn"  @click="do_install" color="blue">{{ $t('install.completeSetup') }}</v-btn>
+                    <v-btn ref="install_btn"  @click="do_install" color="blue" style="color: white;">{{ $t('install.completeSetup') }}</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
             </v-card>

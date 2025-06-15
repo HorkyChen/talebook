@@ -435,11 +435,12 @@ class BaseHandler(web.RequestHandler):
         soled_books = set()
         for book in books:
             book_item = maps.get(book["id"], empty_item)
-            logging.info("book %d, sole = %s, collector = %s" % (book["id"], book_item["sole"], book_item["collector_id"]))
+            logging.info("book %d, sole = %s, collector = %s, uid: = %s" % (book["id"], book_item["sole"], book_item["collector_id"], self.user_id()))
             if book_item["sole"] and book_item["collector_id"] != self.user_id():
                 soled_books.add(book["id"])
             else:
                 book.update(maps.get(book["id"], empty_item))
+
         if len(soled_books) > 0 and len(books) > 0:
             books = [b for b in books if b["id"] not in soled_books]
 
@@ -509,9 +510,36 @@ class ListHandler(BaseHandler):
     def get_item_books(self, category, name):
         books = []
         item_id = self.cache.get_item_id(category, name)
-        if item_id:
-            ids = self.db.get_books_for_category(category, item_id)
-            books = self.db.get_data_as_dict(ids=ids)
+        if not item_id:
+            return books
+
+        ids = self.db.get_books_for_category(category, item_id)
+        books = self.db.get_data_as_dict(ids=ids)
+
+        item = Item()
+        empty_item = item.to_dict()
+        empty_item["collector"] = self.session.query(Reader).order_by(Reader.id).first()
+        ids = [book["id"] for book in books]
+        items = self.session.query(Item).filter(Item.book_id.in_(ids)).all() if ids else []
+        maps = {}
+        for b in items:
+            d = b.to_dict()
+            c = b.collector.to_dict() if b.collector else empty_item["collector"]
+            d["collector"] = c
+            maps[b.book_id] = d
+
+        soled_books = set()
+        for book in books:
+            book_item = maps.get(book["id"], empty_item)
+            logging.info("book %d, sole = %s, collector = %s, uid: = %s" % (book["id"], book_item["sole"], book_item["collector_id"], self.user_id()))
+            if book_item["sole"] and book_item["collector_id"] != self.user_id():
+                soled_books.add(book["id"])
+            else:
+                book.update(maps.get(book["id"], empty_item))
+
+        if len(soled_books) > 0 and len(books) > 0:
+            books = [b for b in books if b["id"] not in soled_books]
+
         return books
 
     def do_sort(self, items, field, ascending):
