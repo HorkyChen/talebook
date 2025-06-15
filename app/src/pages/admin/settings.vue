@@ -296,18 +296,10 @@ export default {
 
       if (process.client && this.settings['site_theme'] !== '') {
         console.log("switch theme to ", this.settings['site_theme']);
-<<<<<<< HEAD
         localStorage.setItem('site_theme', this.settings['site_theme']);
         if (this.settings['site_theme'] === 'dark') {
           this.$vuetify.theme.dark = true;
         } else {
-=======
-        if (this.settings['site_theme'] === 'dark') {
-          // document.documentElement.classList.add('dark');
-          this.$vuetify.theme.dark = true;
-        } else {
-          // document.documentElement.classList.remove('dark');
->>>>>>> a1686a5 (暗亮模式切换)
           this.$vuetify.theme.dark = false;
         }
       }
