@@ -251,6 +251,8 @@
         "convert":"EPUB/KINDLE转换",
         "convertSuccessful":"开始转换，请稍后刷新页面查看",
         "deleteBook":"删除此书",
+        "setSole": "设为私藏",
+        "setPublic": "设为公开",
         "author":"著",
         "year":"年版",
         "fileFormat":"文件格式",

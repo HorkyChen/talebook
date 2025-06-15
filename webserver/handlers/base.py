@@ -417,7 +417,7 @@ class BaseHandler(web.RequestHandler):
         _ts = time.time()
         books = self.db.get_data_as_dict(*args, **kwargs)
         logging.debug(
-            "[%5d ms] select books from library  (count = %d)" % (int(1000 * (time.time() - _ts)), len(books))
+            "[%5d ms] select books from library (count = %d)" % (int(1000 * (time.time() - _ts)), len(books))
         )
 
         item = Item()
@@ -431,8 +431,17 @@ class BaseHandler(web.RequestHandler):
             c = b.collector.to_dict() if b.collector else empty_item["collector"]
             d["collector"] = c
             maps[b.book_id] = d
+
+        soled_books = set()
         for book in books:
-            book.update(maps.get(book["id"], empty_item))
+            book_item = maps.get(book["id"], empty_item)
+            logging.info("book %d, sole = %s, collector = %s" % (book["id"], book_item["sole"], book_item["collector_id"]))
+            if book_item["sole"] and book_item["collector_id"] != self.user_id():
+                soled_books.add(book["id"])
+            else:
+                book.update(maps.get(book["id"], empty_item))
+        books = [b for b in books if b["id"] not in soled_books]
+
         logging.debug(
             "[%5d ms] select books from database (count = %d)" % (int(1000 * (time.time() - _ts)), len(books))
         )

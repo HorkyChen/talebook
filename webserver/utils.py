@@ -54,6 +54,7 @@ class SimpleBookFormatter:
             "collector": self.get_collector(),
             "count_visit": self.val("count_visit", 0),
             "count_download": self.val("count_download", 0),
+            "sole": self.val("sole", False),
         }
 
 

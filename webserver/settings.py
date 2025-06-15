@@ -26,7 +26,7 @@ settings = {
     "cookie_expire" : 7*86400,
     "login_url"     : "/login",
     "user_database" : 'sqlite:////data/books/calibre-webserver.db',
-    "site_title"    : u"奇异书屋",
+    "site_title"    : u"书屋",
     "site_language" : "zh",
     "site_theme"    : "light",
     "ssl_crt_file"  : "/data/books/ssl/ssl.crt",
@@ -130,7 +130,7 @@ Hi, %(username)s！
 点击链接激活你的账号: %(active_link)s
 ''',
 
-    'RESET_MAIL_TITLE': u'奇异书屋密码重置',
+    'RESET_MAIL_TITLE': u'密码重置',
     'RESET_MAIL_CONTENT': u'''
 Hi, %(username)s！
 
