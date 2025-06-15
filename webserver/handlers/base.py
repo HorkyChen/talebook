@@ -440,7 +440,8 @@ class BaseHandler(web.RequestHandler):
                 soled_books.add(book["id"])
             else:
                 book.update(maps.get(book["id"], empty_item))
-        books = [b for b in books if b["id"] not in soled_books]
+        if len(soled_books) > 0 and len(books) > 0:
+            books = [b for b in books if b["id"] not in soled_books]
 
         logging.debug(
             "[%5d ms] select books from database (count = %d)" % (int(1000 * (time.time() - _ts)), len(books))
