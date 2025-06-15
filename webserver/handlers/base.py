@@ -435,7 +435,7 @@ class BaseHandler(web.RequestHandler):
         soled_books = set()
         for book in books:
             book_item = maps.get(book["id"], empty_item)
-            logging.info("book %d, sole = %s, collector = %s" % (book["id"], book_item["sole"], book_item["collector_id"]))
+            # logging.info("book %d, sole = %s, collector = %s" % (book["id"], book_item["sole"], book_item["collector_id"]))
             if book_item["sole"] and book_item["collector_id"] != self.user_id():
                 soled_books.add(book["id"])
             else:
@@ -531,7 +531,7 @@ class ListHandler(BaseHandler):
         soled_books = set()
         for book in books:
             book_item = maps.get(book["id"], empty_item)
-            logging.info("book %d, sole = %s, collector = %s" % (book["id"], book_item["sole"], book_item["collector_id"]))
+            # logging.info("book %d, sole = %s, collector = %s" % (book["id"], book_item["sole"], book_item["collector_id"]))
             if book_item["sole"] and book_item["collector_id"] != self.user_id():
                 soled_books.add(book["id"])
             else:
