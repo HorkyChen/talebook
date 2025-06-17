@@ -188,7 +188,7 @@
         "title": "Import Books",
         "instructions": "Please place the books to be imported in the directory { scan_dir }. Supported formats are azw/azw3/epub/mobi/pdf/txt.",
         "note": "Note: This feature is executed asynchronously in the background. Do not click repeatedly. Once started, you can close the browser or refresh to check the table status progress. Do not delete successfully imported records to avoid re-importing the books.",
-        "calibre": "Additionally, you can use the <a target=\"_blank\" href=\"https://calibre-ebook.com/\">PC version of Calibre software</a> to manage books. However, please note: After using the PC version, you need to restart the Web version for it to take effect.",
+        "calibre": "Additionally, you can use the PC version of Calibre to manage books. However, please note: After using the PC version, you need to restart the Web version for it to take effect.",
         "refresh": "Refresh",
         "scan_books": "Scan Books",
         "import_selected": "Import Selected Books",
