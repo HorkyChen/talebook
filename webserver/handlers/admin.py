@@ -17,10 +17,11 @@ import tornado
 from webserver import loader
 from webserver.services.autofill import AutoFillService
 from webserver.services.mail import MailService
-from webserver.services.book_barn import BookBarnService
+from webserver.services.book_barn import BookBarnClient
 from webserver.handlers.base import BaseHandler, auth, js, is_admin
 from webserver.models import Reader
 from webserver.utils import SimpleBookFormatter
+from webserver.version import VERSION
 
 CONF = loader.get_settings()
 
@@ -523,7 +524,7 @@ class AdminBookbarnTokenApply(BaseHandler):
     def post(self):
         if not CONF.get("ENABLE_BOOKBARN", False):
             return {"err": "params.error", "msg": _(u"书栈功能未启用")}
-        bookbarn = BookBarnService(client_revision=CONF.get("BOOKBARN_CLIENT_REVISION", "v3.9.10"))
+        bookbarn = BookBarnClient(client_revision=VERSION)
         try:
             token = bookbarn.applyToken(os=self.get_os())
             return {"err": "ok", "msg": _(u"Token申请成功"), "token": token}
