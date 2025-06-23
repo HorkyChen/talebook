@@ -7,7 +7,7 @@ import threading
 import time
 import re
 
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 from webserver.services import AsyncService
 from webserver.services.autofill import AutoFillService
 from webserver import loader, utils
