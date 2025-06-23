@@ -270,6 +270,9 @@ class AdminSettings(BaseHandler):
             "google_analytics_id",
             "site_language",
             "site_theme",
+            "ENABLE_BOOKBARN",
+            "BOOKBARN_COLLECTION_HOUR",
+            "BOOKBARN_TOKEN"
         ]
 
         args = loader.SettingsLoader()
@@ -513,6 +516,15 @@ class AdminBookFill(BaseHandler):
         return {"err": "ok", "msg": _(u"任务启动成功！请耐心等待，稍后再来刷新页面")}
 
 
+class AdminBookbarnTokenApply(BaseHandler):
+    @js
+    @is_admin
+    def get(self):
+        if not CONF.get("ENABLE_BOOKBARN", False):
+            return {"err": "params.error", "msg": _(u"书栈功能未启用")}
+        # Request
+
+
 def routes():
     return [
         (r"/api/admin/ssl", AdminSSL),
@@ -522,4 +534,5 @@ def routes():
         (r"/api/admin/testmail", AdminTestMail),
         (r"/api/admin/book/list", AdminBookList),
         (r"/api/admin/book/fill", AdminBookFill),
+        (r"/api/admin/bookbarn/token/apply", AdminBookbarnTokenApply)
     ]

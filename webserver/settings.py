@@ -30,7 +30,7 @@ settings = {
     "site_language" : "zh",
     "site_theme"    : "light",
     "ssl_crt_file"  : "/data/books/ssl/ssl.crt",
-    "ssl_key_file"  : "/data/books/ssl/ssl.key",
+    "ssl_key_file": "/data/books/ssl/ssl.key",
 
     "push_title": u"%(site_title)s：推送给您一本书《%(title)s》",
     "push_content": u"为您奉上一本《%(title)s》, 欢迎常来访问%(site_title)s！%(site_url)s",
@@ -53,6 +53,10 @@ settings = {
 
     # 100MB, tornado default max_buffer_size value
     "MAX_UPLOAD_SIZE": "100MB",
+
+    "ENABLE_BOOKBARN": False,
+    "BOOKBARN_TOKEN": "",
+    "BOOKBARN_COLLECTION_HOUR": 3,
 
     "EPUB_VIEWER": "epubjs.html",
     "PDF_VIEWER": "/static/pdfjs/web/viewer.html?file=%(pdf_url)s",
