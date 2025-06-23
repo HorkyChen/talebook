@@ -522,8 +522,6 @@ class AdminBookbarnTokenApply(BaseHandler):
     @js
     @is_admin
     def post(self):
-        if not CONF.get("ENABLE_BOOKBARN", False):
-            return {"err": "params.error", "msg": _(u"书栈功能未启用")}
         bookbarn = BookBarnClient(client_revision=VERSION)
         try:
             token = bookbarn.applyToken(os=self.get_os())
