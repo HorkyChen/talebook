@@ -7,11 +7,13 @@ import threading
 import time
 import re
 
+from urllib.parse import urlparse
 from webserver.services import AsyncService
 from webserver.services.autofill import AutoFillService
 from webserver import loader, utils
 from webserver.version import VERSION
 from webserver.models import Reader, Item
+from gettext import gettext as _
 
 
 CONF = loader.get_settings()
