@@ -2,14 +2,16 @@ import datetime
 import requests
 import logging
 import os
+import shutil
 import threading
 import time
 import re
 
 from webserver.services import AsyncService
+from webserver.services.autofill import AutoFillService
 from webserver import loader, utils
 from webserver.version import VERSION
-from webserver.models import Reader
+from webserver.models import Reader, Item
 
 
 CONF = loader.get_settings()
@@ -18,6 +20,7 @@ CONF = loader.get_settings()
 class BookBarnClient:
     # HOST_BASE = "http://43.138.200.142:8088/"
     HOST_BASE = "http://127.0.0.1:8088/"
+    CHECK_TOKEN_API = "bookbarn/check"
     APPLY_TOKEN_API = "bookbarn/token"
     UPDATE_ACTION_API = "bookbarn/token/action"
     GET_BOOKS_API = "bookbarn/pubbooks"
@@ -36,6 +39,27 @@ class BookBarnClient:
             "Referer": "https://www.talebook.org/",
         }
 
+    def checkToken(self, token):
+        params = {
+            "version": VERSION,
+            "token": token
+        }
+        response = requests.get(self.HOST_BASE + self.CHECK_TOKEN_API, params=params, verify=False)
+        if response.status_code == 200:
+            data = response.json().get("data")
+            if data is not None:
+                self.token = data.get("token")
+                logging.info(f"[BARN]Token is valid: {self.token}")
+                return True, ""
+            else:
+                msg = response.json().get("msg", "")
+                logging.warning(f"[BARN]Invalid Token: {msg}")
+                return False, msg
+        else:
+            data = response.json().get("data")
+            logging.error(f"[BARN]Failed to check token: {response.status_code} - {response.text}")
+            return False, response.text
+
     def applyToken(self, os=None):
         # send post request with APPLY_TOKEN_API, json data with client_revision and os
         data = {
@@ -48,10 +72,10 @@ class BookBarnClient:
             data = response.json().get("data")
             if data is not None:
                 self.token = data.get("token")
-            logging.info(f"Token applied successfully: {self.token}")
+            logging.info(f"[BARN]Token applied successfully: {self.token}")
             return self.token
         else:
-            raise Exception(f"Failed to apply token: {response.status_code} - {response.text}")
+            raise Exception(f"[BARN]Failed to apply token: {response.status_code} - {response.text}")
 
     def _updateAction(self, token, action):
         data = {
@@ -83,7 +107,6 @@ class BookBarnClient:
             "version": VERSION
         }
         response = requests.get(self.HOST_BASE + self.GET_BOOKS_API, params=params, verify=False)
-        logging.info(response.text)
 
         if response.status_code == 200:
             data = response.json().get("data")
@@ -169,12 +192,14 @@ class BookBarnService(AsyncService):
         self.os = "Linux"
         self.token = ""
         self.checked_day = None
+        self.admin_uids = None
 
     @AsyncService.register_service
     def get_daily_books(self):
         logging.info("Start daily books checking")
+        token_invalid_message = False
         while True:
-            logging.info("Daily books checking #1")
+            logging.info("Daily books checking")
             if not CONF.get("ENABLE_BOOKBARN", False):
                 time.sleep(10 * 60)
                 logging.info("Daily books checking, not enabled")
@@ -202,6 +227,19 @@ class BookBarnService(AsyncService):
                 logging.info(f"Not target time {hour}, now is {current_hour}")
                 time.sleep(2 * 60)
 
+            ok, err_message = self.client.checkToken(self.token)
+            if not ok:
+                if not token_invalid_message:
+                    token_invalid_message = True
+                    if self.admin_uids is None or len(self.admin_uids) == 0:
+                        admin_uids = self.get_admin_uids()
+                    if len(admin_uids) > 0:
+                        self.add_msg(admin_uids[0], "error", _(f"[书栈]书栈Token无效, 加入taleboook公众号私信管理员或者更新Token! 错误信息: {err_message}"))
+                time.sleep(10 * 60)
+                continue
+            else:
+                token_invalid_message = False
+
             book_list = self.client.getBookList(self.token)
             if book_list is None:
                 self.client.resetChecking(self.token)
@@ -221,13 +259,11 @@ class BookBarnService(AsyncService):
             logging.info("[BARN]No books to process today.")
             return
 
-        # get all admin users for message notification
-        admin_uids = []
-        users = self.session.query(Reader).filter(Reader.admin == True).all()
-        for user in users:
-            admin_uids.append(user.id)
-            logging.info(f"[BARN]Admin user: {user.id} - {user.username}")
+        if os.path.exists(self.client.FILE_SAVE_PATH):
+            shutil.rmtree(self.client.FILE_SAVE_PATH)
 
+        # Get admin uids
+        admin_uids = self.get_admin_uids()
         if len(admin_uids) == 0:
             logging.warning("[BARN]No admin users found, cannot send notifications.")
             return
@@ -261,7 +297,7 @@ class BookBarnService(AsyncService):
                 logging.error(f"[BARN]Failed to download book ID {book_id}")
                 continue
 
-            # Import to db
+            # Import it to db
             fmt = os.path.splitext(saved_file)[1]
             fmt = fmt[1:] if fmt else None
             if not fmt:
@@ -287,7 +323,7 @@ class BookBarnService(AsyncService):
                         break
                 if ignore:
                     for uid in admin_uids:
-                        self.add_msg(uid, "warning", _(f"[书栈]已存在书籍{mi.title}！"))
+                        self.add_msg(uid, "warning", _(f"[书栈]已存在书籍{mi.title},忽略！"))
                     logging.info("[BARN]Ignore [%s] due to existed same book and same format", repr(mi.title))
                     continue
                 else:
@@ -307,3 +343,14 @@ class BookBarnService(AsyncService):
                 AutoFillService().auto_fill(book_id)
             time.sleep(1)
         logging.info("[BARN]Processed done!")
+
+    def get_admin_uids(self):
+        # get all admin users for message notification
+        admin_uids = []
+        users = self.session.query(Reader).filter(Reader.admin == True).all()
+        for user in users:
+            admin_uids.append(user.id)
+            logging.info(f"[BARN]Admin user: {user.id} - {user.username}")
+
+        self.admin_uids = admin_uids
+        return admin_uids
