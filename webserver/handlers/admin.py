@@ -21,7 +21,6 @@ from webserver.services.book_barn import BookBarnClient
 from webserver.handlers.base import BaseHandler, auth, js, is_admin
 from webserver.models import Reader
 from webserver.utils import SimpleBookFormatter
-from webserver.version import VERSION
 
 CONF = loader.get_settings()
 
@@ -202,6 +201,9 @@ class AdminSettings(BaseHandler):
     def get(self):
         if not self.admin_user:
             return {"err": "permission", "msg": _(u"无权访问此接口")}
+
+        if CONF.get("BOOKBARN_COLLECTION_HOUR", 25) >= 25:
+            CONF["BOOKBARN_COLLECTION_HOUR"] = 3
 
         sns = [
             {"value": "qq", "text": "QQ", "link": "https://connect.qq.com/"},
@@ -522,7 +524,7 @@ class AdminBookbarnTokenApply(BaseHandler):
     @js
     @is_admin
     def post(self):
-        bookbarn = BookBarnClient(client_revision=VERSION)
+        bookbarn = BookBarnClient()
         try:
             token = bookbarn.applyToken(os=self.get_os())
             return {"err": "ok", "msg": _(u"Token申请成功"), "token": token}
