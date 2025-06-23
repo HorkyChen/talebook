@@ -71,7 +71,9 @@
                 v-model="settings['ENABLE_BOOKBARN']" :key="ENABLE_BOOKBARN" :label="$t('settings.bookbarn_enable')"></v-checkbox>
               <v-text-field flat small v-model="settings['BOOKBARN_TOKEN']" :label="$t('settings.bookbarn_token')"
                 type="text" :disabled="true"></v-text-field>
-              <v-btn color="primary" :disabled="!settings['ENABLE_BOOKBARN']" style="padding: 0 0 0 10px"><v-icon>key</v-icon>{{ $t('settings.bookbarn_apply_token') }}</v-btn>
+              <v-btn color="primary" :disabled="!settings['ENABLE_BOOKBARN'] || appliedToken" style="margin-bottom:24px" @click="apply_bookbarn_token">
+                <v-icon>key</v-icon>{{ $t('settings.bookbarn_apply_token') }}
+              </v-btn>
               <v-select small :prepend-icon="clock" v-model="settings['BOOKBARN_COLLECTION_HOUR']" :disabled="!settings['ENABLE_BOOKBARN']"
                 :items=card.hours :key="BOOKBARN_COLLECTION_HOUR" :label="$t('settings.bookbarn_collection_hour')"> </v-select>
             </template>
@@ -300,6 +302,7 @@ export default {
     settings: {},
     site_url: "",
     cards: [],
+    appliedToken: false
   }),
   methods: {
     save_settings: function () {
@@ -308,12 +311,10 @@ export default {
       }
 
       if (this.settings['site_language'] !== '') {
-        console.log(this.$t("settings.switch_language_to"), this.settings['site_language']);
         this.$i18n.locale = this.settings['site_language'];
       }
 
       if (process.client && this.settings['site_theme'] !== '') {
-        console.log("switch theme to ", this.settings['site_theme']);
         localStorage.setItem('site_theme', this.settings['site_theme']);
         if (this.settings['site_theme'] === 'dark') {
           this.$vuetify.theme.dark = true;
@@ -336,6 +337,21 @@ export default {
     show_sns_config: function (s) {
       var msg = `${this.$t('settings.sns_config_message', { text: s.text, link: s.link, site_url: this.site_url, value: s.value })}`;
       this.$alert("success", msg);
+    },
+    apply_bookbarn_token() {
+      this.appliedToken = true;
+      this.$backend("/admin/bookbarn/token/apply", {
+        method: 'POST',
+        body: JSON.stringify(this.settings),
+      }).then(rsp => {
+        if (rsp.err != 'ok') {
+          this.appliedToken = false;
+          this.$alert('error', rsp.msg);
+        } else {
+          this.$alert('success', rsp.msg);
+          this.settings['BOOKBARN_TOKEN'] = rsp.token;
+        }
+      });
     },
     test_email: function () {
       var data = new URLSearchParams();

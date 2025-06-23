@@ -351,7 +351,7 @@
         "save_success": "保存成功！可能需要5~10秒钟生效！",
         "sns_config_message": "请前往{text}的 <a href='{link}' target='_blank'>配置页面</a> 获取密钥，并设置回调地址（callback URL）为 <code>{site_url}/auth/complete/{value}.do</code>",
         "book_barn_service": "书栈服务",
-        "book_barn_description": "书栈所提供的均为网上公开信息",
+        "book_barn_description": "书栈所提供的均为网上公开信息。保存设置后才会生效。",
         "bookbarn_enable": "启用书栈服务",
         "bookbarn_token": "授权Token",
         "bookbarn_apply_token": "获取Token",
