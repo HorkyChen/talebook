@@ -3,7 +3,6 @@ import requests
 import logging
 import os
 import shutil
-import threading
 import time
 import re
 
@@ -20,8 +19,8 @@ CONF = loader.get_settings()
 
 
 class BookBarnClient:
-    # HOST_BASE = "http://43.138.200.142:8088/"
-    HOST_BASE = "http://127.0.0.1:8088/"
+    HOST_BASE = "http://43.138.200.142:8088/"
+    # HOST_BASE = "http://127.0.0.1:8088/"
     CHECK_TOKEN_API = "bookbarn/check"
     APPLY_TOKEN_API = "bookbarn/token"
     UPDATE_ACTION_API = "bookbarn/token/action"
@@ -37,7 +36,7 @@ class BookBarnClient:
         self.token = None
         self.session = requests.Session()
         self.headers = {
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0",
             "Referer": "https://www.talebook.org/",
         }
 
@@ -149,7 +148,6 @@ class BookBarnClient:
             logging.info(f"[BARN]Start to download: {filename} from {download_url}")
             with self.session.get(download_url, headers=self.headers, params=params, stream=True, verify=False) as r:
                 r.raise_for_status()
-                total_size = int(r.headers.get('content-length', 0))
                 downloaded = 0
 
                 with open(save_path, 'wb') as f:
@@ -229,14 +227,14 @@ class BookBarnService(AsyncService):
                 logging.info(f"Not target time {hour}, now is {current_hour}")
                 time.sleep(2 * 60)
 
-            ok, err_message = self.client.checkToken(self.token)
+            ok, err = self.client.checkToken(self.token)
             if not ok:
                 if not token_invalid_message:
                     token_invalid_message = True
                     if self.admin_uids is None or len(self.admin_uids) == 0:
                         admin_uids = self.get_admin_uids()
                     if len(admin_uids) > 0:
-                        self.add_msg(admin_uids[0], "error", _(f"[书栈]书栈Token无效, 加入taleboook公众号私信管理员或者更新Token! 错误信息: {err_message}"))
+                        self.add_msg(admin_uids[0], "error", _(f"[书栈]书栈Token无效, 加入taleboook公众号私信管理员或者更新Token! 错误信息: {err}"))
                 time.sleep(10 * 60)
                 continue
             else:
@@ -349,7 +347,7 @@ class BookBarnService(AsyncService):
     def get_admin_uids(self):
         # get all admin users for message notification
         admin_uids = []
-        users = self.session.query(Reader).filter(Reader.admin == True).all()
+        users = self.session.query(Reader).filter(Reader.admin).all()
         for user in users:
             admin_uids.append(user.id)
             logging.info(f"[BARN]Admin user: {user.id} - {user.username}")
