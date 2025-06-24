@@ -198,11 +198,12 @@ class BookBarnService(AsyncService):
     def get_daily_books(self):
         logging.info("Start daily books checking")
         token_invalid_message = False
+        output_hour = 0
         while True:
-            logging.info("Daily books checking")
+            logging.info("[BARN]Daily books checking")
             if not CONF.get("ENABLE_BOOKBARN", False):
                 time.sleep(10 * 60)
-                logging.info("Daily books checking, not enabled")
+                logging.info("[BARN]Daily books checking, not enabled")
                 continue
 
             if self.checked_day is not None:
@@ -215,7 +216,7 @@ class BookBarnService(AsyncService):
             current_token = CONF.get("BOOKBARN_TOKEN", "")
             if len(current_token) == 0:
                 time.sleep(5 * 60)
-                logging.info("Daily books checking, not set token")
+                logging.info("[BARN]Daily books checking, not set token")
                 continue
             if self.token != current_token:
                 self.token = current_token
@@ -224,8 +225,11 @@ class BookBarnService(AsyncService):
             current_hour = datetime.datetime.now().hour
 
             if current_hour != hour:
-                logging.info(f"Not target time {hour}, now is {current_hour}")
-                time.sleep(2 * 60)
+                if output_hour != current_hour:
+                    logging.info(f"[BARN]Not target time {hour}, now is {current_hour}")
+                    output_hour = current_hour
+                time.sleep(5 * 60)
+                continue
 
             ok, err = self.client.checkToken(self.token)
             if not ok:
