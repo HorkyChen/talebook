@@ -202,7 +202,7 @@ class AdminSettings(BaseHandler):
         if not self.admin_user:
             return {"err": "permission", "msg": _(u"无权访问此接口")}
 
-        if CONF.get("BOOKBARN_COLLECTION_HOUR", 25) >= 25:
+        if int(CONF.get("BOOKBARN_COLLECTION_HOUR", 25)) >= 25:
             CONF["BOOKBARN_COLLECTION_HOUR"] = 3
 
         sns = [
