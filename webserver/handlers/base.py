@@ -126,6 +126,22 @@ class BaseHandler(web.RequestHandler):
     def head(self, *args, **kwargs):
         return self.get(*args, **kwargs)
 
+    def get_os(self):
+        # get the host os from the user agent
+        user_agent = self.request.headers.get("User-Agent", "")
+        if "Windows" in user_agent:
+            return "Windows"
+        elif "Macintosh" in user_agent:
+            return "MacOS"
+        elif "Linux" in user_agent:
+            return "Linux"
+        elif "Android" in user_agent:
+            return "Android"
+        elif "iPhone" in user_agent or "iPad" in user_agent:
+            return "iOS"
+        else:
+            return "Unknown"
+
     def mark_invited(self):
         self.set_secure_cookie("invited", str(int(time.time())))
 

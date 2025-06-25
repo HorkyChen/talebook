@@ -353,7 +353,13 @@
         "name": "名称",
         "link": "链接",
         "add": "添加",
-        "description": "说明"
+        "description": "说明",
+        "book_barn_service": "书栈服务",
+        "book_barn_description": "书栈所提供的均为网上公开信息, 开启后每日自动导入3~5本图书。保存设置后才会生效。",
+        "bookbarn_enable": "启用书栈服务",
+        "bookbarn_token": "授权Token",
+        "bookbarn_apply_token": "获取Token",
+        "bookbarn_collection_hour": "获取书栈图书列表的时间 (设置为整点时间)"
     },
     "user": {
         "avatar": "头像",

@@ -18,6 +18,7 @@ from tornado.options import define, options
 
 from webserver import loader, models, social_routes, handlers
 from webserver.services import AsyncService
+from webserver.services.book_barn import BookBarnService
 
 CONF = loader.get_settings()
 define("host", default="", type=str, help=_("The host address on which to listen"))
@@ -196,6 +197,10 @@ def make_app():
     AsyncService().setup(book_db, ScopedSession)
     app = web.Application(social_routes.SOCIAL_AUTH_ROUTES + handlers.routes(), **app_settings)
     app._engine = engine
+
+    # Start background service
+    BookBarnService().get_daily_books()
+
     return app
 
 

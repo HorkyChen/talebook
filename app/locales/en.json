@@ -269,7 +269,13 @@
         "name": "Name",
         "link": "URL",
         "add": "Add",
-        "description": "Description"
+        "description": "Description",
+        "book_barn_service": "Book Barn",
+        "book_barn_description": "All information provied by book barn all from internet public information",
+        "bookbarn_enable": "Enable Book Barn Service",
+        "bookbarn_token": "Token",
+        "bookbarn_apply_token": "Apply Token",
+        "bookbarn_collection_hour": "Request to book barn at hour"
     },
     "book": {
         "edit": {

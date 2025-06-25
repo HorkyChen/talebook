@@ -17,6 +17,7 @@ import tornado
 from webserver import loader
 from webserver.services.autofill import AutoFillService
 from webserver.services.mail import MailService
+from webserver.services.book_barn import BookBarnClient
 from webserver.handlers.base import BaseHandler, auth, js, is_admin
 from webserver.models import Reader
 from webserver.utils import SimpleBookFormatter
@@ -201,6 +202,9 @@ class AdminSettings(BaseHandler):
         if not self.admin_user:
             return {"err": "permission", "msg": _(u"无权访问此接口")}
 
+        if int(CONF.get("BOOKBARN_COLLECTION_HOUR", 25)) >= 25:
+            CONF["BOOKBARN_COLLECTION_HOUR"] = 3
+
         sns = [
             {"value": "qq", "text": "QQ", "link": "https://connect.qq.com/"},
             {
@@ -270,6 +274,9 @@ class AdminSettings(BaseHandler):
             "google_analytics_id",
             "site_language",
             "site_theme",
+            "ENABLE_BOOKBARN",
+            "BOOKBARN_COLLECTION_HOUR",
+            "BOOKBARN_TOKEN"
         ]
 
         args = loader.SettingsLoader()
@@ -513,6 +520,19 @@ class AdminBookFill(BaseHandler):
         return {"err": "ok", "msg": _(u"任务启动成功！请耐心等待，稍后再来刷新页面")}
 
 
+class AdminBookbarnTokenApply(BaseHandler):
+    @js
+    @is_admin
+    def post(self):
+        bookbarn = BookBarnClient()
+        try:
+            token = bookbarn.applyToken(os=self.get_os())
+            return {"err": "ok", "msg": _(u"Token申请成功"), "token": token}
+        except Exception as e:
+            logging.error(traceback.format_exc())
+            return {"err": "params.error", "msg": _(u"Token申请失败: %s") % str(e)}
+
+
 def routes():
     return [
         (r"/api/admin/ssl", AdminSSL),
@@ -522,4 +542,5 @@ def routes():
         (r"/api/admin/testmail", AdminTestMail),
         (r"/api/admin/book/list", AdminBookList),
         (r"/api/admin/book/fill", AdminBookFill),
+        (r"/api/admin/bookbarn/token/apply", AdminBookbarnTokenApply)
     ]
