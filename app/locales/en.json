@@ -127,6 +127,8 @@
             "description": "This table only displays partial fields of books. Click to quickly modify. For complete book information, please click the link to view the book details page.",
             "refresh": "Refresh",
             "autoUpdate": "Auto-update book information...",
+            "deleteSelected": "Delete Selected Books",
+            "noSelectedBook": "No books selected",
             "search": "Search",
             "status": {
                 "ready": "Ready to Import",

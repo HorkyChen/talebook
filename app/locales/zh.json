@@ -127,6 +127,8 @@
             "description": "此表格仅展示图书的部分字段，点击即可快捷修改。完整图书信息请点击链接查看书籍详情页面",
             "refresh": "刷新",
             "autoUpdate": "自动更新图书信息...",
+            "deleteSelected": "删除选中的图书",
+            "noSelectedBook": "请先选择要删除的图书",
             "search": "搜索",
             "status": {
                 "ready": "可导入",

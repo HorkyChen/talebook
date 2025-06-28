@@ -5,8 +5,9 @@
         <v-card-actions>
             <v-btn :disabled="loading" outlined color="primary" @click="getDataFromApi"><v-icon>mdi-reload</v-icon>{{ $t('admin.books.refresh') }}</v-btn>
             <v-btn :disabled="loading" outlined color="info" @click="show_dialog_auto_file"><v-icon>mdi-info</v-icon>{{ $t('admin.books.autoUpdate') }}</v-btn>
+            <v-btn :disabled="loading || books_selected.length === 0" outlined color="info" @click="deleteSelectedBooks"><v-icon>mdi-info</v-icon>{{ $t('admin.books.deleteSelected') }}</v-btn>
             <v-spacer></v-spacer>
-            <v-text-field cols="2" dense v-model="search" append-icon="mdi-magnify" :label="$t('admin.books.search')" single-line hide-details></v-text-field>
+            <v-text-field cols="2" dense @keyup.enter="getDataFromApi" v-model="search" append-icon="mdi-magnify" :label="$t('admin.books.search')" single-line hide-details></v-text-field>
         </v-card-actions>
         <v-data-table
             dense
@@ -293,6 +294,34 @@ export default {
                     }
                     this.items = rsp.items;
                     this.total = rsp.total;
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+        },
+        deleteSelectedBooks() {
+            if (this.books_selected.length == 0) {
+                this.$alert("info", this.$t("admin.books.noSelectedBook"));
+                return;
+            }
+            this.loading = true;
+            const books_ids = this.books_selected.map((book) => {
+                return book.id;
+            });
+            this.$backend("/admin/books/delete", {
+                method: "POST",
+                body: JSON.stringify({"idlist": books_ids}),
+            })
+                .then((rsp) => {
+                    if (rsp.err != "ok") {
+                        this.$alert("error", rsp.msg);
+                    } else {
+                        this.snack = true;
+                        this.snackColor = "success";
+                        this.snackText = rsp.msg;
+                    }
+                    this.books_selected = [];
+                    this.getDataFromApi();
                 })
                 .finally(() => {
                     this.loading = false;

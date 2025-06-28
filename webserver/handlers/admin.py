@@ -533,6 +533,25 @@ class AdminBookbarnTokenApply(BaseHandler):
             return {"err": "params.error", "msg": _(u"Token申请失败: %s") % str(e)}
 
 
+class AdminDeleteBooks(BaseHandler):
+    @js
+    @is_admin
+    def post(self):
+        req = tornado.escape.json_decode(self.request.body)
+        idlist = req.get("idlist", [])
+        if not idlist:
+            return {"err": "params.error", "msg": _(u"参数错误")}
+
+        for book_id in idlist:
+            try:
+                book = self.get_book(book_id)
+                book_id = book["id"]
+                self.db.delete_book(book_id)
+            except Exception as err:
+                logging.error(_("执行异常: %s"), err)
+        return {"err": "ok", "msg": _(u"删除成功")}
+
+
 def routes():
     return [
         (r"/api/admin/ssl", AdminSSL),
@@ -542,5 +561,6 @@ def routes():
         (r"/api/admin/testmail", AdminTestMail),
         (r"/api/admin/book/list", AdminBookList),
         (r"/api/admin/book/fill", AdminBookFill),
-        (r"/api/admin/bookbarn/token/apply", AdminBookbarnTokenApply)
+        (r"/api/admin/bookbarn/token/apply", AdminBookbarnTokenApply),
+        (r"/api/admin/books/delete", AdminDeleteBooks)
     ]
