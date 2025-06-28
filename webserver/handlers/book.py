@@ -24,6 +24,7 @@ from webserver.plugins.meta import baike, douban, youshu
 from webserver.plugins.parser.txt import get_content_encoding
 
 CONF = loader.get_settings()
+ZLIBRARY_SUFFIX = "(Z-Library)"
 
 
 class Index(BaseHandler):
@@ -583,6 +584,8 @@ class BookUpload(BaseHandler):
         # 非结构化的格式，calibre无法识别准确的信息，直接从文件名提取
         if fmt in ["txt", "pdf"]:
             mi.title = name.replace("." + fmt, "")
+            if mi.title.endswith(ZLIBRARY_SUFFIX):
+                mi.title = mi.title[:-len(ZLIBRARY_SUFFIX)]
             mi.authors = [_(u"佚名")]
 
         logging.info("upload mi.title = " + repr(mi.title))
