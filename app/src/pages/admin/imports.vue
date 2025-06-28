@@ -213,6 +213,7 @@ export default {
                         this.loading = true;
                         return true;
                     });
+                    this.selected = [];
                 })
         },
         delete_record() {
@@ -230,6 +231,7 @@ export default {
                     if (rsp.err !== "ok") {
                         this.$alert("error", rsp.msg);
                     }
+                    this.selected = [];
                     this.getDataFromApi();
                 })
                 .finally(() => {
