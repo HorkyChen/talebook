@@ -367,6 +367,7 @@
     "user": {
         "avatar": "Avatar",
         "modifyAvatar": "Click to modify",
+        "uploadAvatar": "Upload Avatar",
         "username": "Username",
         "email": "Email",
         "resendActivationEmail": "Resend activation email",
@@ -379,9 +380,13 @@
         "kindleAddress": "Kindle Address",
         "kindle": "Kindle",
         "save": "Save",
+        "cancel": "Cancel",
+        "close": "Close",
         "passwordMismatch": "Passwords do not match.",
         "activationEmailSent": "Activation email has been sent!",
-        "user_center": "User Center"
+        "user_center": "User Center",
+        "uploadWarning": "Avatar file size must not exceed 2MB and supports jpg/png format.",
+        "uploadImage": "Upload avatar image file"
     },
     "history": {
         "noRecords": "No reading history. Please enjoy exploring the ocean of books~",

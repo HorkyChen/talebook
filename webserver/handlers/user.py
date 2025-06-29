@@ -5,6 +5,7 @@ import datetime
 import hashlib
 import logging
 import re
+import os
 from gettext import gettext as _
 
 import tornado.escape
@@ -135,7 +136,7 @@ class SignUp(BaseHandler):
         user.username = username
         user.name = nickname
         user.email = email
-        user.avatar = CONF["avatar_service"] + "/avatar/" + hashlib.md5(email.encode("UTF-8")).hexdigest()
+        user.avatar = "reader.png"
         user.create_time = datetime.datetime.now()
         user.update_time = datetime.datetime.now()
         user.access_time = datetime.datetime.now()
@@ -334,8 +335,11 @@ class UserInfo(BaseHandler):
             }
         )
         if user.avatar:
-            gravatar_url = "https://www.gravatar.com"
-            d["avatar"] = user.avatar.replace("http://", "https://").replace(gravatar_url, CONF["avatar_service"])
+            if user.avatar.startswith("http"):
+                gravatar_url = "https://www.gravatar.com"
+                d["avatar"] = user.avatar.replace("http://", "https://").replace(gravatar_url, CONF["avatar_service"])
+            else:
+                d["avatar"] = self.site_url + "/avatar/%s" % user.avatar
         if user.extra:
             d["kindle_email"] = user.extra.get("kindle_email", "")
             if detail:
@@ -393,6 +397,26 @@ class Welcome(BaseHandler):
         return {"err": "ok", "msg": ""}
 
 
+class UserAvatar(BaseHandler):
+    @js
+    def post(self):
+        user = self.current_user
+        if not user:
+            raise web.HTTPError(403, reason="请先登录")
+        fileinfo = self.request.files.get('avatar')
+        if not fileinfo:
+            return {"err": "params.invalid", "msg": "未上传头像文件"}
+        fileinfo = fileinfo[0]
+        avatar_dir = os.path.join(CONF['static_path'], 'avatar')
+        os.makedirs(avatar_dir, exist_ok=True)
+        avatar_path = os.path.join(avatar_dir, f"{user.id}.png")
+        with open(avatar_path, "wb+") as f:
+            f.write(fileinfo['body'])
+        user.avatar = f"{user.id}.png"
+        self.db.commit()
+        self.write({'err': 'ok', 'avatar_url': user.avatar})
+
+
 def routes():
     return [
         (r"/api/welcome", Welcome),
@@ -403,6 +427,7 @@ def routes():
         (r"/api/user/sign_out", SignOut),
         (r"/api/user/update", UserUpdate),
         (r"/api/user/reset", UserReset),
+        (r"/api/user/avatar", UserAvatar),
         (r"/api/user/active/send", UserSendActive),
         (r"/api/active/(.*)/(.*)", UserActive),
         (r"/api/done/", Done),

@@ -367,6 +367,7 @@
     "user": {
         "avatar": "头像",
         "modifyAvatar": "点击修改",
+        "uploadAvatar": "上传头像",
         "username": "用户名",
         "email": "邮箱",
         "resendActivationEmail": "重新发送激活邮件",
@@ -379,9 +380,13 @@
         "kindleAddress": "Kindle地址",
         "kindle": "Kindle",
         "save": "保存",
+        "cancel": "取消",
+        "close": "关闭",
         "passwordMismatch": "密码不一致。",
         "activationEmailSent": "激活邮件已发出！",
-        "user_center": "用户中心"
+        "user_center": "用户中心",
+        "uploadWarning": "头像文件大小不超过2MB，支持jpg/png格式。",
+        "uploadImage": "上传头像图片文件"
     },
     "history": {
         "noRecords": "暂无阅读历史。请尽情畅游书籍的海洋吧~",

@@ -25,7 +25,6 @@ from webserver.models import Reader
 from webserver.utils import SimpleBookFormatter
 
 CONF = loader.get_settings()
-LOGO_PATH = "/var/www/talebook/app/dist/logo/"
 
 
 class AdminUsers(BaseHandler):

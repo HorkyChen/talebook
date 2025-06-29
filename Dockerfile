@@ -97,6 +97,7 @@ RUN mkdir -p /data/log/nginx/ && \
     mkdir -p /data/books/progress  && \
     mkdir -p /data/books/settings && \
     mkdir -p /data/books/logo && \
+    mkdir -p /data/books/avtar && \
     mkdir -p /data/books/ssl && \
     mkdir -p /var/www/talebook/ && \
     chmod a+w -R /data/log /data/books /var/www
@@ -110,6 +111,7 @@ COPY conf/nginx/talebook.conf /etc/nginx/conf.d/
 COPY conf/supervisor/talebook.conf /etc/supervisor/conf.d/
 COPY --from=builder /app-static/ /var/www/talebook/app/
 COPY --from=builder /app-static/dist/logo/ /data/books/logo/
+COPY --from=builder /app-static/dist/avatar/ /data/books/avtar/
 
 RUN rm -f /etc/nginx/sites-enabled/default /var/www/html -rf && \
     cd /var/www/talebook/ && \
@@ -123,6 +125,7 @@ RUN rm -f /etc/nginx/sites-enabled/default /var/www/html -rf && \
     rm -rf app/src && \
     rm -rf app/dist/logo && \
     ln -s /data/books/logo app/dist/logo && \
+    ln -s /data/books/avtar app/dist/avtar && \
     mkdir -p /prebuilt/ && \
     mv /data/* /prebuilt/ && \
     chmod +x /var/www/talebook/docker/start.sh
