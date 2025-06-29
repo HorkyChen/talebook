@@ -550,6 +550,8 @@ class BookUpload(BaseHandler):
 
     def get_upload_file(self):
         # for unittest mock
+        if "ebook" not in self.request.files:
+            return None, None
         p = self.request.files["ebook"][0]
         return (p["filename"], p["body"])
 
@@ -561,6 +563,9 @@ class BookUpload(BaseHandler):
         if not self.current_user.can_upload():
             return {"err": "permission", "msg": _(u"无权操作")}
         name, data = self.get_upload_file()
+        if name is None:
+            return {"err": "params.filename", "msg": _(u"文件不存在或未选择文件")}
+
         name = re.sub(r"[\x80-\xFF]+", BookUpload.convert, name)
         logging.error("upload book name = " + repr(name))
         fmt = os.path.splitext(name)[1]
