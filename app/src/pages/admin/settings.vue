@@ -24,6 +24,15 @@
                 :key="f.key" :label="$t(f.label)"></v-textarea>
               <v-select small v-else-if="f.type === 'select'" :prepend-icon="f.icon" v-model="settings[f.key]"
                 :items="f.items" :key="f.key" :label="$t(f.label)"> </v-select>
+              <v-select small v-else-if="f.type === 'select_image'" :prepend-icon="f.icon"
+                v-model="settings[f.key]" :items="f.items" :key="f.key" :label="$t(f.label)">
+                <template #item="{ item }">
+                  <v-img :src="`${site_url}/logo/${item.image_file}.ico`" max-width="32" max-height="32" />
+                </template>
+                <template #selection="{ item }">
+                  <v-img :src="`${site_url}/logo/${item.image_file}.ico`" max-width="32" max-height="32" />
+                </template>
+              </v-select>
               <v-text-field v-else :prepend-icon="f.icon" v-model="settings[f.key]" :key="f.key" :label="$t(f.label)"
                 type="text"></v-text-field>
             </template>
@@ -144,6 +153,9 @@ export default {
             items: [{ text: this.$t('settings.light_color'), value: "light" }, { text: this.$t('settings.dark_color'), value: "dark" }]
           },
           { icon: "home", key: "site_title", label: "settings.site_title", },
+          { icon: "info", key: "site_icon", label: "settings.site_icon", type: 'select_image',
+            items: Array.from({ length: 9 }, (_, i) => ({ image_file: "favicon_" + i.toString(), value: "favicon_" + i.toString() }))
+          },
           { icon: "mdi-copyright", key: "HEADER", label: "settings.site_header", type: 'textarea' },
           { icon: "mdi-copyright", key: "FOOTER", label: "settings.site_footer", type: 'textarea' }
         ],
@@ -283,7 +295,12 @@ export default {
         if (this.settings['site_language'] === '') {
           this.settings['site_language'] = this.$i18n.locale;
         }
-
+        if (!('site_theme' in this.settings) || this.settings['site_theme'] === '') {
+          this.settings['site_theme'] = "light";
+        }
+        if (!('site_icon' in this.settings) || this.settings['site_icon'] === '') {
+          this.settings['site_icon'] = "favicon_0";
+        }
         var m = {}
         rsp.sns.forEach(function (ele) {
           m[ele.value] = ele;

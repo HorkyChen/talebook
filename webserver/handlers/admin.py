@@ -4,7 +4,9 @@
 import datetime
 import hashlib
 import logging
+import os
 import re
+import shutil
 import ssl
 import subprocess
 import tempfile
@@ -23,6 +25,7 @@ from webserver.models import Reader
 from webserver.utils import SimpleBookFormatter
 
 CONF = loader.get_settings()
+LOGO_PATH = "/var/www/talebook/app/dist/logo/"
 
 
 class AdminUsers(BaseHandler):
@@ -205,6 +208,8 @@ class AdminSettings(BaseHandler):
         if int(CONF.get("BOOKBARN_COLLECTION_HOUR", 25)) >= 25:
             CONF["BOOKBARN_COLLECTION_HOUR"] = 3
 
+        CONF["site_icon"] = "favicon_0"  # default icon, means use current favicon.ico
+
         sns = [
             {"value": "qq", "text": "QQ", "link": "https://connect.qq.com/"},
             {
@@ -274,11 +279,13 @@ class AdminSettings(BaseHandler):
             "google_analytics_id",
             "site_language",
             "site_theme",
+            "site_icon",
             "ENABLE_BOOKBARN",
             "BOOKBARN_COLLECTION_HOUR",
             "BOOKBARN_TOKEN"
         ]
 
+        current_icon = CONF.get("site_icon", "favicon_0")  # favicon_0 means use current icon
         args = loader.SettingsLoader()
         args.clear()
 
@@ -288,6 +295,21 @@ class AdminSettings(BaseHandler):
                     args[key] = val
             elif key in KEYS:
                 args[key] = val
+
+        # Check and set the favicon
+        if "site_icon" not in args or not args["site_icon"]:
+            args["site_icon"] = "favicon_0"
+
+        if args["site_icon"] != "favicon_0" and args["site_icon"] != current_icon:
+            new_icon_path = CONF["static_path"] + "/logo/" + args["site_icon"] + ".ico"
+            logging.info(_("Set new favicon: %s") % new_icon_path)
+            if os.path.exists(new_icon_path):
+                # Copy the new icon to the static directory
+                static_icon_path = CONF["static_path"] + "/logo/" + "/favicon.ico"
+                try:
+                    shutil.copy(new_icon_path, static_icon_path)
+                except Exception as e:
+                    logging.error(traceback.format_exc())
 
         logic = SettingsSaverLogic()
         return logic.save_extra_settings(args)
