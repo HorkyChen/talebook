@@ -290,6 +290,7 @@ export default {
             this.user = rsp.user;
             this.$store.commit("login", rsp);
             this.$store.commit("set_title", rsp.sys.title);
+            this.$store.state.site_title_template = "%s | " + rsp.sys.title;
             if (rsp.sys.language !== '') {
                 this.$i18n.locale = rsp.sys.language;
             }
