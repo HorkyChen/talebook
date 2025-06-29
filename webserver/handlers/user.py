@@ -146,7 +146,6 @@ class SignUp(BaseHandler):
             user.save()
         except:
             import traceback
-
             logging.error(traceback.format_exc())
             return {"err": "db.error", "msg": _(u"系统异常，请重试或更换注册信息")}
         self.send_active_email(user)

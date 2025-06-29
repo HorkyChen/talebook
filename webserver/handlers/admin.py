@@ -309,7 +309,6 @@ class AdminSettings(BaseHandler):
                 try:
                     shutil.copy(new_icon_path, static_icon_path)
                 except Exception as e:
-                    logging.error(traceback.format_exc())
                     logging.info("Error: %s", str(e))
 
         logic = SettingsSaverLogic()
