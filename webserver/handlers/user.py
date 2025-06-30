@@ -399,6 +399,7 @@ class Welcome(BaseHandler):
 
 class UserAvatar(BaseHandler):
     @js
+    @auth
     def post(self):
         user = self.current_user
         if not user:
@@ -409,12 +410,20 @@ class UserAvatar(BaseHandler):
         fileinfo = fileinfo[0]
         avatar_dir = os.path.join(CONF['static_path'], 'avatar')
         os.makedirs(avatar_dir, exist_ok=True)
-        avatar_path = os.path.join(avatar_dir, f"{user.id}.png")
+
+        avatar_file = f"{user.id}.png"
+        avatar_path = os.path.join(avatar_dir, avatar_file)
+        full_avatar_uri = self.site_url + "/avatar/%s" % avatar_file
         with open(avatar_path, "wb+") as f:
             f.write(fileinfo['body'])
-        user.avatar = f"{user.id}.png"
-        self.db.commit()
-        self.write({'err': 'ok', 'avatar_url': user.avatar})
+        if user.avatar == avatar_file:
+            return {'err': 'ok', 'msg':'', 'avatar_url': full_avatar_uri}
+        user.avatar = avatar_file
+        try:
+            user.save()
+            return {'err': 'ok', 'msg':'', 'avatar_url': self.site_url + "/avatar/%s" % user.avatar}
+        except:
+            return {"err": "db.error", "msg": _(u"数据库操作异常，请重试")}
 
 
 def routes():

@@ -125,6 +125,7 @@ RUN rm -f /etc/nginx/sites-enabled/default /var/www/html -rf && \
     rm -rf app/src && \
     rm -rf app/dist/logo && \
     ln -s /data/books/logo app/dist/logo && \
+    rm -rf app/dist/avatar && \
     ln -s /data/books/avtar app/dist/avtar && \
     mkdir -p /prebuilt/ && \
     mv /data/* /prebuilt/ && \
