@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import datetime
-import hashlib
 import logging
 import re
 import os
@@ -417,11 +416,11 @@ class UserAvatar(BaseHandler):
         with open(avatar_path, "wb+") as f:
             f.write(fileinfo['body'])
         if user.avatar == avatar_file:
-            return {'err': 'ok', 'msg':'', 'avatar_url': full_avatar_uri}
+            return {'err': 'ok', 'msg': '', 'avatar_url': full_avatar_uri}
         user.avatar = avatar_file
         try:
             user.save()
-            return {'err': 'ok', 'msg':'', 'avatar_url': self.site_url + "/avatar/%s" % user.avatar}
+            return {'err': 'ok', 'msg': '', 'avatar_url': self.site_url + "/avatar/%s" % user.avatar}
         except:
             return {"err": "db.error", "msg": _(u"数据库操作异常，请重试")}
 
