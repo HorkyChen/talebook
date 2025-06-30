@@ -19,7 +19,7 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
     3. 带水印导出epub (待定)
     4. 切换不同图标
     5. 增加统计信息显示
-* v3.12.0 (完成)
+* v3.12.* (完成)
     1. 支持书栈推书的功能 (增加书栈后台服务)
     2. 修复反馈的几个问题 （v3.12.1 & v3.12.2）
 * v3.11.* (完成)
