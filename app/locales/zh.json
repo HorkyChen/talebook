@@ -449,7 +449,7 @@
     "upload": {
         "title": "上传书籍",
         "close": "关闭",
-        "warning": "受限于服务器能力，请勿上传100M的大文件书籍。",
+        "warning": "受限于服务器能力，请勿上传超过 {max_size} 文件书籍。",
         "selectFile": "请选择要上传的电子书",
         "upload": "上传"
     }

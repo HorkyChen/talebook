@@ -301,6 +301,9 @@ export default {
         if (!('site_icon' in this.settings) || this.settings['site_icon'] === '') {
           this.settings['site_icon'] = "favicon_0";
         }
+        if (process.client && this.settings['MAX_UPLOAD_SIZE'] !== '') {
+          localStorage.setItem('max_upload_size', this.settings['MAX_UPLOAD_SIZE']);
+        }
         var m = {}
         rsp.sns.forEach(function (ele) {
           m[ele.value] = ele;
@@ -329,6 +332,10 @@ export default {
 
       if (this.settings['site_language'] !== '') {
         this.$i18n.locale = this.settings['site_language'];
+      }
+
+      if (process.client && this.settings['MAX_UPLOAD_SIZE'] !== '') {
+        localStorage.setItem('max_upload_size', this.settings['MAX_UPLOAD_SIZE']);
       }
 
       if (process.client && this.settings['site_theme'] !== '') {

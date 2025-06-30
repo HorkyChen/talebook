@@ -12,7 +12,7 @@
                 </v-toolbar>
                 <v-card-title></v-card-title>
                 <v-card-text>
-                    <p>{{ $t('upload.warning') }}</p>
+                    <p>{{ $t('upload.warning', { max_size: maxSizeStr}) }}</p>
                     <v-form ref="form" @submit="do_upload">
                         <v-file-input v-model="ebooks" :label="$t('upload.selectFile')"></v-file-input>
                     </v-form>
@@ -34,6 +34,14 @@ export default {
         dialog: false,
         ebooks: null,
     }),
+    computed: {
+        maxSizeStr() {
+            if (process.client) {
+                return localStorage.getItem('max_upload_size') || '100MB';
+            }
+            return '100MB';
+        }
+    },
     methods: {
         do_upload: function () {
             this.loading = true;

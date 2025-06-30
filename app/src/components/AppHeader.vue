@@ -294,6 +294,9 @@ export default {
             if (rsp.sys.language !== '') {
                 this.$i18n.locale = rsp.sys.language;
             }
+            if (process.client && rsp.sys.maxUploadSize !== '') {
+                localStorage.setItem('max_upload_size', rsp.sys.maxUploadSize);
+            }
             if (process.client && rsp.sys.theme !== '') {
                 localStorage.setItem('site_theme', this.sys.theme);
                 if (rsp.sys.theme === 'dark') {

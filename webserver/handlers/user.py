@@ -293,6 +293,7 @@ class UserInfo(BaseHandler):
             "title": CONF["site_title"] if 'site_title' in CONF else "TaleBook",
             "language": CONF["site_language"] if "site_language" in CONF else "",
             "theme": CONF["site_theme"] if "site_theme" in CONF else "light",
+            "maxUploadSize": CONF["MAX_UPLOAD_SIZE"] if "MAX_UPLOAD_SIZE" in CONF else "100MB",
             "icon": CONF["site_icon"] if "site_icon" in CONF else "favicon_1",
             "socials": CONF["SOCIALS"],
             "friends": CONF["FRIENDS"],
