@@ -181,7 +181,8 @@ class BookRefer(BaseHandler):
         try:
             book = api.get_book(title)
         except:
-            return {"err": "httprequest.baidubaike.failed", "msg": _(u"百度百科查询失败")}
+            logging.error(_(u"百度百科查询失败"))
+            book = None
         if book:
             books.append(book)
 
@@ -189,7 +190,8 @@ class BookRefer(BaseHandler):
         try:
             book = api.get_book(title)
         except:
-            return {"err": "httprequest.youshu.failed", "msg": _(u"优书网查询失败")}
+            logging.error(_(u"优书网查询失败"))
+            book = None
         if book:
             books.append(book)
 
@@ -284,13 +286,18 @@ class BookRefer(BaseHandler):
             "provider_value",
         ]
         rsp = []
+
         for b in books:
-            d = dict((k, b.get(k, "")) for k in keys)
-            pubdate = b.get("pubdate")
-            d["pubyear"] = pubdate.strftime("%Y") if pubdate else ""
-            if not d["comments"]:
-                d["comments"] = _(u"无详细介绍")
-            rsp.append(d)
+            try:
+                d = dict((k, b.get(k, "")) for k in keys)
+                pubdate = b.get("pubdate")
+                d["pubyear"] = pubdate.strftime("%Y") if pubdate else ""
+                if not d["comments"]:
+                    d["comments"] = _(u"无详细介绍")
+                rsp.append(d)
+            except Exception as e:
+                logging.error("get book meta error: %s" % e)
+
         return {"err": "ok", "books": rsp}
 
     @js
