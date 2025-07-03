@@ -11,5 +11,11 @@
         "./tests",
         "-p",
         "test*.py"
+    ],
+    "python.pythonPath": "/home/horky/miniconda3/bin/python",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/webserver",
+        "${workspaceFolder}/calibre/7.6"
     ]
 }
