@@ -1,74 +1,5 @@
 /******/ var __webpack_modules__ = ({
 
-/***/ 263:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var isValue         = __webpack_require__(175)
-  , isPlainFunction = __webpack_require__(873)
-  , assign          = __webpack_require__(596)
-  , normalizeOpts   = __webpack_require__(148)
-  , contains        = __webpack_require__(214);
-
-var d = (module.exports = function (dscr, value/*, options*/) {
-	var c, e, w, options, desc;
-	if (arguments.length < 2 || typeof dscr !== "string") {
-		options = value;
-		value = dscr;
-		dscr = null;
-	} else {
-		options = arguments[2];
-	}
-	if (isValue(dscr)) {
-		c = contains.call(dscr, "c");
-		e = contains.call(dscr, "e");
-		w = contains.call(dscr, "w");
-	} else {
-		c = w = true;
-		e = false;
-	}
-
-	desc = { value: value, configurable: c, enumerable: e, writable: w };
-	return !options ? desc : assign(normalizeOpts(options), desc);
-});
-
-d.gs = function (dscr, get, set/*, options*/) {
-	var c, e, options, desc;
-	if (typeof dscr !== "string") {
-		options = set;
-		set = get;
-		get = dscr;
-		dscr = null;
-	} else {
-		options = arguments[3];
-	}
-	if (!isValue(get)) {
-		get = undefined;
-	} else if (!isPlainFunction(get)) {
-		options = get;
-		get = set = undefined;
-	} else if (!isValue(set)) {
-		set = undefined;
-	} else if (!isPlainFunction(set)) {
-		options = set;
-		set = undefined;
-	}
-	if (isValue(dscr)) {
-		c = contains.call(dscr, "c");
-		e = contains.call(dscr, "e");
-	} else {
-		c = true;
-		e = false;
-	}
-
-	desc = { get: get, set: set, configurable: c, enumerable: e };
-	return !options ? desc : assign(normalizeOpts(options), desc);
-};
-
-
-/***/ }),
-
 /***/ 11:
 /***/ ((module) => {
 
@@ -76,209 +7,6 @@ d.gs = function (dscr, get, set/*, options*/) {
 
 // eslint-disable-next-line no-empty-function
 module.exports = function () {};
-
-
-/***/ }),
-
-/***/ 596:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-module.exports = __webpack_require__(339)() ? Object.assign : __webpack_require__(595);
-
-
-/***/ }),
-
-/***/ 339:
-/***/ ((module) => {
-
-
-
-module.exports = function () {
-	var assign = Object.assign, obj;
-	if (typeof assign !== "function") return false;
-	obj = { foo: "raz" };
-	assign(obj, { bar: "dwa" }, { trzy: "trzy" });
-	return obj.foo + obj.bar + obj.trzy === "razdwatrzy";
-};
-
-
-/***/ }),
-
-/***/ 595:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var keys  = __webpack_require__(93)
-  , value = __webpack_require__(134)
-  , max   = Math.max;
-
-module.exports = function (dest, src /*, …srcn*/) {
-	var error, i, length = max(arguments.length, 2), assign;
-	dest = Object(value(dest));
-	assign = function (key) {
-		try {
-			dest[key] = src[key];
-		} catch (e) {
-			if (!error) error = e;
-		}
-	};
-	for (i = 1; i < length; ++i) {
-		src = arguments[i];
-		keys(src).forEach(assign);
-	}
-	if (error !== undefined) throw error;
-	return dest;
-};
-
-
-/***/ }),
-
-/***/ 762:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var _undefined = __webpack_require__(11)(); // Support ES3 engines
-
-module.exports = function (val) { return val !== _undefined && val !== null; };
-
-
-/***/ }),
-
-/***/ 93:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-module.exports = __webpack_require__(380)() ? Object.keys : __webpack_require__(232);
-
-
-/***/ }),
-
-/***/ 380:
-/***/ ((module) => {
-
-
-
-module.exports = function () {
-	try {
-		Object.keys("primitive");
-		return true;
-	} catch (e) {
-		return false;
-	}
-};
-
-
-/***/ }),
-
-/***/ 232:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var isValue = __webpack_require__(762);
-
-var keys = Object.keys;
-
-module.exports = function (object) { return keys(isValue(object) ? Object(object) : object); };
-
-
-/***/ }),
-
-/***/ 148:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var isValue = __webpack_require__(762);
-
-var forEach = Array.prototype.forEach, create = Object.create;
-
-var process = function (src, obj) {
-	var key;
-	for (key in src) obj[key] = src[key];
-};
-
-// eslint-disable-next-line no-unused-vars
-module.exports = function (opts1 /*, …options*/) {
-	var result = create(null);
-	forEach.call(arguments, function (options) {
-		if (!isValue(options)) return;
-		process(Object(options), result);
-	});
-	return result;
-};
-
-
-/***/ }),
-
-/***/ 499:
-/***/ ((module) => {
-
-
-
-module.exports = function (fn) {
-	if (typeof fn !== "function") throw new TypeError(fn + " is not a function");
-	return fn;
-};
-
-
-/***/ }),
-
-/***/ 134:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var isValue = __webpack_require__(762);
-
-module.exports = function (value) {
-	if (!isValue(value)) throw new TypeError("Cannot use null or undefined");
-	return value;
-};
-
-
-/***/ }),
-
-/***/ 214:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-module.exports = __webpack_require__(525)() ? String.prototype.contains : __webpack_require__(521);
-
-
-/***/ }),
-
-/***/ 525:
-/***/ ((module) => {
-
-
-
-var str = "razdwatrzy";
-
-module.exports = function () {
-	if (typeof str.contains !== "function") return false;
-	return str.contains("dwa") === true && str.contains("foo") === false;
-};
-
-
-/***/ }),
-
-/***/ 521:
-/***/ ((module) => {
-
-
-
-var indexOf = String.prototype.indexOf;
-
-module.exports = function (searchString /*, position*/) {
-	return indexOf.call(this, searchString, arguments[1]) > -1;
-};
 
 
 /***/ }),
@@ -448,6 +176,71 @@ module.exports = function (value) {
 
 /***/ }),
 
+/***/ 93:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+module.exports = __webpack_require__(380)() ? Object.keys : __webpack_require__(232);
+
+
+/***/ }),
+
+/***/ 134:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var isValue = __webpack_require__(762);
+
+module.exports = function (value) {
+	if (!isValue(value)) throw new TypeError("Cannot use null or undefined");
+	return value;
+};
+
+
+/***/ }),
+
+/***/ 148:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var isValue = __webpack_require__(762);
+
+var forEach = Array.prototype.forEach, create = Object.create;
+
+var process = function (src, obj) {
+	var key;
+	for (key in src) obj[key] = src[key];
+};
+
+// eslint-disable-next-line no-unused-vars
+module.exports = function (opts1 /*, …options*/) {
+	var result = create(null);
+	forEach.call(arguments, function (options) {
+		if (!isValue(options)) return;
+		process(Object(options), result);
+	});
+	return result;
+};
+
+
+/***/ }),
+
+/***/ 175:
+/***/ ((module) => {
+
+
+
+// ES3 safe
+var _undefined = void 0;
+
+module.exports = function (value) { return value !== _undefined && value !== null; };
+
+
+/***/ }),
+
 /***/ 181:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -461,24 +254,6 @@ var possibleTypes = { "object": true, "function": true, "undefined": true /* doc
 module.exports = function (value) {
 	if (!isValue(value)) return false;
 	return hasOwnProperty.call(possibleTypes, typeof value);
-};
-
-
-/***/ }),
-
-/***/ 873:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var isFunction = __webpack_require__(80);
-
-var classRe = /^\s*class[\s{/}]/, functionToString = Function.prototype.toString;
-
-module.exports = function (value) {
-	if (!isFunction(value)) return false;
-	if (classRe.test(functionToString.call(value))) return false;
-	return true;
 };
 
 
@@ -504,15 +279,240 @@ module.exports = function (value) {
 
 /***/ }),
 
-/***/ 175:
+/***/ 214:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+module.exports = __webpack_require__(525)() ? String.prototype.contains : __webpack_require__(521);
+
+
+/***/ }),
+
+/***/ 232:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var isValue = __webpack_require__(762);
+
+var keys = Object.keys;
+
+module.exports = function (object) { return keys(isValue(object) ? Object(object) : object); };
+
+
+/***/ }),
+
+/***/ 263:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var isValue         = __webpack_require__(175)
+  , isPlainFunction = __webpack_require__(873)
+  , assign          = __webpack_require__(596)
+  , normalizeOpts   = __webpack_require__(148)
+  , contains        = __webpack_require__(214);
+
+var d = (module.exports = function (dscr, value/*, options*/) {
+	var c, e, w, options, desc;
+	if (arguments.length < 2 || typeof dscr !== "string") {
+		options = value;
+		value = dscr;
+		dscr = null;
+	} else {
+		options = arguments[2];
+	}
+	if (isValue(dscr)) {
+		c = contains.call(dscr, "c");
+		e = contains.call(dscr, "e");
+		w = contains.call(dscr, "w");
+	} else {
+		c = w = true;
+		e = false;
+	}
+
+	desc = { value: value, configurable: c, enumerable: e, writable: w };
+	return !options ? desc : assign(normalizeOpts(options), desc);
+});
+
+d.gs = function (dscr, get, set/*, options*/) {
+	var c, e, options, desc;
+	if (typeof dscr !== "string") {
+		options = set;
+		set = get;
+		get = dscr;
+		dscr = null;
+	} else {
+		options = arguments[3];
+	}
+	if (!isValue(get)) {
+		get = undefined;
+	} else if (!isPlainFunction(get)) {
+		options = get;
+		get = set = undefined;
+	} else if (!isValue(set)) {
+		set = undefined;
+	} else if (!isPlainFunction(set)) {
+		options = set;
+		set = undefined;
+	}
+	if (isValue(dscr)) {
+		c = contains.call(dscr, "c");
+		e = contains.call(dscr, "e");
+	} else {
+		c = true;
+		e = false;
+	}
+
+	desc = { get: get, set: set, configurable: c, enumerable: e };
+	return !options ? desc : assign(normalizeOpts(options), desc);
+};
+
+
+/***/ }),
+
+/***/ 339:
 /***/ ((module) => {
 
 
 
-// ES3 safe
-var _undefined = void 0;
+module.exports = function () {
+	var assign = Object.assign, obj;
+	if (typeof assign !== "function") return false;
+	obj = { foo: "raz" };
+	assign(obj, { bar: "dwa" }, { trzy: "trzy" });
+	return obj.foo + obj.bar + obj.trzy === "razdwatrzy";
+};
 
-module.exports = function (value) { return value !== _undefined && value !== null; };
+
+/***/ }),
+
+/***/ 380:
+/***/ ((module) => {
+
+
+
+module.exports = function () {
+	try {
+		Object.keys("primitive");
+		return true;
+	} catch (e) {
+		return false;
+	}
+};
+
+
+/***/ }),
+
+/***/ 499:
+/***/ ((module) => {
+
+
+
+module.exports = function (fn) {
+	if (typeof fn !== "function") throw new TypeError(fn + " is not a function");
+	return fn;
+};
+
+
+/***/ }),
+
+/***/ 521:
+/***/ ((module) => {
+
+
+
+var indexOf = String.prototype.indexOf;
+
+module.exports = function (searchString /*, position*/) {
+	return indexOf.call(this, searchString, arguments[1]) > -1;
+};
+
+
+/***/ }),
+
+/***/ 525:
+/***/ ((module) => {
+
+
+
+var str = "razdwatrzy";
+
+module.exports = function () {
+	if (typeof str.contains !== "function") return false;
+	return str.contains("dwa") === true && str.contains("foo") === false;
+};
+
+
+/***/ }),
+
+/***/ 595:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var keys  = __webpack_require__(93)
+  , value = __webpack_require__(134)
+  , max   = Math.max;
+
+module.exports = function (dest, src /*, …srcn*/) {
+	var error, i, length = max(arguments.length, 2), assign;
+	dest = Object(value(dest));
+	assign = function (key) {
+		try {
+			dest[key] = src[key];
+		} catch (e) {
+			if (!error) error = e;
+		}
+	};
+	for (i = 1; i < length; ++i) {
+		src = arguments[i];
+		keys(src).forEach(assign);
+	}
+	if (error !== undefined) throw error;
+	return dest;
+};
+
+
+/***/ }),
+
+/***/ 596:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+module.exports = __webpack_require__(339)() ? Object.assign : __webpack_require__(595);
+
+
+/***/ }),
+
+/***/ 762:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var _undefined = __webpack_require__(11)(); // Support ES3 engines
+
+module.exports = function (val) { return val !== _undefined && val !== null; };
+
+
+/***/ }),
+
+/***/ 873:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var isFunction = __webpack_require__(80);
+
+var classRe = /^\s*class[\s{/}]/, functionToString = Function.prototype.toString;
+
+module.exports = function (value) {
+	if (!isFunction(value)) return false;
+	if (classRe.test(functionToString.call(value))) return false;
+	return true;
+};
 
 
 /***/ })
@@ -544,34 +544,11 @@ module.exports = function (value) { return value !== _undefined && value !== nul
 /******/ }
 /******/ 
 /************************************************************************/
-/******/ /* webpack/runtime/define property getters */
-/******/ (() => {
-/******/ 	// define getter functions for harmony exports
-/******/ 	__webpack_require__.d = (exports, definition) => {
-/******/ 		for(var key in definition) {
-/******/ 			if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 			}
-/******/ 		}
-/******/ 	};
-/******/ })();
-/******/ 
-/******/ /* webpack/runtime/hasOwnProperty shorthand */
-/******/ (() => {
-/******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ })();
-/******/ 
-/************************************************************************/
 var __webpack_exports__ = {};
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  m: () => (/* binding */ Reader)
-});
 
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
 var event_emitter = __webpack_require__(68);
-;// CONCATENATED MODULE: ./src/utils.js
+;// ./src/utils.js
 const d = (obj, prop) => obj ? obj[prop] : undefined
 
 const q = (src, dst, ext, prop) => {
@@ -630,7 +607,7 @@ const detectMobile = () => {
     ]
     return matches.some((i) => navigator.userAgent.match(i))
 }
-;// CONCATENATED MODULE: ./src/storage.js
+;// ./src/storage.js
 class Storage {
 
 	constructor() {
@@ -731,7 +708,7 @@ class Storage {
 		}
 	}
 }
-;// CONCATENATED MODULE: ./src/strings.js
+;// ./src/strings.js
 class Strings {
 
 	constructor(reader) {
@@ -763,11 +740,16 @@ class Strings {
 				"sidebar/search/placeholder": "Search",
 				"sidebar/settings": "Settings",
 				"sidebar/settings/language": "Language",
+				"sidebar/settings/font": "Font",
+				"sidebar/settings/font/default": "Default",
 				"sidebar/settings/fontsize": "Font size (%)",
 				"sidebar/settings/flow": "Flow",
 				"sidebar/settings/pagination": ["Pagination", "Generate pagination"],
 				"sidebar/settings/spread": "Spread",
+				"sidebar/settings/spread/items": ["None", "Auto"],
 				"sidebar/settings/spread/minwidth": "Minimum spread width",
+				"sidebar/settings/theme": "Theme",
+				"sidebar/settings/theme/items": ["Light", "Dark", "Eye Care"],
 				"sidebar/metadata": "Metadata",
 				"sidebar/metadata/title": "Title",
 				"sidebar/metadata/creator": "Creator",
@@ -786,150 +768,60 @@ class Strings {
 				"notedlg/label": "Note",
 				"notedlg/add": "Add"
 			},
-			fr: {
-				"toolbar/sidebar": "Barre latérale",
-				"toolbar/prev": "???",
-				"toolbar/next": "???",
-				"toolbar/openbook": "Ouvrir un livre local",
-				"toolbar/openbook/error": "Votre navigateur ne prend pas en charge les fonctions nécessaires.\nVeuillez utiliser un navigateur moderne tel que Google Chrome ou Mozilla Firefox.",
-				"toolbar/bookmark": "Insérer un marque page ici",
-				"toolbar/fullscreen": "Plein écran",
+			zh: {
+				"toolbar/sidebar": "侧边栏",
+				"toolbar/prev": "上一页",
+				"toolbar/next": "下一页",
+				"toolbar/openbook": "打开书籍",
+				"toolbar/openbook/error": "您的浏览器不支持所需功能。\n请使用现代浏览器如谷歌Chrome或火狐Firefox。",
+				"toolbar/bookmark": "加为书签",
+				"toolbar/fullscreen": "全屏",
 
-				"sidebar/close": "???",
-				"sidebar/contents": "Sommaire",
-				"sidebar/bookmarks": "Marque-pages",
-				"sidebar/bookmarks/add": "Ajouter",
-				"sidebar/bookmarks/remove": "Retirer",
-				"sidebar/bookmarks/clear": "Tout enlever",
-				"sidebar/annotations": "Annotations",
-				"sidebar/annotations/add": "Ajouter",
-				"sidebar/annotations/remove": "Retirer",
-				"sidebar/annotations/clear": "Tout enlever",
-				"sidebar/annotations/anchor": "Ancre",
-				"sidebar/annotations/cancel": "Annuler",
-				"sidebar/search": "Rechercher",
-				"sidebar/search/placeholder": "rechercher",
-				"sidebar/settings": "Réglages",
-				"sidebar/settings/language": "Langue",
-				"sidebar/settings/fontsize": "???",
-				"sidebar/settings/flow": "???",
-				"sidebar/settings/pagination": ["Pagination", "Établir une pagination"],
-				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/minwidth": "???",
-				"sidebar/metadata": "???",
-				"sidebar/metadata/title": "???",
-				"sidebar/metadata/creator": "???",
-				"sidebar/metadata/description": "???",
-				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/publisher": "???",
-				"sidebar/metadata/identifier": "???",
-				"sidebar/metadata/language": "Langue",
-				"sidebar/metadata/rights": "???",
-				"sidebar/metadata/modified_date": "???",
-				"sidebar/metadata/layout": "???",
-				"sidebar/metadata/flow": "???",
-				"sidebar/metadata/spread": "???",
-				"sidebar/metadata/direction": "???",
+				"sidebar/close": "关闭侧边栏",
+				"sidebar/contents": "目录",
+				"sidebar/bookmarks": "书签",
+				"sidebar/bookmarks/add": "添加",
+				"sidebar/bookmarks/remove": "移除",
+				"sidebar/bookmarks/clear": "清空",
+				"sidebar/annotations": "注解",
+				"sidebar/annotations/add": "添加",
+				"sidebar/annotations/remove": "移除",
+				"sidebar/annotations/clear": "清空",
+				"sidebar/annotations/anchor": "锚定",
+				"sidebar/annotations/cancel": "取消",
 
-				"notedlg/label": "???",
-				"notedlg/add": "Ajouter"
+				"sidebar/search": "搜索",
+				"sidebar/search/placeholder": "搜索",
+				"sidebar/settings": "设置",
+				"sidebar/settings/language": "语言",
+				"sidebar/settings/font": "字体",
+				"sidebar/settings/font/default": "默认字体",
+				"sidebar/settings/fontsize": "字体大小 (%)",
+				"sidebar/settings/flow": "换页", // Scrolled = "滚动模式"
+				"sidebar/settings/pagination": ["分页模式", "滚动模式"],
+				"sidebar/settings/spread": "双页布局",
+				"sidebar/settings/spread/items": ["无", "自动"],
+				"sidebar/settings/spread/minwidth": "最小双页宽度",
+				"sidebar/settings/theme": "颜色主题",
+				"sidebar/settings/theme/items": ["亮色", "暗色", "护眼"],
+				"sidebar/metadata": "元数据",
+				"sidebar/metadata/title": "标题",
+				"sidebar/metadata/creator": "作者",
+				"sidebar/metadata/description": "描述",
+				"sidebar/metadata/pubdate": "出版日期",
+				"sidebar/metadata/publisher": "出版商",
+				"sidebar/metadata/identifier": "标识符",
+				"sidebar/metadata/language": "语言",
+				"sidebar/metadata/rights": "版权",
+				"sidebar/metadata/modified_date": "修改日期",
+				"sidebar/metadata/layout": "布局",  // rendition:layout
+				"sidebar/metadata/flow": "流模式",  // rendition:flow
+				"sidebar/metadata/spread": "双页布局",  // rendition:spread
+				"sidebar/metadata/direction": "阅读方向",  // page-progression-direction
+
+				"notedlg/label": "笔记",
+				"notedlg/add": "添加"
 			},
-			ja: {
-				"toolbar/sidebar": "サイドバー",
-				"toolbar/prev": "???",
-				"toolbar/next": "???",
-				"toolbar/openbook": "本を開く",
-				"toolbar/openbook/error": "ご利用のブラウザは必要な機能をサポートしていません。\nGoogle Chrome、Mozilla Firefox、その他のモダンなブラウザでご利用ください。",
-				"toolbar/bookmark": "このページに栞を設定する",
-				"toolbar/fullscreen": "フルスクリーン",
-
-				"sidebar/close": "???",
-				"sidebar/contents": "目次",
-				"sidebar/bookmarks": "栞",
-				"sidebar/bookmarks/add": "追加",
-				"sidebar/bookmarks/remove": "削除",
-				"sidebar/bookmarks/clear": "クリア",
-				"sidebar/annotations": "注釈",
-				"sidebar/annotations/add": "追加",
-				"sidebar/bookmarks/remove": "削除",
-				"sidebar/annotations/clear": "クリア",
-				"sidebar/annotations/anchor": "アンカー",
-				"sidebar/annotations/cancel": "キャンセル",
-				"sidebar/search": "検索",
-				"sidebar/search/placeholder": "検索",
-				"sidebar/settings": "設定",
-				"sidebar/settings/language": "表示言語",
-				"sidebar/settings/fontsize": "???",
-				"sidebar/settings/flow": "???",
-				"sidebar/settings/pagination": ["ページネーション", "ページネーションを生成します。"],
-				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/minwidth": "???",
-				"sidebar/metadata": "???",
-				"sidebar/metadata/title": "???",
-				"sidebar/metadata/creator": "???",
-				"sidebar/metadata/description": "???",
-				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/publisher": "???",
-				"sidebar/metadata/identifier": "???",
-				"sidebar/metadata/language": "表示言語",
-				"sidebar/metadata/rights": "???",
-				"sidebar/metadata/modified_date": "???",
-				"sidebar/metadata/layout": "???",
-				"sidebar/metadata/flow": "???",
-				"sidebar/metadata/spread": "???",
-				"sidebar/metadata/direction": "???",
-
-				"notedlg/label": "???",
-				"notedlg/add": "追加"
-			},
-			ru: {
-				"toolbar/sidebar": "Боковая панель",
-				"toolbar/prev": "Предыдущая страница",
-				"toolbar/next": "Следущая страница",
-				"toolbar/openbook": "Открыть книгу",
-				"toolbar/openbook/error": "Ваш браузер не поддерживает необходимые функции.\nПожалуйста, используйте современный браузер, такой как Google Chrome или Mozilla Firefox.",
-				"toolbar/bookmark": "Добавить эту страницу в закладки",
-				"toolbar/fullscreen": "Полноэкранный режим",
-
-				"sidebar/close": "Закрыть боковую панель",
-				"sidebar/contents": "Содержание",
-				"sidebar/bookmarks": "Закладки",
-				"sidebar/bookmarks/add": "Добавить",
-				"sidebar/bookmarks/remove": "Удалить",
-				"sidebar/bookmarks/clear": "Очистить",
-				"sidebar/annotations": "Аннотации",
-				"sidebar/annotations/add": "Добавить",
-				"sidebar/annotations/remove": "Удалить",
-				"sidebar/annotations/clear": "Очистить",
-				"sidebar/annotations/anchor": "Метка",
-				"sidebar/annotations/cancel": "Отмена",
-				"sidebar/search": "Поиск",
-				"sidebar/search/placeholder": "Поиск",
-				"sidebar/settings": "Настройки",
-				"sidebar/settings/language": "Язык",
-				"sidebar/settings/fontsize": "Размер шрифта",
-				"sidebar/settings/flow": "Поток",
-				"sidebar/settings/pagination": ["Нумерация страниц", "Генерировать нумерацию страниц"],
-				"sidebar/settings/spread": "Разворот",
-				"sidebar/settings/spread/minwidth": "Мин. ширина колонки",
-				"sidebar/metadata": "Метаданные",
-				"sidebar/metadata/title": "Заголовок",
-				"sidebar/metadata/creator": "Автор",
-				"sidebar/metadata/description": "Описание",
-				"sidebar/metadata/pubdate": "Дата публикации",
-				"sidebar/metadata/publisher": "Издатель",
-				"sidebar/metadata/identifier": "Идентификатор",
-				"sidebar/metadata/language": "Язык",
-				"sidebar/metadata/rights": "Лицензия",
-				"sidebar/metadata/modified_date": "Дата изменения",
-				"sidebar/metadata/layout": "Макет",
-				"sidebar/metadata/flow": "Поток",
-				"sidebar/metadata/spread": "Разворот",
-				"sidebar/metadata/direction": "Направление",
-
-				"notedlg/label": "Заметка",
-				"notedlg/add": "Добавить"
-			}
 		};
 
 		reader.on("languagechanged", (value) => {
@@ -939,7 +831,7 @@ class Strings {
 
 	get(key) { return this.values[this.language][key] || "???"; }
 }
-;// CONCATENATED MODULE: ./src/ui.js
+;// ./src/ui.js
 /**
  * @author mrdoob https://github.com/mrdoob/ui.js
  */
@@ -951,10 +843,10 @@ const ERROR_MSG = "is not an instance of UIElement.";
  * @param {string} tag
  */
 class UIElement {
-	
+
 	constructor(tag) {
 
-		this.dom = document.createElement(tag); 
+		this.dom = document.createElement(tag);
 	}
 
 	add() {
@@ -1704,7 +1596,7 @@ class UIBox extends UIElement {
 		this.add(items);
 	}
 }
-;// CONCATENATED MODULE: ./src/toolbar.js
+;// ./src/toolbar.js
 
 
 class Toolbar {
@@ -1924,7 +1816,7 @@ class Toolbar {
 		}
 	}
 }
-;// CONCATENATED MODULE: ./src/content.js
+;// ./src/content.js
 
 
 class Content {
@@ -2043,7 +1935,7 @@ class Content {
 		});
 	}
 }
-;// CONCATENATED MODULE: ./src/sidebar/toc.js
+;// ./src/sidebar/toc.js
 
 
 class TocPanel extends UIPanel {
@@ -2134,7 +2026,7 @@ class TocPanel extends UIPanel {
 		return list;
 	}
 }
-;// CONCATENATED MODULE: ./src/sidebar/bookmarks.js
+;// ./src/sidebar/bookmarks.js
 
 
 class BookmarksPanel extends UIPanel {
@@ -2271,7 +2163,7 @@ class BookmarksPanel extends UIPanel {
 		this.bookmarks.add(item);
 	}
 }
-;// CONCATENATED MODULE: ./src/sidebar/annotations.js
+;// ./src/sidebar/annotations.js
 
 
 class AnnotationsPanel extends UIPanel {
@@ -2381,7 +2273,7 @@ class AnnotationsPanel extends UIPanel {
 		this.update();
 	}
 }
-;// CONCATENATED MODULE: ./src/sidebar/search.js
+;// ./src/sidebar/search.js
 
 
 class SearchPanel extends UIPanel {
@@ -2456,7 +2348,7 @@ class SearchPanel extends UIPanel {
 		this.items.add(item);
 	}
 }
-;// CONCATENATED MODULE: ./src/sidebar/settings.js
+;// ./src/sidebar/settings.js
 
 
 class SettingsPanel extends UIPanel {
@@ -2473,7 +2365,8 @@ class SettingsPanel extends UIPanel {
 			"sidebar/settings/fontsize",
 			"sidebar/settings/flow",
 			"sidebar/settings/spread",
-			"sidebar/settings/spread/minwidth"
+			"sidebar/settings/spread/minwidth",
+			"sidebar/settings/theme",
 		];
 		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
 		this.add(new UIBox(headerLabel).addClass("header"));
@@ -2481,10 +2374,8 @@ class SettingsPanel extends UIPanel {
 		const languageLabel = new UILabel(strings.get(keys[1]), "language-ui");
 		const languageRow = new UIRow();
 		const language = new UISelect().setOptions({
-			en: "English",
-			fr: "French",
-			ja: "Japanese",
-			ru: "Russian"
+			zh: "中文",
+			en: "English"
 		});
 		language.dom.onchange = (e) => {
 
@@ -2493,6 +2384,40 @@ class SettingsPanel extends UIPanel {
 		language.setId("language-ui");
 		languageRow.add(languageLabel);
 		languageRow.add(language);
+
+		const themeLabel = new UILabel(strings.get("sidebar/settings/theme"), "theme");
+		const themeRow = new UIRow();
+		const theme = new UISelect().setOptions({
+			light: strings.get("sidebar/settings/theme/items")[0],
+			dark: strings.get("sidebar/settings/theme/items")[1],
+			eyecare: strings.get("sidebar/settings/theme/items")[2]
+		});
+		theme.dom.onchange = (e) => {
+			reader.emit("themechanged", e.target.value);
+		};
+		theme.setId("theme");
+		themeRow.add(themeLabel);
+		themeRow.add(theme);
+
+		const fontLabel = new UILabel(strings.get("sidebar/settings/font"), "font");
+		const fontRow = new UIRow();
+		const font = new UISelect().setOptions({
+			"default": strings.get("sidebar/settings/font/default"),
+			"Huiwen-HKHei": "汇文港黑",
+			"Huiwen-Fangsong": "汇文仿宋体",
+			"Huiwen-MinchoGBK": "汇文明朝体",
+			"AMCSongGBK-Light": "行书",
+			"FZSongKeBenXiuKaiS-R-GB": "方正宋刻本秀楷",
+			"Bookerly": "Bookerly",
+		});
+		font.dom.onchange = (e) => {
+			reader.emit("styleschanged", {
+				font: e.target.value
+			});
+		};
+		font.setId("font");
+		fontRow.add(fontLabel);
+		fontRow.add(font);
 
 		const fontSizeLabel = new UILabel(strings.get(keys[2]), "fontsize");
 		const fontSizeRow = new UIRow();
@@ -2511,9 +2436,11 @@ class SettingsPanel extends UIPanel {
 
 		const flowLabel = new UILabel(strings.get(keys[3]), "flow");
 		const flowRow = new UIRow();
+
+		const flowModeStr = strings.get("sidebar/settings/pagination");
 		const flow = new UISelect().setOptions({
-			paginated: "Paginated",
-			scrolled: "Scrolled"
+			paginated: flowModeStr[0],
+			scrolled: flowModeStr[1]
 		});
 		flow.dom.onchange = (e) => {
 
@@ -2540,9 +2467,10 @@ class SettingsPanel extends UIPanel {
 		const minSpreadWidth = new UINumber(800, 1);
 		const spreadLabel = new UILabel(strings.get(keys[4]), "spread");
 		const spreadRow = new UIRow();
+		const spreadValues = strings.get("sidebar/settings/spread/items");
 		const spread = new UISelect().setOptions({
-			none: "None",
-			auto: "Auto"
+			none: spreadValues[0],
+			auto: spreadValues[1]
 		});
 		spread.dom.onchange = (e) => {
 
@@ -2586,6 +2514,8 @@ class SettingsPanel extends UIPanel {
 
 		this.add(new UIBox([
 			languageRow,
+			themeRow,
+			fontRow,
 			fontSizeRow,
 			flowRow,
 			spreadRow,
@@ -2598,11 +2528,20 @@ class SettingsPanel extends UIPanel {
 		reader.on("bookready", (cfg) => {
 
 			language.setValue(cfg.language);
+			theme.setValue(cfg.theme);
+			font.setValue(cfg.styles.font);
+			if (!cfg.styles.font) {
+				font.setValue("default");
+			}
 			fontSize.setValue(cfg.styles.fontSize);
 			flow.setValue(cfg.flow);
 			spread.setValue(cfg.spread.mod);
 			minSpreadWidth.setValue(cfg.spread.min);
 			minSpreadWidth.dom.disabled = cfg.spread.mod === "none";
+			reader.emit("styleschanged", {
+				font: cfg.styles.font,
+				fontSize: cfg.styles.fontSize
+			});
 		});
 
 		reader.on("layout", (props) => {
@@ -2620,14 +2559,31 @@ class SettingsPanel extends UIPanel {
 
 			headerLabel.setTextContent(strings.get(keys[0]));
 			languageLabel.setTextContent(strings.get(keys[1]));
+			fontLabel.setTextContent(strings.get("sidebar/settings/font"));
 			fontSizeLabel.setTextContent(strings.get(keys[2]));
 			flowLabel.setTextContent(strings.get(keys[3]));
+			const flowModeStr = strings.get("sidebar/settings/pagination");
+			flow.setOptions({
+				paginated: flowModeStr[0],
+				scrolled: flowModeStr[1]
+			});
 			spreadLabel.setTextContent(strings.get(keys[4]));
+			const spreadValues = strings.get("sidebar/settings/spread/items");
+			spread.setOptions({
+				none: spreadValues[0],
+				auto: spreadValues[1]
+			});
 			minSpreadWidthLabel.setTextContent(strings.get(keys[5]));
+			themeLabel.setTextContent(strings.get("sidebar/settings/theme"));
+			theme.setOptions({
+				light: strings.get("sidebar/settings/theme/items")[0],
+				dark: strings.get("sidebar/settings/theme/items")[1],
+				eyecare: strings.get("sidebar/settings/theme/items")[2]
+			});
 		});
 	}
 }
-;// CONCATENATED MODULE: ./src/sidebar/metadata.js
+;// ./src/sidebar/metadata.js
 
 
 class MetadataPanel extends UIPanel {
@@ -2693,7 +2649,7 @@ class MetadataPanel extends UIPanel {
 		});
 	}
 }
-;// CONCATENATED MODULE: ./src/sidebar.js
+;// ./src/sidebar.js
 
 
 
@@ -2773,7 +2729,7 @@ class Sidebar {
 		});
 	}
 }
-;// CONCATENATED MODULE: ./src/notedlg.js
+;// ./src/notedlg.js
 
 
 
@@ -2829,7 +2785,17 @@ class NoteDlg {
             this.range = contents.range(cfi);
             this.update();
             container.setClass("open");
-            textBox.setValue("");
+
+            try {
+                const selectedText = this.range.toString().trim();
+                const defaultText = selectedText.length > 20 ?
+                    selectedText.substring(0, 20) + "..." :
+                    selectedText;
+                textBox.setValue(defaultText);
+            } catch (error) {
+                console.warn("Could not get selected text:", error);
+                textBox.setValue("");
+            }
         });
 
         reader.on("unselected", () => {
@@ -2846,7 +2812,7 @@ class NoteDlg {
         });
     }
 }
-;// CONCATENATED MODULE: ./src/reader.js
+;// ./src/reader.js
 
 
 
@@ -2871,6 +2837,8 @@ class Reader {
 				path = data;
 			}
 			this.cfgInit(path, settings);
+			// Apply initial theme to UI
+			this.applyTheme(this.settings.theme);
 			this.strings = new Strings(this);
 			this.toolbar = new Toolbar(this);
 			this.content = new Content(this);
@@ -2941,6 +2909,8 @@ class Reader {
 
 		this.book.ready.then(() => {
 			this.emit("bookready", this.settings);
+			// Apply theme after book is ready
+			this.applyTheme(this.settings.theme);
 		}).then(() => {
 			this.emit("bookloaded");
 		});
@@ -2992,36 +2962,137 @@ class Reader {
 			}
 		});
 
-		this.on("languagechanged", (value) => {
-			this.settings.language = value;
-		});
-
-		this.on("flowchanged", (value) => {
-			this.settings.flow = value;
-			this.rendition.flow(value);
-		});
-
-		this.on("spreadchanged", (value) => {
-			const mod = value.mod || this.settings.spread.mod;
-			const min = value.min || this.settings.spread.min;
-			this.settings.spread.mod = mod;
-			this.settings.spread.min = min;
-			this.rendition.spread(mod, min);
-		});
-
 		this.on("styleschanged", (value) => {
-			const fontSize = value.fontSize;
-			this.settings.styles.fontSize = fontSize;
-			this.rendition.themes.fontSize(fontSize + "%");
+			if (!value) {
+				return;
+			}
+			if (value.fontSize !== undefined) {
+				const fontSize = value.fontSize;
+				this.settings.styles.fontSize = fontSize;
+				this.rendition.themes.fontSize(fontSize + "%");
+			}
+			if (value.font !== undefined) {
+				let font = value.font;
+				if (font === "default") {
+					font = "";
+				}
+				this.settings.styles.font = font;
+				this.rendition.themes.font(font);
+			}
+		});
+
+		this.on("themechanged", (theme) => {
+			this.settings.theme = theme;
+			this.applyTheme(theme);
+		});
+
+		this.on("languagechanged", (language) => {
+			this.settings.language = language;
+		});
+
+		this.on("flowchanged", (flow) => {
+			this.settings.flow = flow;
+		});
+
+		this.on("spreadchanged", (spread) => {
+			if (spread.mod !== undefined) {
+				this.settings.spread.mod = spread.mod;
+				// Apply spread mode change to rendition
+				this.rendition.spread(spread.mod, this.settings.spread.min);
+			}
+			if (spread.min !== undefined) {
+				this.settings.spread.min = spread.min;
+				// Apply minimum spread width change to rendition
+				this.rendition.spread(this.settings.spread.mod, spread.min);
+			}
 		});
 	}
 
 	/* ------------------------------- Common ------------------------------- */
 
+	applyTheme(theme) {
+		// Remove all theme classes first
+		document.body.classList.remove("dark-theme", "eyecare-theme");
+
+		// Apply theme to the UI
+		if (theme === "dark") {
+			document.body.classList.add("dark-theme");
+		} else if (theme === "eyecare") {
+			document.body.classList.add("eyecare-theme");
+		}
+
+		// Apply theme to the epub content (only if rendition is available)
+		if (this.rendition) {
+			let contentStyles = {};
+
+			if (theme === "dark") {
+				contentStyles = {
+					"body": {
+						"background": "#1a1a1a",
+						"color": "#e0e0e0 !important"
+					},
+					"p": {
+						"color": "#e0e0e0 !important"
+					},
+					"h1, h2, h3, h4, h5, h6": {
+						"color": "#e0e0e0 !important",
+					},
+					"a": {
+						"color": "#4a9eff !important"
+					},
+					"a:visited": {
+						"color": "#b19cd9 !important"
+					}
+				};
+			} else if (theme === "eyecare") {
+				contentStyles = {
+					"body": {
+						"background": "#f0f4e8",
+						"color": "#2d4a2d"
+					},
+					"p": {
+						"color": "#2d4a2d"
+					},
+					"h1, h2, h3, h4, h5, h6": {
+						"color": "#2d4a2d"
+					},
+					"a": {
+						"color": "#4a7c4a"
+					},
+					"a:visited": {
+						"color": "#6b8e6b"
+					}
+				};
+			} else {
+				// Light theme
+				contentStyles = {
+					"body": {
+						"background": "#fff",
+						"color": "#000"
+					},
+					"p": {
+						"color": "#000"
+					},
+					"h1, h2, h3, h4, h5, h6": {
+						"color": "#000"
+					},
+					"a": {
+						"color": "#1a73e8"
+					},
+					"a:visited": {
+						"color": "#8e24aa"
+					}
+				};
+			}
+
+			this.rendition.themes.default(contentStyles);
+		}
+	}
+
 	navItemFromCfi(cfi) {
 
-		// This feature was added to solve the problem of duplicate titles in 
-		// bookmarks. But this still has no solution because when reloading the 
+		// This feature was added to solve the problem of duplicate titles in
+		// bookmarks. But this still has no solution because when reloading the
 		// reader, rendition cannot get the range from the previously saved CFI.
 		const range = this.rendition.getRange(cfi);
 		const idref = range ? range.startContainer.parentNode.id : undefined;
@@ -3066,7 +3137,8 @@ class Reader {
 			restore: true,
 			history: true,
 			openbook: this.storage.indexedDB ? true : false,
-			language: "en",
+			language: "zh",
+			theme: "light",
 			sectionId: undefined,
 			bookmarks: [],   // array | false
 			annotations: [], // array | false
@@ -3076,6 +3148,7 @@ class Reader {
 				min: 800
 			},
 			styles: {
+				font: "default",
 				fontSize: 100
 			},
 			pagination: undefined, // not implemented
@@ -3216,7 +3289,6 @@ class Reader {
 }
 
 event_emitter(Reader.prototype);
-var __webpack_exports__Reader = __webpack_exports__.m;
-export { __webpack_exports__Reader as Reader };
+export { Reader };
 
 //# sourceMappingURL=epubreader.js.map
