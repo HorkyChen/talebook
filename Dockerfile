@@ -107,7 +107,6 @@ COPY docker/ /var/www/talebook/docker/
 COPY webserver/ /var/www/talebook/webserver/
 COPY webserver/settings.py /var/www/talebook/webserver/
 COPY conf/nginx/ssl.* /data/books/ssl/
-COPY resources/fonts/ /usr/share/fonts/truetype/talebook/
 COPY conf/nginx/talebook.conf /etc/nginx/conf.d/
 COPY conf/supervisor/talebook.conf /etc/supervisor/conf.d/
 COPY --from=builder /app-static/ /var/www/talebook/app/
