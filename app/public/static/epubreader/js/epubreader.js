@@ -2403,7 +2403,6 @@ class SettingsPanel extends UIPanel {
 		const fontRow = new UIRow();
 		const font = new UISelect().setOptions({
 			"default": strings.get("sidebar/settings/font/default"),
-			"FZSongKeBenXiuKaiS-R-GB": "方正宋刻本秀楷",
 			"Huiwen-HKHei": "汇文港黑",
 			"Huiwen-Fangsong": "汇文仿宋体",
 			"Bookerly": "Bookerly",
@@ -3057,7 +3056,9 @@ class Reader {
 			// Helper function to add font-family only if font is specified
 			const addFontFamily = (styles, fontName) => {
 				if (fontName) {
-					styles["font-family"] = fontName;
+					styles["font-family"] = fontName + " !important";
+				} else {
+					styles["font-family"] = "Bookerly !important";
 				}
 				return styles;
 			};
