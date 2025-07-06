@@ -2403,6 +2403,7 @@ class SettingsPanel extends UIPanel {
 		const fontRow = new UIRow();
 		const font = new UISelect().setOptions({
 			"default": strings.get("sidebar/settings/font/default"),
+			"FZSongKeBenXiuKaiS-R-GB": "方正宋刻本秀楷",
 			"Huiwen-HKHei": "汇文港黑",
 			"Huiwen-Fangsong": "汇文仿宋体",
 			"Bookerly": "Bookerly",
@@ -2940,6 +2941,23 @@ class Reader {
 		this.rendition.on("relocated", (location) => {
 			this.setLocation(location.start.cfi);
 			this.emit("relocated", location);
+			// Re-inject font when page changes
+			const fontName = this.settings.styles.font === "default" ? "" : this.settings.styles.font;
+			if (fontName) {
+				setTimeout(() => {
+					this.injectFontWithRetry(fontName);
+				}, 200);
+			}
+		});
+
+		this.rendition.on("rendered", () => {
+			// Re-inject font when content is rendered
+			const fontName = this.settings.styles.font === "default" ? "" : this.settings.styles.font;
+			if (fontName) {
+				setTimeout(() => {
+					this.injectFontWithRetry(fontName);
+				}, 100);
+			}
 		});
 
 		this.rendition.on("keydown", this.keyboardHandler.bind(this));
@@ -3012,51 +3030,11 @@ class Reader {
 
 	/* ------------------------------- Common ------------------------------- */
 
-	loadFont(fontName) {
-		if (!fontName || fontName === "default") {
-			return Promise.resolve();
-		}
-
-		// Keep track of loaded fonts
-		if (!this.loadedFonts) {
-			this.loadedFonts = new Set();
-		}
-
-		// Check if we have already loaded this specific font
-		if (this.loadedFonts.has(fontName)) {
-			console.log(`Font ${fontName} already loaded`);
-			return Promise.resolve();
-		}
-
-		// Font file mapping
-		const fontFileMapping = {
-			"Huiwen-HKHei": "HuiwenGangHei",
-			"Huiwen-Fangsong": "HuiwenFangSong",
-			"FZSongKeBenXiuKaiS-R-GB": "FangzhengSongJianKe",
-			"Bookerly": "Bookerly-Regular"
-		};
-
-		const fileName = fontFileMapping[fontName] || fontName;
-
-		// Try different font formats
-		const fontSources = [
-			`url(assets/font/${fileName}.ttf)`
-		].join(', ');
-
-		// Create font face and load it dynamically
-		console.log(`Loading font: ${fontName}, ${fontSources}`);
-		const fontFace = new FontFace(fontName, fontSources);
-
-		return fontFace.load().then((loadedFont) => {
-			document.fonts.add(loadedFont);
-			this.loadedFonts.add(fontName);
-			console.log(`Font ${fontName} loaded successfully`);
-			return loadedFont;
-		}).catch((error) => {
-			console.warn(`Failed to load font ${fontName}:`, error);
-			// Don't add to loadedFonts if loading failed
-			throw error;
-		});
+	// Helper method to build font URL with configurable assets path
+	buildFontUrl(fileName) {
+		const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
+		const assetsPath = this.settings.assetsPath ? this.settings.assetsPath + '/' : '';
+		return `${baseUrl}${assetsPath}assets/font/${fileName}`;
 	}
 
 	applyUITheme(theme) {
@@ -3068,22 +3046,9 @@ class Reader {
 		if (!this.rendition) return;
 
 		const theme = this.settings.theme;
-		if (!theme || (theme !== "dark" && theme !== "eyecare" && theme !== "light")) {
-			console.warn(`Invalid theme: ${theme}. Using default light theme.`);
-			this.settings.theme = "light";
-		}
-
-		// Remove all theme classes first
-		document.body.classList.remove("dark-theme", "eyecare-theme");
-
-		// Apply theme to the UI
-		if (theme === "dark") {
-			document.body.classList.add("dark-theme");
-		} else if (theme === "eyecare") {
-			document.body.classList.add("eyecare-theme");
-		}
-
 		const fontName = this.settings.styles.font === "default" ? "" : this.settings.styles.font;
+
+		console.log(`Applying styles - Theme: ${theme}, Font: ${fontName || "default"}`);
 
 		// Load font first if needed, then apply styles
 		const applyStylesWithFont = (actualFontName) => {
@@ -3101,42 +3066,42 @@ class Reader {
 				contentStyles = {
 					"body": addFontFamily({
 						"background": "#1a1a1a",
-						"color": "#e0e0e0"
+						"color": "#e0e0e0 !important"
 					}, actualFontName),
 					"p": addFontFamily({
-						"color": "#e0e0e0"
+						"color": "#e0e0e0 !important"
 					}, actualFontName),
 					"h1, h2, h3, h4, h5, h6": addFontFamily({
-						"color": "#e0e0e0"
+						"color": "#e0e0e0 !important"
 					}, actualFontName),
 					"div": addFontFamily({}, actualFontName),
 					"span": addFontFamily({}, actualFontName),
 					"a": addFontFamily({
-						"color": "#4a9eff"
+						"color": "#4a9eff !important"
 					}, actualFontName),
 					"a:visited": {
-						"color": "#b19cd9"
+						"color": "#b19cd9 !important"
 					}
 				};
 			} else if (theme === "eyecare") {
 				contentStyles = {
 					"body": addFontFamily({
 						"background": "#f0f4e8",
-						"color": "#2d4a2d"
+						"color": "#2d4a2d !important"
 					}, actualFontName),
 					"p": addFontFamily({
-						"color": "#2d4a2d"
+						"color": "#2d4a2d !important"
 					}, actualFontName),
 					"h1, h2, h3, h4, h5, h6": addFontFamily({
-						"color": "#2d4a2d"
+						"color": "#2d4a2d !important"
 					}, actualFontName),
 					"div": addFontFamily({}, actualFontName),
 					"span": addFontFamily({}, actualFontName),
 					"a": addFontFamily({
-						"color": "#4a7c4a"
+						"color": "#4a7c4a !important"
 					}, actualFontName),
 					"a:visited": {
-						"color": "#6b8e6b"
+						"color": "#6b8e6b !important"
 					}
 				};
 			} else {
@@ -3144,39 +3109,105 @@ class Reader {
 				contentStyles = {
 					"body": addFontFamily({
 						"background": "#fff",
-						"color": "#000"
+						"color": "#000 !important"
 					}, actualFontName),
 					"p": addFontFamily({
-						"color": "#000"
+						"color": "#000 !important"
 					}, actualFontName),
 					"h1, h2, h3, h4, h5, h6": addFontFamily({
-						"color": "#000"
+						"color": "#000 !important"
 					}, actualFontName),
 					"div": addFontFamily({}, actualFontName),
 					"span": addFontFamily({}, actualFontName),
 					"a": addFontFamily({
-						"color": "#1a73e8"
+						"color": "#1a73e8 !important"
 					}, actualFontName),
 					"a:visited": {
-						"color": "#8e24aa"
+						"color": "#8e24aa !important"
 					}
 				};
 			}
+
 			this.rendition.themes.default(contentStyles);
+
+			if (actualFontName) {
+				this.injectFontWithRetry(actualFontName);
+			}
+
 			console.log(`Applied styles with theme: ${theme}, font: ${actualFontName || "default"}`);
 		};
 
-		// If font is specified, load it first
 		if (fontName) {
-			this.loadFont(fontName).then(() => {
-				applyStylesWithFont(fontName);
-			}).catch(() => {
-				console.log(`Font loading failed, using default font`);
-				applyStylesWithFont("");
-			});
+			applyStylesWithFont(fontName);
 		} else {
 			applyStylesWithFont("");
 		}
+	}
+
+	// Enhanced method to inject font with better timing
+	injectFontWithRetry(fontName, maxRetries = 3) {
+		if (!fontName || fontName === "default") return;
+
+		let attempts = 0;
+		const tryInject = () => {
+			attempts++;
+			const iframes = document.querySelectorAll('#viewer iframe');
+
+			if (iframes.length === 0 && attempts < maxRetries) {
+				console.log(`No iframes found, retrying... (${attempts}/${maxRetries})`);
+				setTimeout(tryInject, 200);
+				return;
+			}
+
+			let injectedCount = 0;
+			iframes.forEach(iframe => {
+				try {
+					const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+					if (iframeDoc && iframeDoc.readyState === 'complete') {
+						// Create or update the font style element
+						let fontStyleElement = iframeDoc.getElementById('injected-font-style');
+						if (!fontStyleElement) {
+							fontStyleElement = iframeDoc.createElement('style');
+							fontStyleElement.id = 'injected-font-style';
+							iframeDoc.head.appendChild(fontStyleElement);
+						}
+
+						const fontFileMapping = {
+							"Huiwen-HKHei": "HuiwenGangHei",
+							"Huiwen-Fangsong": "HuiwenFangSong",
+							"FZSongKeBenXiuKaiS-R-GB": "FangzhengSongJianKe",
+							"Bookerly": "Bookerly-Regular"
+						};
+
+						const fileName = fontFileMapping[fontName] || fontName;
+						const fontUrl = this.buildFontUrl(`${fileName}.ttf`);
+
+						// Inject font-face CSS
+						const fontFaceCSS = `
+							@font-face {
+								font-family: '${fontName}';
+								src: url('${fontUrl}') format('truetype');
+								font-weight: normal;
+								font-style: normal;
+							}
+						`;
+
+						fontStyleElement.textContent = fontFaceCSS;
+						injectedCount++;
+						console.log(`Injected font ${fontName} into iframe ${injectedCount}`);
+					}
+				} catch (error) {
+					console.warn(`Failed to inject font into iframe:`, error);
+				}
+			});
+
+			if (injectedCount === 0 && attempts < maxRetries) {
+				console.log(`Font injection failed, retrying... (${attempts}/${maxRetries})`);
+				setTimeout(tryInject, 200);
+			}
+		};
+
+		tryInject();
 	}
 
 	navItemFromCfi(cfi) {
@@ -3222,6 +3253,7 @@ class Reader {
 		this.entryKey = md5(bookPath).toString();
 		this.settings = {
 			bookPath: bookPath,
+			assetsPath: "",
 			arrows: this.isMobile ? "none" : "content", // none | content | toolbar
 			manager: this.isMobile ? "continuous" : "default",
 			restore: true,
