@@ -16,9 +16,10 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
 * 待开发
     1. 支持信息共享及AI协助的功能。是一个大的修改，会分成几步完成。
     2. 增加文件的加密处理。可以帮助解决私有化部署场景下平台扫描导致的文件无法使用的问题。
-    3. 带水印导出epub (待定)
-    4. 切换不同图标
-    5. 增加统计信息显示
+    3. EPUB转语音
+    4. 带水印导出epub (待定)
+    5. 切换不同图标
+    6. 增加统计信息显示
 * v3.13.* (完成)
     1. 阅读器支持颜色样式切换，字体切换(提供4个内置字体)，精简语言
 * v3.12.* (完成)
@@ -48,6 +49,17 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
 
 
 ## 项目介绍
+poxenstudio/talebook增加的特性包括:
+* 更新Calibre 7.6，系统使用Ubuntu 24.04
+* 支持中文搜索时，使用简繁体同时搜索
+* 支持epub与azw3互转
+* 支持将图书指定为私藏模式，仅有上传者可见
+* UI风格美化 - 增加暗黑模式
+* 支持切换不同图标，支持设置用户头像
+* 支持书栈推书的功能 每天推送2~5书，以社科、历史为主
+* 阅读器支持颜色样式切换，字体切换(提供4个内置字体)
+
+以下为talebook的介绍。
 这是一个基于Calibre的简单的个人图书管理系统，支持**在线阅读**。主要特点是：
 * 美观的界面：由于Calibre自带的网页太丑太难用，于是基于Vue，独立编写了新的界面，支持PC访问和手机浏览；
 * 支持多用户：为了网友们更方便使用，开发了多用户功能，支持~~豆瓣~~（已废弃）、QQ、微博、Github等社交网站的登录；
@@ -60,7 +72,6 @@ A enhanced personal books management webserver built on Calibre + Vue, beautiful
 * 支持快捷更新书籍信息：支持从百度百科、豆瓣搜索并导入书籍基础信息；
 * 支持私人模式：需要输入访问码，才能进入网站，便于小圈子分享网站；
 
-本项目曾用名：calibre-webserver
 
 
 ## Docker ![Docker Pulls](https://img.shields.io/docker/pulls/poxenstudio/talebook.svg)
