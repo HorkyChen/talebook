@@ -17,3 +17,12 @@ pytest==7.4.4
 flake8
 opencc
 psutil
+beautifulsoup4==4.13.4
+EbookLib==0.19
+mutagen==1.47.0
+openai==1.85.0
+requests==2.32.4
+edge-tts==7.0.2
+pydub==0.25.1
+wyoming==1.6.0
+sentencex==0.6.1
